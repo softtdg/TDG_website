@@ -7,7 +7,7 @@ const Footer = () => {
       style={{ background: "url(/images/footer-bg.svg)" }}
     >
       {/* Top Section */}
-      <div className="max-w-8xl mx-auto flex flex-col md:flex-row md:justify-between md:items-start gap-6 sm:gap-8 md:gap-12 lg:gap-0">
+      <div className="max-w-8xl mx-auto flex flex-col md:flex-row md:justify-between md:items-start gap-6 sm:gap-8 md:gap-12 lg:gap-0 max-w-[1905px]">
         {/* Logo + Share */}
         <div className="flex flex-col md:items-center md:gap-6 z-10">
           <div className="flex-shrink-0">
@@ -78,7 +78,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Nav */}
-      <div className="mx-auto mt-12 sm:mt-16 md:mt-24 lg:mt-[150px] flex flex-col sm:flex-row sm:items-center sm:gap-4 md:gap-8 lg:gap-6 text-xs text-gray-900 z-10">
+      <div className="mx-auto mt-12 sm:mt-16 md:mt-24 lg:mt-[150px] flex flex-col sm:flex-row sm:items-center sm:gap-4 md:gap-8 lg:gap-6 text-xs text-gray-900 z-10 max-w-[1905px]">
         <nav className="flex gap-3 sm:gap-4 md:gap-5 lg:gap-4 font-semibold">
           <a
             href="#"
@@ -108,7 +108,7 @@ const Footer = () => {
       </div>
 
       {/* Copyright */}
-      <div className="text-[16px] sm:text-[19px] md:text-[20px] lg:text-[22px] mx-auto mt-2 font-medium text-gray-900 z-10 py-6 sm:py-8 md:py-12 lg:py-[30px]">
+      <div className="text-[16px] sm:text-[19px] md:text-[20px] lg:text-[22px] mx-auto mt-2 font-medium text-gray-900 z-10 py-6 sm:py-8 md:py-12 lg:py-[30px] max-w-[1905px]">
         <p>© TDG Transit Design Group 2025</p>
       </div>
     </footer>

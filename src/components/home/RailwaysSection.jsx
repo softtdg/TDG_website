@@ -4,8 +4,8 @@ import EastIcon from "@mui/icons-material/East";
 
 const RailwaysSection = () => {
   return (
-    <div className="bg-white text-gray-900">
-      <div className="flex flex-col md:flex-row min-h-screen">
+    <div className="bg-white text-gray-900 max-w-[1905px] mx-auto">
+      <div className="flex flex-col md:flex-row">
         <div className="md:w-1/2 w-full">
           <img
             alt="Front view of a red and white Caltrain train at a station platform with tracks and overhead wires visible"
