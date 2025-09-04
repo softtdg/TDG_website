@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "TDG Transit Design Group Inc",
+  title: "TDG Transit Design Group",
   description: "",
   icons: {
     icon: "/icons/logo.svg",
