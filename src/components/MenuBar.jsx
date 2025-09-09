@@ -1,8 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
+import { useRouter, usePathname } from "next/navigation";
 
 const MenuBar = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const [currentImage, setCurrentImage] = useState("/images/railways.png");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -31,12 +34,36 @@ const MenuBar = () => {
     {
       name: "Contacts",
       image: "/images/contacts.png",
-      href: "#",
+      href: "/contact-tdg",
     },
   ];
 
+  // Get current navigation item based on pathname
+  const getCurrentNavigationItem = () => {
+    const currentItem = navigationItems.find((item) => item.href === pathname);
+    return currentItem || navigationItems[0]; // Default to Railways if no match
+  };
+
+  // Update current image when pathname changes
+  useEffect(() => {
+    const currentItem = getCurrentNavigationItem();
+    setCurrentImage(currentItem.image);
+  }, [pathname]);
+
   const handleImageChange = (imagePath) => {
     setCurrentImage(imagePath);
+  };
+
+  const handleNavigation = (href) => {
+    if (href !== "#") {
+      router.push(href);
+      // Close menu after navigation
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsMenuOpen(false);
+        setIsClosing(false);
+      }, 300);
+    }
   };
 
   const toggleMenu = () => {
@@ -55,7 +82,7 @@ const MenuBar = () => {
 
   return (
     <div>
-      <Button
+      {/* <Button
         className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !left-[20px] sm:!left-[50px] lg:!left-[170px] !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[100px]"
         variant="outlined"
         sx={{ borderColor: "#ffffff", borderWidth: "2px" }}
@@ -69,6 +96,19 @@ const MenuBar = () => {
             className="w-[18px] h-[14px] sm:w-[20px] sm:h-[16px] lg:w-[24px] lg:h-[18px]"
           />
         </span>
+      </Button> */}
+
+      <Button
+        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !left-[20px] sm:!left-[50px] lg:!left-[170px] !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[100px]"
+        variant="outlined"
+        sx={{ borderColor: "transparent", borderWidth: "2px" }}
+        onClick={toggleMenu}
+      >
+        <img
+          src="/icons/menu2.svg"
+          alt="menu"
+          className="w-[64px] h-[64px] sm:w-[64px] sm:h-[64px] lg:w-[64px] lg:h-[64px]"
+        />
       </Button>
 
       {(isMenuOpen || isClosing) && (
@@ -106,26 +146,29 @@ const MenuBar = () => {
           <main className="flex min-h-[calc(100vh-80px)]">
             <nav className="w-full lg:w-[533px] border-r border-gray-300 bg-white px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12 pl-[20px] sm:pl-[40px] lg:pl-[70px] pr-[20px] sm:pr-[25px] lg:pr-[30px] flex flex-col text-lg font-normal text-black">
               {navigationItems.map((item, index) => (
-                <a
+                <div
                   key={index}
-                  className={`flex items-center justify-between text-[24px] sm:text-[28px] lg:text-[34px] transition-all duration-300 group h-[80px] sm:h-[100px] lg:h-[120px] ${
-                    currentImage === item.image
+                  className={`flex items-center justify-between text-[24px] sm:text-[28px] lg:text-[34px] transition-all duration-300 group h-[80px] sm:h-[100px] lg:h-[120px] cursor-pointer ${
+                    pathname === item.href
                       ? "font-semibold text-[#0356C2] border-b-2 border-[#0356C2]"
                       : "font-medium hover:font-semibold hover:text-[#0356C2] hover:border-b-2 hover:border-[#0356C2]"
                   }`}
-                  href={item.href}
+                  onClick={() => handleNavigation(item.href)}
                   onMouseEnter={() => handleImageChange(item.image)}
-                  onMouseLeave={() => handleImageChange("/images/railways.png")}
+                  onMouseLeave={() => {
+                    const currentItem = getCurrentNavigationItem();
+                    setCurrentImage(currentItem.image);
+                  }}
                 >
                   {item.name}
-                  {currentImage === item.image && (
+                  {pathname === item.href && (
                     <img
                       src="/icons/right-arrow.svg"
                       alt=""
                       className="w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] lg:w-auto lg:h-auto"
                     />
                   )}
-                </a>
+                </div>
               ))}
             </nav>
             <div className="flex-1 hidden lg:block">

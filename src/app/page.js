@@ -1,9 +1,9 @@
-import Carousel from "@/components/home/Carousel"
-import RailwaysSection from "@/components/home/RailwaysSection"
+import Carousel from "@/components/home/Carousel";
+import RailwaysSection from "@/components/home/RailwaysSection";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen">
       <video
         src="/videos/TDG Web Home V2.mp4"
         autoPlay
@@ -14,5 +14,5 @@ export default function Home() {
       <RailwaysSection />
       <Carousel />
     </div>
-  )
+  );
 }

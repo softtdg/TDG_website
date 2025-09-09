@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* Custom Breakpoint for 1515px */
-@media (min-width: 1515px) {
+@media (min-width: 1550px) {
   .custom-1515\:right-\[-250px\] {
     right: -250px;
   }
