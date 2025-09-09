@@ -428,32 +428,23 @@ function OfficeDetails({ location, onClose }) {
               </p>
               <p className="text-xs text-gray-500">{location.address}</p>
             </div>
-
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500">📞</span>
-              <a
-                href={`tel:${location.phone}`}
-                className="text-sm text-gray-700 hover:text-blue-600 transition-colors"
-              >
-                {location.phone}
-              </a>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500">✉️</span>
-              <a
-                href={`mailto:${location.email}`}
-                className="text-sm text-gray-700 hover:text-blue-600 transition-colors"
-              >
-                {location.email}
-              </a>
-            </div>
           </div>
 
           <div className="pt-4 border-t border-gray-200 mt-4">
             <button
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors"
-              onClick={() => window.open(`mailto:${location.email}`, "_blank")}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg transition-colors cursor-pointer"
+              onClick={() => {
+                // Scroll to contact details section
+                const contactSection = document.getElementById(
+                  "contact-details-section"
+                );
+                if (contactSection) {
+                  contactSection.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                  });
+                }
+              }}
             >
               Contact This Office
             </button>
@@ -465,7 +456,7 @@ function OfficeDetails({ location, onClose }) {
 }
 
 // Main Earth3D component
-export default function Earth3D() {
+export default function Earth3D({ onLocationSelect }) {
   const [hoveredLocation, setHoveredLocation] = useState(null);
   const [sidebarHoveredLocation, setSidebarHoveredLocation] = useState(null);
   const [clickedLocation, setClickedLocation] = useState(null);
@@ -528,6 +519,11 @@ export default function Earth3D() {
       setHoveredLocation(location);
       setIsRotatingToLocation(true);
 
+      // Notify parent component about location selection
+      if (onLocationSelect) {
+        onLocationSelect(location);
+      }
+
       // Reset rotation state after animation
       setTimeout(() => {
         setIsRotatingToLocation(false);
@@ -548,6 +544,11 @@ export default function Earth3D() {
           setClickedLocation(pendingLocation);
           setHoveredLocation(pendingLocation);
           setIsRotatingToLocation(true);
+
+          // Notify parent component about location selection
+          if (onLocationSelect) {
+            onLocationSelect(pendingLocation);
+          }
 
           // Reset rotation state after animation
           setTimeout(() => {
