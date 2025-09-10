@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import React, { useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 
 const ContactDetailsSection = ({ selectedLocation }) => {
@@ -26,131 +25,30 @@ const ContactDetailsSection = ({ selectedLocation }) => {
     // You can add API call or email service integration here
   };
 
-  const render = (status) => {
-    switch (status) {
-      case Status.LOADING:
-        return (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-gray-600">Loading map...</div>
-          </div>
-        );
-      case Status.FAILURE:
-        return (
-          <div className="flex items-center justify-center h-full">
-            <div className="text-red-600">Error loading map</div>
-          </div>
-        );
-      case Status.SUCCESS:
-        return (
-          <GoogleMap
-            center={{
-              lat: location.lat,
-              lng: location.lng,
-            }}
-            zoom={15}
-            mapTypeControl={true}
-            streetViewControl={true}
-            fullscreenControl={true}
-            zoomControl={true}
-            style={{
-              width: "100%",
-              height: "100%",
-              borderRadius: "8px",
-            }}
-          >
-            <Marker
-              position={{
-                lat: location.lat,
-                lng: location.lng,
-              }}
-              title={location.name}
-            />
-          </GoogleMap>
-        );
-      default:
-        return null;
-    }
-  };
-
-  // GoogleMap component
-  const GoogleMap = ({ center, zoom, children, style, ...options }) => {
-    const ref = React.useRef(null);
-    const [map, setMap] = React.useState();
-
-    React.useEffect(() => {
-      if (ref.current && !map) {
-        setMap(
-          new window.google.maps.Map(ref.current, {
-            center,
-            zoom,
-            ...options,
-          })
-        );
-      }
-    }, [ref, map, center, zoom, options]);
-
-    React.useEffect(() => {
-      if (map) {
-        map.setCenter(center);
-        map.setZoom(zoom);
-      }
-    }, [map, center, zoom]);
-
-    return (
-      <div ref={ref} style={style}>
-        {React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child, { map });
-          }
-        })}
-      </div>
-    );
-  };
-
-  // Marker component
-  const Marker = ({ position, map, title }) => {
-    const [marker, setMarker] = React.useState();
-
-    React.useEffect(() => {
-      if (!marker && map) {
-        setMarker(
-          new window.google.maps.Marker({
-            position,
-            map,
-            title,
-          })
-        );
-      }
-    }, [marker, map, position, title]);
-
-    React.useEffect(() => {
-      if (marker) {
-        marker.setPosition(position);
-        marker.setTitle(title);
-      }
-    }, [marker, position, title]);
-
-    return null;
-  };
-
   // Default location if none selected
   const location = selectedLocation || {
     name: "TDG Canada",
     address: "1.3770 Laird Rd Building A, Mississauga, ON L5L 0A7, Canada",
     email: "sales_canada@tdgdesign.com",
     phone: "+1 (905) 123-4567",
+    lat: 43.6532,
+    lng: -79.3832,
   };
 
   return (
     <div id="contact-details-section" className="bg-white py-16">
-      <div className="mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2">
+      <div className="max-w-[90%] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Left Side - Map */}
           <div className="">
             <div className="h-96 lg:h-[700px] overflow-hidden">
-              <Wrapper
-                apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-                render={render}
+              <iframe
+                key={`${location.lat}-${location.lng}`}
+                src={`https://maps.google.com/maps?q=${location.lat},${location.lng}&hl=en&z=15&output=embed`}
+                style={{ width: "100%", height: "100%" }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`Map of ${location.name}`}
               />
             </div>
           </div>
@@ -180,7 +78,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
               </div>
 
               {/* Contact Form */}
-              <div className="space-y-6 px-[20px]">
+              <div className="space-y-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <input
