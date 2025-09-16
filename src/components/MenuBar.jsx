@@ -82,23 +82,27 @@ const MenuBar = () => {
 
   return (
     <div>
-      {/* <Button
-        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !left-[20px] sm:!left-[50px] lg:!left-[170px] !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[100px]"
+      <Button
+        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !right-[20px] sm:!right-[50px]   !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
         variant="outlined"
-        sx={{ borderColor: "#ffffff", borderWidth: "2px" }}
+        sx={{
+          borderColor: "transparent",
+          borderWidth: "1px",
+          backgroundColor: "#DBE2E74D",
+        }}
         onClick={toggleMenu}
       >
         <span className="flex !font-semibold !text-white items-center gap-1 sm:gap-2">
           MENU{" "}
           <img
-            src="/icons/menu.svg"
+            src="/icons/menu3.svg"
             alt="menu"
             className="w-[18px] h-[14px] sm:w-[20px] sm:h-[16px] lg:w-[24px] lg:h-[18px]"
           />
         </span>
-      </Button> */}
+      </Button>
 
-      <Button
+      {/* <Button
         className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !left-[20px] sm:!left-[50px] lg:!left-[170px] !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[100px]"
         variant="outlined"
         sx={{ borderColor: "transparent", borderWidth: "2px" }}
@@ -109,7 +113,7 @@ const MenuBar = () => {
           alt="menu"
           className="w-[64px] h-[64px] sm:w-[64px] sm:h-[64px] lg:w-[64px] lg:h-[64px]"
         />
-      </Button>
+      </Button> */}
 
       {(isMenuOpen || isClosing) && (
         <div
