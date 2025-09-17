@@ -37,48 +37,33 @@ const ContactDetailsSection = ({ selectedLocation }) => {
 
   return (
     <div id="contact-details-section" className="bg-white py-16">
-      <div className="max-w-[90%] mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Left Side - Map */}
-          <div className="">
-            <div className="h-96 lg:h-[700px] overflow-hidden">
-              <iframe
-                key={`${location.lat}-${location.lng}`}
-                src={`https://maps.google.com/maps?q=${location.lat},${location.lng}&hl=en&z=15&output=embed`}
-                style={{ width: "100%", height: "100%" }}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title={`Map of ${location.name}`}
-              />
-            </div>
-          </div>
-
-          {/* Right Side - Contact Information and Form */}
-          <div className="">
+      <div className="max-w-[1300px] mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-sm:px-[15px]">
+          {/* Left Side - Contact Information and Form */}
+          <div className="flex flex-col justify-center">
             <div className="space-y-8">
               {/* Contact Information */}
-              <div className="space-y-4">
-                <div className="space-y-3">
-                  <div className="pt-[50px]">
-                    <p className="text-[#070707] font-medium text-center text-[22px] opacity-80">
-                      {location.address}
-                    </p>
-                  </div>
+              <div className="space-y-6">
+                <div className="space-y-1">
+                  <h2 className="text-black font-bold text-[20px] sm:text-[23px]">
+                    FOR SALES AND INQUIRIES:
+                  </h2>
 
-                  <div className="text-[22px] font-bold text-center text-[#003A5D]">
-                    FOR SALES AND INQUIRIES:{" "}
-                    <a
-                      href={`mailto:${location.email}`}
-                      className="text-[#003A5D] hover:text-[#003A5D]"
-                    >
-                      {location.email.toUpperCase()}
-                    </a>
-                  </div>
+                  <a
+                    href={`mailto:${location.email}`}
+                    className="text-[#FF0000] font-bold text-[18px] sm:text-[23px] block hover:text-red-700 transition-colors mb-3 sm:mb-5 break-all"
+                  >
+                    {location.email.toUpperCase()}
+                  </a>
+
+                  <p className="text-black text-[14px] sm:text-[15px] break-words">
+                    {location.address}
+                  </p>
                 </div>
               </div>
 
               {/* Contact Form */}
-              <div className="space-y-6">
+              <div className="space-y-4">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <input
@@ -87,7 +72,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                       placeholder="Name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-transparent bg-[#F0F0F0] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E5E5E5] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-[15px] sm:text-base"
                       required
                     />
                   </div>
@@ -99,7 +84,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                       placeholder="Email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-transparent bg-[#F0F0F0] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E5E5E5] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-[15px] sm:text-base"
                       required
                     />
                   </div>
@@ -111,7 +96,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                       placeholder="Website"
                       value={formData.website}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-transparent bg-[#F0F0F0] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E5E5E5] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-[15px] sm:text-base"
                     />
                   </div>
 
@@ -121,21 +106,35 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                       placeholder="Message"
                       value={formData.message}
                       onChange={handleInputChange}
-                      rows={7}
-                      className="w-full px-4 py-3 border border-transparent bg-[#F0F0F0] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none"
+                      rows={4}
+                      className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E5E5E5] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none bg-white text-[15px] sm:text-base"
                       required
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-fit rounded-[100px] mx-auto bg-[#0356C2] hover:bg-blue-700 text-white font-[700] text-[20px] py-3 px-6 transition-colors duration-200 flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto bg-[#DBE2E7] hover:bg-gray-400 font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-lg transition-colors duration-200 text-[13px] sm:text-[15px]"
                   >
-                    Submit Now
-                    <EastIcon />
+                    CONTACT NOW
                   </button>
                 </form>
               </div>
+            </div>
+          </div>
+
+          {/* Right Side - Map */}
+          <div className="">
+            <div className="h-96 lg:h-[600px] overflow-hidden rounded-[50px]">
+              <iframe
+                key={`${location.lat}-${location.lng}`}
+                src={`https://maps.google.com/maps?q=${location.lat},${location.lng}&hl=en&z=15&output=embed`}
+                style={{ width: "100%", height: "100%" }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title={`Map of ${location.name}`}
+                className="rounded-lg"
+              />
             </div>
           </div>
         </div>

@@ -1,8 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 export const LightingInMotionSection = () => {
   const [expandedSection, setExpandedSection] = useState("railways");
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const sections = {
     railways: {
@@ -22,8 +25,34 @@ export const LightingInMotionSection = () => {
     },
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
+    },
+  };
+
   return (
-    <div className="w-full bg-white py-10 sm:py-20 px-4 sm:px-6 lg:px-8">
+    <div
+      className="w-full bg-white py-10 sm:py-20 px-4 sm:px-6 lg:px-8"
+      ref={ref}
+    >
       <div className="max-w-[1300px] mx-auto">
         {/* OLD CODE - COMMENTED OUT FOR BACKUP */}
         {/* 
@@ -82,72 +111,97 @@ export const LightingInMotionSection = () => {
         */}
 
         {/* NEW UI - COLLAPSIBLE SECTIONS */}
-        <div className="flex flex-col lg:flex-row gap-8 lg:min-h-[775px]">
+        <motion.div
+          className="flex flex-col lg:flex-row gap-8 lg:min-h-[775px]"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
           {/* Left - Train Image */}
-          <div className="flex-1 flex">
-            <img
+          <motion.div className="flex-1 flex" variants={itemVariants}>
+            <motion.img
               src="/images/home/l2.jpg"
               alt="Modern train interior with LED lighting"
               className="rounded-[30px] w-full lg:h-[775px]"
+              whileHover={{
+                scale: 1.02,
+                transition: { duration: 0.3 },
+              }}
+              initial={{ opacity: 0, x: -50 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             />
-          </div>
+          </motion.div>
 
           {/* Right - Collapsible Content */}
-          <div className="flex-1 flex flex-col justify-center">
+          <motion.div
+            className="flex-1 flex flex-col justify-center"
+            variants={itemVariants}
+          >
             {Object.entries(sections).map(([key, section], index) => (
-              <div key={key} className="mb-6">
+              <motion.div
+                key={key}
+                className="mb-6"
+                variants={itemVariants}
+                whileHover={{ x: 10 }}
+                transition={{ duration: 0.2 }}
+              >
                 {/* Section Header */}
-                <button
+                <motion.button
                   onClick={() =>
                     setExpandedSection(expandedSection === key ? null : key)
                   }
                   className="w-full text-left flex items-center justify-between py-4 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  <h3 className="text-2xl lg:text-[60px] font-bold text-black uppercase">
+                  <motion.h3
+                    className="text-2xl lg:text-[60px] font-bold text-black uppercase"
+                    whileHover={{ color: "#0356C2" }}
+                    transition={{ duration: 0.2 }}
+                  >
                     {section.title}
-                  </h3>
-                  {/* <div className="ml-4">
-                    <svg
-                      className={`w-6 h-6 transform transition-transform duration-200 ${
-                        expandedSection === key ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div> */}
-                </button>
+                  </motion.h3>
+                </motion.button>
 
                 {/* Collapsible Content */}
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    expandedSection === key
-                      ? "max-h-96 opacity-100"
-                      : "max-h-0 opacity-0"
-                  }`}
+                <motion.div
+                  className="overflow-hidden"
+                  initial={false}
+                  animate={{
+                    height: expandedSection === key ? "auto" : 0,
+                    opacity: expandedSection === key ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
                 >
                   <div className="pb-4">
-                    <p className="text-gray-700 leading-relaxed text-sm lg:text-[15px]">
+                    <motion.p
+                      className="text-gray-700 leading-relaxed text-sm lg:text-[15px]"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{
+                        opacity: expandedSection === key ? 1 : 0,
+                        y: expandedSection === key ? 0 : 20,
+                      }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                    >
                       {section.description}
-                    </p>
+                    </motion.p>
                   </div>
-                </div>
+                </motion.div>
 
                 {/* Separator Line */}
                 {index < Object.keys(sections).length - 1 && (
-                  <div className="border-t border-gray-300 my-4"></div>
+                  <motion.div
+                    className="border-t border-gray-300 my-4"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                  />
                 )}
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );

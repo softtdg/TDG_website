@@ -596,7 +596,7 @@ export default function Earth3D({ onLocationSelect }) {
   return (
     <div className="py-16 bg-gradient-to-br from-blue-50 via-white to-blue-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        {/* <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Our Global Locations
           </h2>
@@ -604,9 +604,9 @@ export default function Earth3D({ onLocationSelect }) {
             Explore TDG offices and facilities around the world. Hover over any
             location to learn more.
           </p>
-        </div>
+        </div> */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 items-center">
           {/* 3D Earth Container */}
           <div
             className="lg:col-span-2"
@@ -623,7 +623,7 @@ export default function Earth3D({ onLocationSelect }) {
               }
             }}
           >
-            <div className="relative bg-gradient-to-br from-white to-blue-50 rounded-3xl p-4 sm:p-8 h-[400px] sm:h-[600px] lg:h-[800px] overflow-hidden shadow-2xl border border-gray-200">
+            <div className="relative from-white p-4 sm:p-8 h-[400px] sm:h-[600px] lg:h-[800px] overflow-hidden">
               <Canvas
                 camera={{ position: [0, 0, 6], fov: 50 }}
                 style={{ background: "transparent" }}
@@ -710,19 +710,19 @@ export default function Earth3D({ onLocationSelect }) {
               />
 
               {/* Earth Title */}
-              <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
+              {/* <div className="absolute top-2 left-2 sm:top-4 sm:left-4">
                 <h3 className="text-gray-900 text-sm sm:text-lg font-semibold bg-white/80 backdrop-blur-sm px-2 py-1 sm:px-4 sm:py-2 rounded-lg border border-gray-200 shadow-sm">
                   🌍 TDG Global Network
                 </h3>
-              </div>
+              </div> */}
             </div>
           </div>
 
           {/* Office List */}
           <div className="space-y-3 sm:space-y-4">
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
+            {/* <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
               Global Offices
-            </h3>
+            </h3> */}
 
             <div className="space-y-3">
               {officeLocations.map((location) => (
