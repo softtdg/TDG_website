@@ -28,7 +28,7 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <HeroSection />
+      {/* <HeroSection /> */}
       <Earth3D onLocationSelect={handleLocationSelect} />
       <ContactDetailsSection selectedLocation={selectedLocation} />
     </div>

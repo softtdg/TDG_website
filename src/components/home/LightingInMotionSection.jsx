@@ -11,7 +11,7 @@ export const LightingInMotionSection = () => {
     railways: {
       title: "RAILWAYS",
       description:
-        "TDC offers customized and innovative solutions for both interior and exterior lighting systems for the global rail industry. With LED drivers in service since 1999 and an LED main lighting system in service since 2003, TDC has over 100,000 hours of actual in car performance from its systems. There are nearly one million TDC LED drivers in service globally in the rail industry.",
+        "TDG offers customized and innovative solutions for both interior and exterior lighting systems for the global rail industry. With LED drivers in service since 1999 and an LED main lighting system in service since 2003, TDG has over 100,000 hours of actual in car performance from its systems. There are nearly one million TDG LED drivers in service globally in the rail industry.",
     },
     defense: {
       title: "DEFENSE",
@@ -50,10 +50,10 @@ export const LightingInMotionSection = () => {
 
   return (
     <div
-      className="w-full bg-white py-10 sm:py-20 px-4 sm:px-6 lg:px-8"
+      className="w-full bg-white py-10 sm:py-20 px-4 sm:px-6 lg:px-[50px]"
       ref={ref}
     >
-      <div className="max-w-[1300px] mx-auto">
+      <div className="max-w-[100%] mx-auto">
         {/* OLD CODE - COMMENTED OUT FOR BACKUP */}
         {/* 
         <div className="flex flex-col lg:flex-row gap-7 mb-7 lg:min-h-[350px]">
@@ -112,17 +112,17 @@ export const LightingInMotionSection = () => {
 
         {/* NEW UI - COLLAPSIBLE SECTIONS */}
         <motion.div
-          className="flex flex-col lg:flex-row gap-8 lg:min-h-[775px]"
+          className="flex flex-col lg:flex-row gap-8 lg:min-h-[1000px]"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
           {/* Left - Train Image */}
-          <motion.div className="flex-1 flex" variants={itemVariants}>
+          <motion.div className="flex-[1.1] flex" variants={itemVariants}>
             <motion.img
               src="/images/home/l2.jpg"
               alt="Modern train interior with LED lighting"
-              className="rounded-[30px] w-full lg:h-[775px]"
+              className="rounded-[0px] w-full lg:h-[1000px]"
               whileHover={{
                 scale: 1.02,
                 transition: { duration: 0.3 },
@@ -135,9 +135,13 @@ export const LightingInMotionSection = () => {
 
           {/* Right - Collapsible Content */}
           <motion.div
-            className="flex-1 flex flex-col justify-center"
+            className="flex-1 flex flex-col justify-center sm:px-[30px]"
             variants={itemVariants}
           >
+            {/* Debug info */}
+            {/* <div className="mb-4 p-2 bg-gray-100 text-xs">
+              Current expandedSection: {expandedSection || "null"}
+            </div> */}
             {Object.entries(sections).map(([key, section], index) => (
               <motion.div
                 key={key}
@@ -148,16 +152,20 @@ export const LightingInMotionSection = () => {
               >
                 {/* Section Header */}
                 <motion.button
-                  onClick={() =>
-                    setExpandedSection(expandedSection === key ? null : key)
-                  }
+                  onClick={() => {
+                    const newExpandedSection =
+                      expandedSection === key ? null : key;
+
+                    setExpandedSection(newExpandedSection);
+                  }}
                   className="w-full text-left flex items-center justify-between py-4 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
                   <motion.h3
-                    className="text-2xl lg:text-[60px] font-bold text-black uppercase"
-                    whileHover={{ color: "#0356C2" }}
+                    className={`text-2xl lg:text-[70px] font-bold uppercase transition-colors duration-300 ${
+                      expandedSection === key ? "text-[#0356C2]" : "text-black"
+                    }`}
                     transition={{ duration: 0.2 }}
                   >
                     {section.title}
@@ -176,7 +184,7 @@ export const LightingInMotionSection = () => {
                 >
                   <div className="pb-4">
                     <motion.p
-                      className="text-gray-700 leading-relaxed text-sm lg:text-[15px]"
+                      className="text-[black] leading-relaxed text-sm lg:text-[20px]"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{
                         opacity: expandedSection === key ? 1 : 0,
@@ -192,7 +200,7 @@ export const LightingInMotionSection = () => {
                 {/* Separator Line */}
                 {index < Object.keys(sections).length - 1 && (
                   <motion.div
-                    className="border-t border-gray-300 my-4"
+                    className="border-t border-[black] my-4 lg:my-8"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: 1 }}
                     transition={{ duration: 0.5, delay: 0.3 }}

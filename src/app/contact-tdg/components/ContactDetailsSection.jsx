@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 
 const ContactDetailsSection = ({ selectedLocation }) => {
+  console.log(selectedLocation);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,6 +34,8 @@ const ContactDetailsSection = ({ selectedLocation }) => {
     phone: "+1 (905) 123-4567",
     lat: 43.6532,
     lng: -79.3832,
+    map_lat: 43.52284,
+    map_lng: -79.71041,
   };
 
   return (
@@ -51,7 +54,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
 
                   <a
                     href={`mailto:${location.email}`}
-                    className="text-[#FF0000] font-bold text-[18px] sm:text-[23px] block hover:text-red-700 transition-colors mb-3 sm:mb-5 break-all"
+                    className="text-[#0E54C4] font-bold text-[18px] sm:text-[23px] block hover:text-red-700 transition-colors mb-3 sm:mb-5 break-all"
                   >
                     {location.email.toUpperCase()}
                   </a>
@@ -114,7 +117,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
 
                   <button
                     type="submit"
-                    className="w-full sm:w-auto bg-[#DBE2E7] hover:bg-gray-400 font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-lg transition-colors duration-200 text-[13px] sm:text-[15px]"
+                    className="w-full sm:w-auto bg-[#0E54C4] hover:bg-[#0E54C4] text-white font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-lg transition-colors duration-200 text-[13px] sm:text-[15px]"
                   >
                     CONTACT NOW
                   </button>
@@ -127,8 +130,8 @@ const ContactDetailsSection = ({ selectedLocation }) => {
           <div className="">
             <div className="h-96 lg:h-[600px] overflow-hidden rounded-[50px]">
               <iframe
-                key={`${location.lat}-${location.lng}`}
-                src={`https://maps.google.com/maps?q=${location.lat},${location.lng}&hl=en&z=15&output=embed`}
+                key={`${location?.map_lat}-${location?.map_lng}`}
+                src={`https://maps.google.com/maps?q=${location.map_lat},${location.map_lng}&hl=en&z=15&output=embed`}
                 style={{ width: "100%", height: "100%" }}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

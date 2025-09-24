@@ -4,7 +4,7 @@ export const HeroSection = () => {
   return (
     <div className="relative">
       <img
-        src="/images/home/hero-section.png"
+        src="/images/home/hero-section1.png"
         className="w-full h-[100vh] object-cover"
       />
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">

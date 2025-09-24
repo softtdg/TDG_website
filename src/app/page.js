@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Carousel from "@/components/home/Carousel";
 import { HeroSection } from "@/components/home/HeroSection";
 import { LightingInMotionSection } from "@/components/home/LightingInMotionSection";
+import { OurWorldSection } from "@/components/home/OurWorldSection";
 import { TDGProjectsSection } from "@/components/home/TDGProjectsSection";
 import { TDGOfferingSection } from "@/components/home/TDGOfferingSection";
 import RailwaysSection from "@/components/home/RailwaysSection";
@@ -38,8 +39,9 @@ export default function Home() {
       /> */}
       <HeroSection />
       <LightingInMotionSection />
-      <TDGProjectsSection />
-      <TDGOfferingSection />
+      <OurWorldSection />
+      {/* <TDGProjectsSection /> */}
+      {/* <TDGOfferingSection />  */}
       {/* <RailwaysSection />
       <Carousel /> */}
     </motion.div>
