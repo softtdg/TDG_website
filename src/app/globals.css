@@ -138,3 +138,24 @@ body {
 button {
   cursor: pointer;
 }
+
+/* Hide scrollbar for webkit browsers (Chrome, Safari, Edge) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Global hide scrollbar for all elements */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* WebKit browsers (Chrome, Safari, Edge) */
+}

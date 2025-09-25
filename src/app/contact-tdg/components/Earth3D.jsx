@@ -157,8 +157,6 @@ function Earth({
   hoveredLocation,
   onEarthClick,
 }) {
-  console.log("clickedLocation", clickedLocation);
-
   // Earth textures
   const [earthTexture, normalMap, specularMap] = useTexture([
     "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg",
@@ -188,8 +186,6 @@ function Earth({
           // Default rotation for any other locations
           targetRotation = [0.6, 4.5, 0.5];
         }
-
-        console.log("targetRotation", targetRotation);
 
         // Smoothly rotate to target with improved speed and threshold
         const currentRotation = earthRef.current.rotation;
@@ -271,7 +267,7 @@ function Earth({
   });
 
   return (
-    <group ref={earthRef} rotation={[1.3, 4.5, 0.5]}>
+    <group ref={earthRef} rotation={[1.4, 4.2, 1.2]}>
       {/* Main Earth */}
       <Sphere
         args={[2.2, 64, 64]}
@@ -289,7 +285,7 @@ function Earth({
           metalness={0}
           transparent={false}
           color=""
-          emissive=""
+          emissive="lightgray"
           emissiveIntensity={0}
         />
       </Sphere>
@@ -416,7 +412,7 @@ function LocationMarker({ location, onClick, isHovered }) {
 
       {/* Location label with office details */}
       {/* <Html
-        position={[0.8, isHovered ? 0.2 : 0.2, 0]}
+        position={[0.6, isHovered ? 0.2 : 0.2, 0]}
         center
         distanceFactor={4}
         occlude
@@ -424,49 +420,24 @@ function LocationMarker({ location, onClick, isHovered }) {
         <div
           className={`bg-white/95 backdrop-blur-sm border border-gray-200 rounded-[10px] shadow-2xl transition-all duration-300 ${
             isHovered
-              ? "sm:block scale-110 hidden"
-              : "sm:hidden scale-90 hidden"
+              ? "block scale-110 xl:hidden"
+              : "hidden scale-90 xl:hidden"
           }`}
         >
           {isHovered ? (
-            <div className="p-2 w-[230px]">
+            <div className="p-1 w-[120px] sm:w-[160px]">
               <div className="flex items-center justify-center mb-2">
-                <h3 className="text-[15px] font-semibold text-gray-900 flex items-center gap-2">
-                  <div
-                    className="w-[15px] h-[15px] rounded-full"
-                    style={{ backgroundColor: location.color }}
-                  ></div>
+                <h3 className="text-[10px] font-semibold text-gray-900 flex items-center gap-2">
                   {location.name}
                 </h3>
               </div>
 
               <div className="space-y-1">
                 <div>
-                  <p className="text-[10px] font-medium text-gray-700 text-center">
+                  <p className="text-[7px] font-medium text-gray-700 text-center">
                     {location.city}, {location.country}
                   </p>
                 </div>
-              </div>
-
-              <div className="pt-2 mt-2">
-                <button
-                  className="w-full text-[10px] bg-[#DBE2E7] hover:bg-[#DBE2E7]/80 text-black font-bold py-1 px-2 h-[30px] rounded-[8px] transition-colors cursor-pointer"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Scroll to contact details section
-                    const contactSection = document.getElementById(
-                      "contact-details-section"
-                    );
-                    if (contactSection) {
-                      contactSection.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                      });
-                    }
-                  }}
-                >
-                  MESSAGE THIS OFFICE
-                </button>
               </div>
             </div>
           ) : (
@@ -483,7 +454,13 @@ function LocationMarker({ location, onClick, isHovered }) {
 }
 
 // Office Popup Component
-function OfficePopup({ office, isVisible, clickPosition, onClose }) {
+function OfficePopup({
+  office,
+  isVisible,
+  clickPosition,
+  onClose,
+  markerSide,
+}) {
   if (!isVisible || !office) return null;
 
   // Calculate the end point for the L-shaped line
@@ -495,7 +472,7 @@ function OfficePopup({ office, isVisible, clickPosition, onClose }) {
 
     // End point: 100px from the right edge, 100px from the top
     return {
-      x: viewportWidth - 100,
+      x: markerSide === "left" ? 100 : viewportWidth - 100,
       y: 100,
     };
   };
@@ -511,13 +488,23 @@ function OfficePopup({ office, isVisible, clickPosition, onClose }) {
           style={{ width: "100vw", height: "100vh" }}
         >
           <path
-            d={`M ${clickPosition.x} ${clickPosition.y} L ${
-              clickPosition.x + 80
-            } 288 L ${endPoint.x - 220} 288`}
+            d={
+              window.innerWidth < 1024
+                ? `M ${clickPosition.x} ${clickPosition.y} L ${
+                    clickPosition.x + (markerSide === "left" ? -80 : 80)
+                  } 220 L ${
+                    endPoint.x - (markerSide === "left" ? -20 : 20)
+                  } 220`
+                : `M ${clickPosition.x} ${clickPosition.y} L ${
+                    clickPosition.x + (markerSide === "left" ? -80 : 80)
+                  } 220 L ${
+                    endPoint.x - (markerSide === "left" ? -220 : 220)
+                  } 220`
+            }
             stroke="white"
             strokeWidth="2"
             fill="none"
-            className="animate-pulse"
+            // className="animate-pulse"
           />
         </svg>
       )}
@@ -525,11 +512,12 @@ function OfficePopup({ office, isVisible, clickPosition, onClose }) {
       {/* Popup */}
       <div
         data-popup="office-popup"
-        className="fixed z-20  rounded-lg shadow-2xl p-6 max-w-sm animate-in slide-in-from-right duration-300"
-        style={{
-          top: "180px",
-          right: "250px",
-        }}
+        // className="fixed z-20  rounded-lg shadow-2xl p-6 animate-in slide-in-from-right duration-300 top-[180px] right-[250px] ${markerSide === "left" ? "left-[100px]" : "right-[100px]"}"
+        className={`fixed z-20   duration-300 lg:top-[120px] top-[150px] ${
+          markerSide === "left"
+            ? "left-[20px] lg:left-[250px] xl:left-[300px]"
+            : "right-[20px] lg:right-[250px] xl:right-[300px]"
+        }`}
       >
         {/* <button
           onClick={onClose}
@@ -539,18 +527,18 @@ function OfficePopup({ office, isVisible, clickPosition, onClose }) {
         </button> */}
 
         <div className="pr-8">
-          <div className="flex justify-center items-center gap-3 mb-4">
-            <div
+          <div className="flex justify-center items-center gap-3 mb-2">
+            {/* <div
               className="w-4 h-4 rounded-full"
               style={{ backgroundColor: "#FFD700" }}
-            ></div>
-            <h3 className="text-xl font-bold text-white uppercase text-center">
+            ></div> */}
+            <h3 className="text-[18px] xl:text-[25px] font-bold text-white uppercase text-center">
               {office.name}
             </h3>
           </div>
 
           <div className="mb-6">
-            <p className="text-white text-base text-center">
+            <p className="text-white text-[15px] xl:text-[20px] text-center">
               {office.city}, {office.country}
             </p>
           </div>
@@ -595,6 +583,8 @@ export default function Earth3D({ onLocationSelect }) {
   const [popupVisible, setPopupVisible] = useState(false);
   const [clickPosition, setClickPosition] = useState(null);
   const [isPopupActive, setIsPopupActive] = useState(false);
+  const [markerSide, setMarkerSide] = useState(null); // 'left' or 'right'
+  console.log("markerSide", markerSide);
   const hoverTimeoutRef = useRef(null);
   const earthRef = useRef();
   const controlsRef = useRef();
@@ -716,6 +706,11 @@ export default function Earth3D({ onLocationSelect }) {
       controlsRef.current.enabled = false;
     }
 
+    // Determine marker side based on screen click position
+    const viewportWidth = window.innerWidth;
+    const isLeftSide = event.clientX < viewportWidth / 2; // Click position relative to screen center
+    setMarkerSide(isLeftSide ? "left" : "right");
+
     // Capture click position for connecting line
     // Use absolute coordinates relative to the viewport
     const clickPos = {
@@ -795,6 +790,14 @@ export default function Earth3D({ onLocationSelect }) {
   // Function to handle clicking on Earth surface to close popup
   const handleEarthClick = () => {
     setHoveredLocation(null);
+    setPopupVisible(false);
+    setPopupOffice(null);
+    setClickPosition(null);
+    setIsPopupActive(false);
+    // Re-enable controls
+    if (controlsRef.current) {
+      controlsRef.current.enabled = true;
+    }
   };
 
   // Function to handle manual rotation detection
@@ -859,13 +862,8 @@ export default function Earth3D({ onLocationSelect }) {
 
   return (
     <div
-      className="py-8"
-      style={{
-        backgroundImage: "url('/images/contact/contact-bg.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
+      onWheel={handleWheelScroll}
     >
       <div className="max-w-[1300px] mx-auto px-2 sm:px-4 lg:px-6">
         {/* <div className="text-center mb-12">
@@ -897,30 +895,29 @@ export default function Earth3D({ onLocationSelect }) {
             }}
           >
             <div
-              className="relative from-white p-2 sm:p-4 h-[400px] sm:h-[600px] lg:h-[800px] overflow-hidden"
+              className="relative from-white p-2 sm:p-4 h-[400px] sm:h-[600px] lg:h-[100vh] overflow-hidden"
               onClick={handleEarthContainerClick}
-              onWheel={handleWheelScroll}
             >
               <Canvas
-                camera={{ position: [0, 0, 6], fov: 50 }}
+                camera={{ position: [0, 0, 6], fov: 55 }}
                 style={{ background: "transparent" }}
                 onClick={(e) => {
                   // Only close popup if clicking on the Canvas background, not on markers
                   if (e.target === e.currentTarget) {
-                    setHoveredLocation(null);
+                    handleEarthClick();
                   }
                 }}
               >
                 {/* Balanced Bright Lighting for Earth */}
-                <ambientLight intensity={1.2} />
+                <ambientLight intensity={0.5} />
                 <directionalLight
                   position={[1, 1, 1]}
-                  intensity={2.8}
+                  intensity={2.5}
                   color="#ffffff"
                 />
                 <directionalLight
                   position={[-1, 1, 1]}
-                  intensity={1.8}
+                  intensity={1.2}
                   color="#e3f2fd"
                 />
                 <directionalLight
@@ -990,8 +987,6 @@ export default function Earth3D({ onLocationSelect }) {
                     handleEarthRotation();
                   }}
                   onWheel={handleWheelScroll}
-                  minPolarAngle={Math.PI / 2}
-                  maxPolarAngle={Math.PI / 2}
                 />
               </Canvas>
 
@@ -1003,15 +998,16 @@ export default function Earth3D({ onLocationSelect }) {
               </div> */}
             </div>
           </div>
-
           {/* Office Popup */}
+          {/* {typeof window !== "undefined" && window.innerWidth > 1280 && ( */}
           <OfficePopup
             office={popupOffice}
             isVisible={popupVisible}
             clickPosition={clickPosition}
             onClose={handleClosePopup}
+            markerSide={markerSide}
           />
-
+          {/* )} */}
           {/* Office List */}
           {/* <div className="space-y-3 sm:space-y-4">
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">

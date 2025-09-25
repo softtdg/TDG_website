@@ -22,21 +22,11 @@ const ContactDetailsSection = ({ selectedLocation }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
     // You can add API call or email service integration here
   };
 
   // Default location if none selected
-  const location = selectedLocation || {
-    name: "TDG Canada",
-    address: "1.3770 Laird Rd Building A, Mississauga, ON L5L 0A7, Canada",
-    email: "sales_canada@tdgdesign.com",
-    phone: "+1 (905) 123-4567",
-    lat: 43.6532,
-    lng: -79.3832,
-    map_lat: 43.52284,
-    map_lng: -79.71041,
-  };
+  const location = selectedLocation;
 
   return (
     <div id="contact-details-section" className="bg-white py-16">
@@ -128,7 +118,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
 
           {/* Right Side - Map */}
           <div className="">
-            <div className="h-96 lg:h-[600px] overflow-hidden rounded-[50px]">
+            <div className="h-96 lg:h-[700px] overflow-hidden rounded-[50px]">
               <iframe
                 key={`${location?.map_lat}-${location?.map_lng}`}
                 src={`https://maps.google.com/maps?q=${location.map_lat},${location.map_lng}&hl=en&z=15&output=embed`}

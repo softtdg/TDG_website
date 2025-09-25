@@ -20,6 +20,8 @@ const ContactPage = () => {
     lat: 43.589,
     lng: -79.6441,
     color: "#3B82F6",
+    map_lat: 43.52284,
+    map_lng: -79.71041,
   });
 
   const handleLocationSelect = (location) => {
