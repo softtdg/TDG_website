@@ -284,9 +284,10 @@ function Earth({
           roughness={0}
           metalness={0}
           transparent={false}
-          color=""
-          emissive="lightgray"
-          emissiveIntensity={0}
+          color="transparent"
+          // emissive="lightgray"
+          emissiveIntensity={1}
+          opacity={1}
         />
       </Sphere>
 
@@ -307,16 +308,30 @@ function Earth({
 function LocationMarker({ location, onClick, isHovered }) {
   const markerRef = useRef();
   const glowRef = useRef();
+  const glowRef2 = useRef();
   const position = useMemo(
     () => latLngToVector3(location.lat, location.lng, 2.25),
     [location.lat, location.lng]
   );
 
+  // Use the fixed color for all marker visuals
+  const markerColor = "#FFFB00";
+
+  // Load the location marker texture
+  const locationTexture = useTexture("/images/contact/location-mark.png");
+
   useFrame((state) => {
     if (glowRef.current) {
       glowRef.current.rotation.z += 0.02;
-      const pulseScale = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.3;
+      // Keep the pulse at its maximum (always "pulsed")
+      const pulseScale = 1.3;
       glowRef.current.scale.setScalar(pulseScale);
+    }
+    if (glowRef2.current) {
+      glowRef2.current.rotation.z += 0.02;
+      // Keep the pulse at its maximum (always "pulsed")
+      const pulseScale = 1.3;
+      glowRef2.current.scale.setScalar(pulseScale);
     }
   });
 
@@ -325,62 +340,35 @@ function LocationMarker({ location, onClick, isHovered }) {
       {/* Outer pulse ring */}
       <Sphere
         ref={glowRef}
-        args={[0.08, 16, 16]}
+        args={[0.051, 16, 16]}
         onClick={(e) => {
           e.stopPropagation();
           if (onClick) {
             onClick(location, e);
           }
         }}
-        // onPointerEnter={(e) => {
-        //   e.stopPropagation();
-        //   document.body.style.cursor = "pointer";
-        //   if (onClick) {
-        //     onClick(location, e);
-        //   }
-        // }}
-        // onPointerLeave={(e) => {
-        //   e.stopPropagation();
-        //   document.body.style.cursor = "auto";
-        //   if (onClick) {
-        //     onClick(null, e);
-        //   }
-        // }}
       >
-        <meshBasicMaterial color={location.color} transparent opacity={0.3} />
+        <meshBasicMaterial color={location.color} transparent opacity={0.5} />
       </Sphere>
 
       {/* Middle glow ring */}
       <Sphere
-        args={[0, 16, 16]}
+        ref={glowRef2}
+        args={[0.068, 16, 16]}
         onClick={(e) => {
           e.stopPropagation();
           if (onClick) {
             onClick(location, e);
           }
         }}
-        // onPointerEnter={(e) => {
-        //   e.stopPropagation();
-        //   document.body.style.cursor = "pointer";
-        //   if (onClick) {
-        //     onClick(location, e);
-        //   }
-        // }}
-        // onPointerLeave={(e) => {
-        //   e.stopPropagation();
-        //   document.body.style.cursor = "auto";
-        //   if (onClick) {
-        //     onClick(null, e);
-        //   }
-        // }}
       >
-        <meshBasicMaterial color={location.color} transparent opacity={0.6} />
+        <meshBasicMaterial color={location.color} transparent opacity={0.5} />
       </Sphere>
 
       {/* Main marker */}
       <Sphere
         ref={markerRef}
-        args={[0.06, 16, 16]}
+        args={[0.05, 16, 16]}
         onClick={(e) => {
           e.stopPropagation();
           if (onClick) {
@@ -395,20 +383,34 @@ function LocationMarker({ location, onClick, isHovered }) {
           e.stopPropagation();
           document.body.style.cursor = "auto";
         }}
+        color={location.color}
+        opacity={1}
+        transparent={false}
+        emissive={location.color}
+        emissiveIntensity={1}
+        roughness={0}
+        metalness={1}
       >
-        <meshStandardMaterial
+        {/* <meshStandardMaterial
           color={location.color}
-          emissive={location.color}
-          emissiveIntensity={0.4}
-          roughness={0.1}
-          metalness={0.8}
-        />
+          emissive={location.color} // or a very subtle version of the color
+          emissiveIntensity={1} // reduce intensity
+          roughness={0}
+          metalness={1}
+          opacity={1}
+        />{" "} */}
       </Sphere>
 
       {/* Inner bright core */}
-      <Sphere args={[0.025, 8, 8]}>
-        <meshBasicMaterial color="#ffffff" transparent opacity={0.9} />
-      </Sphere>
+      {/* <circleGeometry args={[0.025, 8, 8]}>
+         <meshStandardMaterial
+          color={location.color}
+          roughness={1}
+          metalness={0}
+          emissive="#000000"
+          emissiveIntensity={0}
+        />
+      </circleGeometry> */}
 
       {/* Location label with office details */}
       {/* <Html
@@ -480,7 +482,7 @@ function OfficePopup({
   const endPoint = getLineEndPoint();
 
   return (
-    <>
+    <div className="fixed top-0 left-0 w-full h-full">
       {/* Connecting Line */}
       {clickPosition && (
         <svg
@@ -526,7 +528,22 @@ function OfficePopup({
           ×
         </button> */}
 
-        <div className="pr-8">
+        <div
+          className="pr-8 cursor-pointer"
+          onClick={() => {
+            // Scroll to contact details section
+            const contactSection = document.getElementById(
+              "contact-details-section"
+            );
+            if (contactSection) {
+              contactSection.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+            }
+            onClose();
+          }}
+        >
           <div className="flex justify-center items-center gap-3 mb-2">
             {/* <div
               className="w-4 h-4 rounded-full"
@@ -563,7 +580,7 @@ function OfficePopup({
           </button> */}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -584,7 +601,6 @@ export default function Earth3D({ onLocationSelect }) {
   const [clickPosition, setClickPosition] = useState(null);
   const [isPopupActive, setIsPopupActive] = useState(false);
   const [markerSide, setMarkerSide] = useState(null); // 'left' or 'right'
-  console.log("markerSide", markerSide);
   const hoverTimeoutRef = useRef(null);
   const earthRef = useRef();
   const controlsRef = useRef();
@@ -880,33 +896,35 @@ export default function Earth3D({ onLocationSelect }) {
           {/* 3D Earth Container */}
           <div
             className="lg:col-span-2"
-            onClick={handleEarthContainerClick}
-            onMouseEnter={() => {
-              // Only set container hover if not already hovering a marker
-              if (!hoveredLocation) {
-                setIsHoveringEarthContainer(true);
-              }
-            }}
-            onMouseLeave={() => {
-              // Only clear container hover if not hovering a marker
-              if (!hoveredLocation) {
-                setIsHoveringEarthContainer(false);
-              }
-            }}
+            // onClick={handleEarthContainerClick}
+            // onMouseEnter={() => {
+            //   // Only set container hover if not already hovering a marker
+            //   if (!hoveredLocation) {
+            //     setIsHoveringEarthContainer(true);
+            //   }
+            // }}
+            // onMouseLeave={() => {
+            //   // Only clear container hover if not hovering a marker
+            //   if (!hoveredLocation) {
+            //     setIsHoveringEarthContainer(false);
+            //   }
+            // }}
           >
             <div
               className="relative from-white p-2 sm:p-4 h-[400px] sm:h-[600px] lg:h-[100vh] overflow-hidden"
-              onClick={handleEarthContainerClick}
+              // onClick={handleEarthContainerClick}
             >
               <Canvas
                 camera={{ position: [0, 0, 6], fov: 55 }}
                 style={{ background: "transparent" }}
-                onClick={(e) => {
-                  // Only close popup if clicking on the Canvas background, not on markers
-                  if (e.target === e.currentTarget) {
-                    handleEarthClick();
-                  }
-                }}
+                // onClick={(e) => {
+                //   // Only close popup if clicking on the Canvas background, not on markers
+                //   if (e.target === e.currentTarget) {
+                //     handleEarthClick();
+                //   }
+                // }}
+
+                onClick={handleEarthContainerClick}
               >
                 {/* Balanced Bright Lighting for Earth */}
                 <ambientLight intensity={0.5} />
