@@ -1,7 +1,14 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const Footer = () => {
+  const router = useRouter();
+
+  const handleAboutUsClick = () => {
+    router.push("/about-us");
+  };
+
   return (
     <footer className="relative w-full bg-[#0A2A5E] text-white px-6 lg:px-20 py-12 lg:py-16">
       {/* Background Wave */}
@@ -28,12 +35,12 @@ const Footer = () => {
 
           {/* Right Section - Links */}
           <div className="grid grid-cols-2 gap-x-22 gap-y-6 text-sm font-medium">
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
+            <button
+              onClick={handleAboutUsClick}
+              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer"
             >
               About Us
-            </a>
+            </button>
             <a
               href="#"
               className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
