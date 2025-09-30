@@ -78,7 +78,7 @@ export const HistorySection = () => {
       className="w-full bg-white py-10 sm:py-20 px-4 sm:px-6 lg:px-[50px]"
       ref={ref}
     >
-      <div className="text-center pt-[50px] pb-[150px]">
+      <div className="text-center pt-[50px] pb-[50px] sm:pb-[150px]">
         {/* Our Product Label */}
         <div className="flex items-center justify-center mb-6">
           <div className="w-16 h-0.5 bg-[#000000]"></div>
@@ -89,10 +89,7 @@ export const HistorySection = () => {
         </div>
 
         {/* Main Title */}
-        <h1
-          className="text-4xl lg:text-6xl font-bold text-black uppercase"
-          style={{ lineHeight: "80px" }}
-        >
+        <h1 className="text-4xl lg:text-6xl font-bold text-black uppercase leading-[60px] sm:leading-[80px]">
           TDG TRANSIT DESIGN <br /> GROUP HISTORY
         </h1>
       </div>
