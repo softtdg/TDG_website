@@ -482,7 +482,7 @@ function OfficePopup({
   const endPoint = getLineEndPoint();
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full">
+    <div className="">
       {/* Connecting Line */}
       {clickPosition && (
         <svg
@@ -604,6 +604,7 @@ export default function Earth3D({ onLocationSelect }) {
   const hoverTimeoutRef = useRef(null);
   const earthRef = useRef();
   const controlsRef = useRef();
+  const isMarkerClickRef = useRef(false);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -716,6 +717,9 @@ export default function Earth3D({ onLocationSelect }) {
 
   // Function to handle clicking on location markers (shows popup with connecting line)
   const handleMarkerClick = (location, event) => {
+    // Set flag to prevent Canvas click handler from firing
+    isMarkerClickRef.current = true;
+
     // Stop Earth rotation immediately and set popup as active
     setIsPopupActive(true);
     if (controlsRef.current) {
@@ -910,21 +914,28 @@ export default function Earth3D({ onLocationSelect }) {
             //   }
             // }}
           >
-            <div
-              className="relative from-white p-2 sm:p-4 h-[400px] sm:h-[600px] lg:h-[100vh] overflow-hidden"
-              // onClick={handleEarthContainerClick}
-            >
+            <div className="relative from-white p-2 sm:p-4 h-[400px] sm:h-[600px] lg:h-[100vh] overflow-hidden">
               <Canvas
                 camera={{ position: [0, 0, 6], fov: 55 }}
                 style={{ background: "transparent" }}
-                // onClick={(e) => {
-                //   // Only close popup if clicking on the Canvas background, not on markers
-                //   if (e.target === e.currentTarget) {
-                //     handleEarthClick();
-                //   }
-                // }}
+                onClick={(e) => {
+                  // Check if this was a marker click
+                  if (isMarkerClickRef.current) {
+                    isMarkerClickRef.current = false; // Reset flag
+                    return; // Don't close popup
+                  }
 
-                onClick={handleEarthContainerClick}
+                  // Close popup when clicking on Canvas (Earth surface)
+                  setPopupVisible(false);
+                  setHoveredLocation(null);
+                  setPopupOffice(null);
+                  setClickPosition(null);
+                  setIsPopupActive(false);
+                  // Re-enable controls
+                  if (controlsRef.current) {
+                    controlsRef.current.enabled = true;
+                  }
+                }}
               >
                 {/* Balanced Bright Lighting for Earth */}
                 <ambientLight intensity={0.5} />

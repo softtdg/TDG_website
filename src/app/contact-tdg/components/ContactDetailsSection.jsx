@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import EastIcon from "@mui/icons-material/East";
 
 const ContactDetailsSection = ({ selectedLocation }) => {
-  console.log(selectedLocation);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
