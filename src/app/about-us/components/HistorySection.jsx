@@ -103,7 +103,7 @@ export const HistorySection = () => {
         >
           {/* Left - Train Image */}
           <motion.div className="flex-[1.1] flex" variants={itemVariants}>
-            <motion.img
+            {/* <motion.img
               src="/images/about-us/history.jpg"
               alt="Modern train interior with LED lighting"
               className="rounded-[0px] w-full lg:h-[1000px] object-cover object-left-[100px]"
@@ -114,7 +114,10 @@ export const HistorySection = () => {
               initial={{ opacity: 0, x: -50 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-            />
+            /> */}
+            <div className="bg-gray-200 rounded-[0px] w-full lg:h-[1000px] h-[300px] flex items-center justify-center">
+              <span className="text-gray-500 font-bold text-xl"></span>
+            </div>
           </motion.div>
 
           {/* Right - Collapsible Content */}

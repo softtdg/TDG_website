@@ -882,7 +882,16 @@ export default function Earth3D({ onLocationSelect }) {
 
   return (
     <div
-      className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
+      className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg3.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg6.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg5.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.jpg')] bg-cover bg-center bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg3.jpg')] bg-cover bg-center bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg4.png')] bg-cover bg-center bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.avif')] bg-cover bg-center bg-no-repeat"
+      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg13.png')] bg-cover bg-center bg-no-repeat "
       onWheel={handleWheelScroll}
     >
       <div className="max-w-[1300px] mx-auto px-2 sm:px-4 lg:px-6">

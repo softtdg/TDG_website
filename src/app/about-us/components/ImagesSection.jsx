@@ -49,7 +49,7 @@ export const ImagesSection = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 px-[8px]">
           {/* Panel 1 */}
           <div className="relative group h-[300px] lg:h-[533px] overflow-hidden">
             <img
@@ -57,13 +57,16 @@ export const ImagesSection = () => {
               alt="Aerial view of manufacturing facility"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-              <div>
-                <h3 className="text-white text-[15px] font-semibold uppercase mb-1 tracking-wide">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 group-hover:from-black/10 via-black/30 group-hover:via-black/10 to-transparent group-hover:bg-white/80 transition-all duration-700 flex flex-col justify-end group-hover:justify-end group-hover:pb-15 group-hover:items-center p-6">
+              <div className="transition-all duration-700 group-hover:text-center transform translate-y-0 group-hover:-translate-y-0">
+                <h3 className="text-white group-hover:text-black text-[16px] font-bold uppercase mb-1 tracking-wide transition-all duration-700 transform translate-y-0 group-hover:-translate-y-4">
                   DECADES-READY, MULTI-SITE, TECHNOLOGY MANUFACTURING FACILITIES
                 </h3>
-                <p className="text-white text-xs font-medium opacity-80">
-                  North America, Europe, Asia
+                <p className="text-white group-hover:text-black text-[13px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-700 delay-200 max-h-0 group-hover:max-h-40 overflow-hidden transform translate-y-4 group-hover:translate-y-0">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Excepturi vero accusantium perferendis! Illo omnis cumque quod
+                  aliquam, voluptas officia hic unde eligendi fuga pariatur aut
+                  sed? Ab expedita a voluptatibus.
                 </p>
               </div>
             </div>
@@ -76,14 +79,16 @@ export const ImagesSection = () => {
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               style={{ filter: "brightness(0.7)" }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-              <div>
-                <h3 className="text-white text-[15px] font-semibold uppercase mb-1 tracking-wide">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 group-hover:from-black/10 via-black/30 group-hover:via-black/10 to-transparent group-hover:bg-white/80 transition-all duration-700 flex flex-col justify-end group-hover:justify-end group-hover:pb-15 group-hover:items-center p-6">
+              <div className="transition-all duration-700 group-hover:text-center transform translate-y-0 group-hover:-translate-y-0">
+                <h3 className="text-white group-hover:text-black text-[16px] font-bold uppercase mb-1 tracking-wide transition-all duration-700 transform translate-y-0 group-hover:-translate-y-4">
                   PCB MANUFACTURING AND ASSEMBLY
                 </h3>
-                <p className="text-white text-xs font-medium opacity-80">
-                  In-house SMT lines, automated optical inspection, and
-                  functional testing
+                <p className="text-white group-hover:text-black text-[13px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-700 delay-200 max-h-0 group-hover:max-h-40 overflow-hidden transform translate-y-4 group-hover:translate-y-0">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Excepturi vero accusantium perferendis! Illo omnis cumque quod
+                  aliquam, voluptas officia hic unde eligendi fuga pariatur aut
+                  sed? Ab expedita a voluptatibus.
                 </p>
               </div>
             </div>
@@ -95,13 +100,16 @@ export const ImagesSection = () => {
               alt="Train on elevated tracks in city"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-              <div>
-                <h3 className="text-white text-[15px] font-semibold uppercase mb-1 tracking-wide">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 group-hover:from-black/10 via-black/30 group-hover:via-black/10 to-transparent group-hover:bg-white/80 transition-all duration-700 flex flex-col justify-end group-hover:justify-end group-hover:pb-15 group-hover:items-center p-6">
+              <div className="transition-all duration-700 group-hover:text-center transform translate-y-0 group-hover:-translate-y-0">
+                <h3 className="text-white group-hover:text-black text-[16px] font-bold uppercase mb-1 tracking-wide transition-all duration-700 transform translate-y-0 group-hover:-translate-y-4">
                   FULL VERTICAL PART MANUFACTURING CAPABILITIES
                 </h3>
-                <p className="text-white text-xs font-medium opacity-80">
-                  Plastics, metals, electronics, and final assembly
+                <p className="text-white group-hover:text-black text-[13px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-700 delay-200 max-h-0 group-hover:max-h-40 overflow-hidden transform translate-y-4 group-hover:translate-y-0">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Excepturi vero accusantium perferendis! Illo omnis cumque quod
+                  aliquam, voluptas officia hic unde eligendi fuga pariatur aut
+                  sed? Ab expedita a voluptatibus.
                 </p>
               </div>
             </div>
@@ -113,13 +121,16 @@ export const ImagesSection = () => {
               alt="Close-up of LED circuit boards"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-              <div>
-                <h3 className="text-white text-[15px] font-semibold uppercase mb-1 tracking-wide">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 group-hover:from-black/10 via-black/30 group-hover:via-black/10 to-transparent group-hover:bg-white/80 transition-all duration-700 flex flex-col justify-end group-hover:justify-end group-hover:pb-15 group-hover:items-center p-6">
+              <div className="transition-all duration-700 group-hover:text-center transform translate-y-0 group-hover:-translate-y-0">
+                <h3 className="text-white group-hover:text-black text-[16px] font-bold uppercase mb-1 tracking-wide transition-all duration-700 transform translate-y-0 group-hover:-translate-y-4">
                   MATERIAL SUPPLY CHAIN FOR ELECTRICAL COMPONENTS GLOBALLY
                 </h3>
-                <p className="text-white text-xs font-medium opacity-80">
-                  Sourcing, logistics, and quality control for critical parts
+                <p className="text-white group-hover:text-black text-[13px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-700 delay-200 max-h-0 group-hover:max-h-40 overflow-hidden transform translate-y-4 group-hover:translate-y-0">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Excepturi vero accusantium perferendis! Illo omnis cumque quod
+                  aliquam, voluptas officia hic unde eligendi fuga pariatur aut
+                  sed? Ab expedita a voluptatibus.
                 </p>
               </div>
             </div>

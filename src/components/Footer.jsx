@@ -9,6 +9,10 @@ const Footer = () => {
     router.push("/about-us");
   };
 
+  const handleContactsClick = () => {
+    router.push("/contact-tdg");
+  };
+
   return (
     <footer className="relative w-full bg-[#0A2A5E] text-white px-6 lg:px-20 py-12 lg:py-16">
       {/* Background Wave */}
@@ -41,12 +45,12 @@ const Footer = () => {
             >
               About Us
             </button>
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
+            <button
+              onClick={handleContactsClick}
+              className="hover:text-gray-300 text-left font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
             >
               Contacts
-            </a>
+            </button>
             <a
               href="#"
               className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
@@ -87,12 +91,12 @@ const Footer = () => {
             <span className="font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]">
               |
             </span>
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
+            <button
+              onClick={handleContactsClick}
+              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
             >
               Contacts
-            </a>
+            </button>
             <span className="font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]">
               |
             </span>

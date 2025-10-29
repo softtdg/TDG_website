@@ -83,7 +83,7 @@ const MenuBar = () => {
   return (
     <div>
       <Button
-        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !right-[20px] sm:!right-[50px]   !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
+        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !left-[20px] sm:!left-[50px]    !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
         variant="outlined"
         sx={{
           borderColor: "transparent",
@@ -100,6 +100,19 @@ const MenuBar = () => {
             className="w-[18px] h-[14px] sm:w-[20px] sm:h-[16px] lg:w-[24px] lg:h-[18px]"
           />
         </span>
+      </Button>
+
+      <Button
+        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !right-[20px] sm:!right-[50px]   !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
+        variant="outlined"
+        sx={{
+          borderColor: "transparent",
+          borderWidth: "1px",
+          backgroundColor: "transparent",
+        }}
+        onClick={() => router.push("/")}
+      >
+        <img src="/icons/logo.svg" alt="" />
       </Button>
 
       {/* <Button
@@ -176,11 +189,14 @@ const MenuBar = () => {
               ))}
             </nav>
             <div className="flex-1 hidden lg:block">
-              <img
+              {/* <img
                 alt="Dynamic content image"
                 className="w-full h-full object-cover transition-opacity duration-300"
                 src={currentImage}
-              />
+              /> */}
+              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                {/* Image placeholder: grey box */}
+              </div>
             </div>
           </main>
         </div>
