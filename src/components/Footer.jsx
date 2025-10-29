@@ -13,6 +13,14 @@ const Footer = () => {
     router.push("/contact-tdg");
   };
 
+  const handleAccessibilityClick = () => {
+    router.push("/accessibility");
+  };
+
+  const handleCareerClick = () => {
+    router.push("/career");
+  };
+
   return (
     <footer className="relative w-full bg-[#0A2A5E] text-white px-6 lg:px-20 py-12 lg:py-16">
       {/* Background Wave */}
@@ -63,12 +71,12 @@ const Footer = () => {
             >
               Media
             </a>
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
+            <button
+              onClick={handleCareerClick}
+              className="hover:text-gray-300 text-left font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
             >
               Career
-            </a>
+            </button>
             <a
               href="#"
               className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
@@ -100,12 +108,12 @@ const Footer = () => {
             <span className="font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]">
               |
             </span>
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
+            <button
+              onClick={handleAccessibilityClick}
+              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
             >
               Accessibility
-            </a>
+            </button>
           </div>
 
           {/* Copyright */}
