@@ -82,19 +82,23 @@ export const OurWorldSection = () => {
           {panels.map((panel) => (
             <SwiperSlide key={panel.id}>
               <div className="group cursor-pointer">
-                <div className="relative overflow-hidden transition-all duration-500">
-                  {/* Image */}
-                  <div className="relative h-[300px] lg:h-[700px] overflow-hidden">
-                    <img
-                      src={panel.image}
-                      alt={panel.alt}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                <div className="relative group h-[300px] lg:h-[700px] overflow-hidden">
+                  <img
+                    src={panel.image}
+                    alt={panel.alt}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 group-hover:from-black/10 via-black/30 group-hover:via-black/10 to-transparent group-hover:bg-white/80 transition-all duration-700 flex flex-col justify-end group-hover:justify-end group-hover:pb-15 group-hover:items-center p-6">
+                    <div className="transition-all duration-700 group-hover:text-center transform translate-y-0 group-hover:-translate-y-0">
+                      <h3 className="text-white group-hover:text-black text-[16px] lg:text-[20px] font-bold uppercase mb-1 tracking-wide transition-all duration-700 transform translate-y-0 group-hover:-translate-y-4">
+                        {panel.title}
+                      </h3>
+                      <p className="text-white group-hover:text-black text-[13px] font-semibold opacity-0 group-hover:opacity-100 transition-all duration-700 delay-200 max-h-0 group-hover:max-h-40 overflow-hidden transform translate-y-4 group-hover:translate-y-0">
+                        {panel.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <h3 className="text-[#000000] text-2xl lg:text-3xl text-center font-bold uppercase my-3">
-                  {panel.title}
-                </h3>
               </div>
             </SwiperSlide>
           ))}

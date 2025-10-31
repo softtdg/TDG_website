@@ -10,7 +10,7 @@ export const HeroSection = () => {
       />
       <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-white text-4xl sm:text-[62px] lg:text-6xl font-bold mb-4">
+          <h1 className="text-white text-4xl sm:text-[62px] lg:text-6xl font-medium mb-4">
             ABOUT TDG
           </h1>
         </div>

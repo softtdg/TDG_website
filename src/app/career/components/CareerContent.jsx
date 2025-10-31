@@ -12,14 +12,14 @@ const CareerContent = () => {
 
       {/* Introduction */}
       <div className="mb-10 md:mb-12">
-        <p className="mb-4 text-base sm:text-lg md:text-[20px]">
+        <p className="mb-4 text-base sm:text-lg md:text-[17px] leading-[33px]">
           At TDG, we recognize that the future of our industry depends on the
           knowledge, creativity, and passion of the next generation. We are
           committed to supporting the professional and personal development of
           students by providing opportunities to learn, grow, and gain practical
           experience.
         </p>
-        <p className="mb-4 text-base sm:text-lg md:text-[20px]">
+        <p className="mb-4 text-base sm:text-lg md:text-[17px] leading-[33px]">
           Through collaboration with educational institutions, internships,
           training initiatives, and mentoring programs, TDG actively invests in
           building pathways for young people to develop their skills and prepare
@@ -28,7 +28,7 @@ const CareerContent = () => {
           to innovation and progress.
         </p>
 
-        <p className="mb-4 text-base sm:text-lg md:text-[20px]">
+        <p className="mb-4 text-base sm:text-lg md:text-[17px] leading-[33px]">
           We firmly believe that by supporting students today, we are shaping
           the leaders, innovators, and experts of tomorrow. This commitment
           reflects TDG’s values of responsibility, excellence, and long-term
@@ -38,7 +38,7 @@ const CareerContent = () => {
 
       {/* Training Section */}
       <div className="mb-10 md:mb-12">
-        <ul className="mb-4 text-base sm:text-lg md:text-[20px] list-disc ml-6 md:ml-8 space-y-1">
+        {/* <ul className="mb-4 text-base sm:text-lg md:text-[20px] list-disc ml-6 md:ml-8 space-y-1">
           <li className="mb-4">
             Students interested in internship and COOP opportunities are
             encouraged to <br /> send their resumes to{" "}
@@ -56,6 +56,28 @@ const CareerContent = () => {
             <a
               href="mailto:careers@tdgdesign.com?subject=Internship%20and%20COOP%20Opportunities"
               className="bg-[#DBE2E7] px-5 py-2 rounded-md font-semibold text-[18px] sm:text-[20px] inline-block hover:bg-gray-300 transition-colors duration-200 "
+            >
+              Send Email
+            </a>
+          </li>
+        </ul> */}
+
+        <ul className="mb-4 text-base sm:text-lg md:text-[17px] list-disc ml-6 md:ml-8 space-y-1">
+          <li className="mb-5">
+            Students / internship :
+            <a
+              href="mailto:careers@tdgdesign.com?subject=Internship%20and%20COOP%20Opportunities"
+              className="bg-[#DBE2E7] ml-5 px-5 py-2 rounded-md font-semibold text-[18px] sm:text-[20px] inline-block hover:bg-gray-300 transition-colors duration-200 "
+            >
+              Send Email
+            </a>
+          </li>
+
+          <li className="mb-4">
+            Career :
+            <a
+              href="mailto:careers@tdgdesign.com?subject=Career%20Opportunities"
+              className="bg-[#DBE2E7] ml-5 px-5 py-2 rounded-md font-semibold text-[18px] sm:text-[20px] inline-block hover:bg-gray-300 transition-colors duration-200 "
             >
               Send Email
             </a>

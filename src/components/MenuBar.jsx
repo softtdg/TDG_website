@@ -103,7 +103,7 @@ const MenuBar = () => {
       </Button>
 
       <Button
-        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !right-[20px] sm:!right-[50px]   !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
+        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !right-[20px] sm:!right-[50px]   !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[150px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
         variant="outlined"
         sx={{
           borderColor: "transparent",
@@ -112,7 +112,7 @@ const MenuBar = () => {
         }}
         onClick={() => router.push("/")}
       >
-        <img src="/icons/logo.svg" alt="" />
+        <img src="/icons/logo.png" alt="" />
       </Button>
 
       {/* <Button
@@ -141,9 +141,9 @@ const MenuBar = () => {
             style={{ borderBottom: "2px solid #161C2580" }}
           >
             <Button
-              className="m-font !fixed !top-[20px] sm:!top-[25px] lg:!top-[30px] !left-[20px] sm:!left-[50px] lg:!left-[170px] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[100px]"
-              variant="outlined"
-              sx={{ borderColor: "#000000", borderWidth: "2px" }}
+              className="m-font !fixed !top-[20px] sm:!top-[25px] lg:!top-[30px] !left-[20px] sm:!left-[50px] !w-[100px] sm:!w-[120px] lg:!w-[140px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px] !bg-[#f4f8ff] !shadow-none"
+              variant="contained"
+              sx={{ border: "1px solid #000000", backgroundColor: "#f4f8ff" }}
               onClick={toggleMenu}
             >
               <span className="flex !font-semibold !text-black items-center gap-1 sm:gap-2">

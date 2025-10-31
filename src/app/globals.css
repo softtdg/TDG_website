@@ -11,7 +11,7 @@
 }
 
 /* Montserrat Font Face Declarations */
-@font-face {
+/* @font-face {
   font-family: "Montserrat";
   src: url("/font/Montserrat-Regular.ttf") format("truetype");
   font-weight: 400;
@@ -49,7 +49,7 @@
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 :root {
   --background: #ffffff;
@@ -71,11 +71,15 @@
 }
 
 body {
-  font-family: "Montserrat";
+  font-family: "Montserrat", sans-serif;
+}
+
+h1 {
+  letter-spacing: 6px;
 }
 
 .m-font {
-  font-family: "Montserrat" !important;
+  font-family: "Montserrat", sans-serif !important;
 }
 
 /* Menubar Animation */

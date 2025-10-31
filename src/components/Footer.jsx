@@ -22,14 +22,23 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative w-full bg-[#0A2A5E] text-white px-6 lg:px-20 py-12 lg:py-16">
+    <footer className="relative w-full text-white px-6 lg:px-20 py-12 lg:py-16">
       {/* Background Wave */}
       <div className="absolute inset-0">
-        <img
-          src="/images/footer-bg.png" // use your footer wave background here
+        {/* <img
+          src="/images/footer1.png" // use your footer wave background here
           alt="footer background"
           className="w-full h-full object-cover"
-        />
+        /> */}
+
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-[#1f1f1f]">
+          <img
+            src="/images/bg-map.png" // use your footer wave background here
+            alt="footer background"
+            className="w-auto h-full"
+          />
+        </div>
       </div>
 
       {/* Content */}
@@ -39,9 +48,10 @@ const Footer = () => {
           {/* Logo */}
           <div className="flex-shrink-0">
             <img
-              src="/images/home/tdg-logo.png"
+              src="/icons/logo.png"
               alt="TDG Logo"
-              className="w-[150px] lg:w-[202px] h-auto"
+              className="w-[150px] lg:w-[180px] h-auto cursor-pointer"
+              onClick={() => router.push("/")}
             />
           </div>
 
@@ -92,32 +102,32 @@ const Footer = () => {
           <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
             <a
               href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
+              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[20px] "
             >
               Privacy
             </a>
-            <span className="font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]">
+            <span className="font-bold text-lg sm:text-2xl md:text-[20px] ">
               |
             </span>
             <button
               onClick={handleContactsClick}
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
+              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[20px]  cursor-pointer"
             >
               Contacts
             </button>
-            <span className="font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]">
+            <span className="font-bold text-lg sm:text-2xl md:text-[20px] ">
               |
             </span>
             <button
               onClick={handleAccessibilityClick}
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
+              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[20px]  cursor-pointer"
             >
               Accessibility
             </button>
           </div>
 
           {/* Copyright */}
-          <p className="font-bold text-center lg:text-left text-base sm:text-lg md:text-xl lg:text-[25px]">
+          <p className="font-bold text-center lg:text-left text-base sm:text-lg md:text-xl lg:text-[14px]">
             © TDG TRANSIT DESIGN GROUP 2025
           </p>
         </div>

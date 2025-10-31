@@ -12,7 +12,7 @@ import {
 import * as THREE from "three";
 
 // Office locations data
-const officeLocations = [
+export const officeLocations = [
   {
     id: 1,
     name: "TDG United States",
@@ -491,7 +491,7 @@ function OfficePopup({
         >
           <path
             d={
-              window.innerWidth < 1024
+              window.innerWidth < 1800
                 ? `M ${clickPosition.x} ${clickPosition.y} L ${
                     clickPosition.x + (markerSide === "left" ? -80 : 80)
                   } 220 L ${
@@ -515,10 +515,10 @@ function OfficePopup({
       <div
         data-popup="office-popup"
         // className="fixed z-20  rounded-lg shadow-2xl p-6 animate-in slide-in-from-right duration-300 top-[180px] right-[250px] ${markerSide === "left" ? "left-[100px]" : "right-[100px]"}"
-        className={`fixed z-20   duration-300 lg:top-[120px] top-[150px] ${
+        className={`fixed z-20   duration-300 xl:top-[100px] top-[120px] ${
           markerSide === "left"
-            ? "left-[20px] lg:left-[250px] xl:left-[300px]"
-            : "right-[20px] lg:right-[250px] xl:right-[300px]"
+            ? "left-[20px] lg:left-[250px] xl:left-[300px] [@media(max-width:1800px)]:left-[80px]"
+            : "right-[20px] lg:right-[250px] xl:right-[300px] [@media(max-width:1800px)]:right-[80px]"
         }`}
       >
         {/* <button
@@ -529,7 +529,11 @@ function OfficePopup({
         </button> */}
 
         <div
-          className="pr-8 cursor-pointer"
+          className={`cursor-pointer ${
+            markerSide === "left"
+              ? "[@media(max-width:1800px)]:pl-9 pl-5"
+              : "[@media(max-width:1800px)]:pr-9 pr-5"
+          } `}
           onClick={() => {
             // Scroll to contact details section
             const contactSection = document.getElementById(
@@ -544,23 +548,31 @@ function OfficePopup({
             onClose();
           }}
         >
-          <div className="flex justify-center items-center gap-3 mb-2">
+          <div
+            className="flex justify-end items-center gap-3"
+            style={{
+              justifyContent: markerSide === "left" ? "flex-start" : "flex-end",
+            }}
+          >
             {/* <div
               className="w-4 h-4 rounded-full"
               style={{ backgroundColor: "#FFD700" }}
             ></div> */}
-            <h3 className="text-[18px] xl:text-[25px] font-bold text-white uppercase text-center">
+            <h3 className="text-[18px] xl:text-[25px] font-bold text-white uppercase text-right">
               {office.name}
             </h3>
           </div>
 
-          <div className="mb-6">
-            <p className="text-white text-[15px] xl:text-[20px] text-center">
+          <div className="mb-2">
+            <p
+              className="text-white text-[15px] xl:text-[20px]"
+              style={{ textAlign: markerSide === "left" ? "left" : "right" }}
+            >
               {office.city}, {office.country}
             </p>
           </div>
 
-          {/* <button
+          <button
             onClick={() => {
               // Scroll to contact details section
               const contactSection = document.getElementById(
@@ -574,10 +586,10 @@ function OfficePopup({
               }
               onClose();
             }}
-            className="w-full bg-white hover:bg-gray-100 text-black font-bold py-3 px-6 rounded-lg transition-colors text-sm uppercase tracking-wide"
+            className="w-full bg-white hover:bg-gray-100 text-black font-bold py-2 px-6 rounded-lg transition-colors text-sm uppercase tracking-wide"
           >
-            MESSAGE THIS OFFICE
-          </button> */}
+            contact
+          </button>
         </div>
       </div>
     </div>
@@ -884,7 +896,7 @@ export default function Earth3D({ onLocationSelect }) {
     <div
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
-      className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg3.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
+      className="py-8 main_container md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg3.png')] xl:bg-[length:146%] bg-top bg-cover bg-no-repeat"
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg6.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg5.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.jpg')] bg-cover bg-center bg-no-repeat"
