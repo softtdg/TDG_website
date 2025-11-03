@@ -117,7 +117,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
 
           {/* Right Side - Map */}
           <div className="">
-            <div className="h-96 lg:h-[700px] overflow-hidden rounded-[50px]">
+            <div className="h-96 lg:h-[700px] overflow-hidden rounded-[0px] shadow-xl">
               <iframe
                 key={`${location?.map_lat}-${location?.map_lng}`}
                 src={`https://maps.google.com/maps?q=${location.map_lat},${location.map_lng}&hl=en&z=15&output=embed`}
@@ -125,7 +125,6 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title={`Map of ${location.name}`}
-                className="rounded-lg"
               />
             </div>
           </div>
