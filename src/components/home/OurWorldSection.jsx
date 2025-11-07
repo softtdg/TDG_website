@@ -1,5 +1,8 @@
 "use client";
+"use client";
+
 import React from "react";
+import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -7,6 +10,8 @@ import "swiper/css/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // nice icons
 
 export const OurWorldSection = () => {
+  const router = useRouter();
+
   const panels = [
     {
       id: "smt",
@@ -22,6 +27,7 @@ export const OurWorldSection = () => {
       description: "Meeting global rail safety and performance standards",
       image: "/images/home/u2.jpg",
       alt: "High-speed train at station platform",
+      href: "/safety-standards",
     },
     {
       id: "testing",
@@ -35,8 +41,9 @@ export const OurWorldSection = () => {
       id: "Certification",
       title: "CERTIFICATION",
       description: "Certification for rail lighting systems",
-      image: "/images/home/u1.jpg",
+      image: "/images/home/u4.jpg",
       alt: "Certification for rail lighting systems",
+      href: "/safety-standards#certification",
     },
   ];
 
@@ -67,7 +74,11 @@ export const OurWorldSection = () => {
         >
           {panels.map((panel) => (
             <SwiperSlide key={panel.id}>
-              <div className="group cursor-pointer">
+              <button
+                type="button"
+                onClick={() => panel.href && router.push(panel.href)}
+                className="group block w-full cursor-pointer focus:outline-none"
+              >
                 <div className="relative group h-[300px] lg:h-[700px] overflow-hidden">
                   <img
                     src={panel.image}
@@ -85,7 +96,7 @@ export const OurWorldSection = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </button>
             </SwiperSlide>
           ))}
         </Swiper>

@@ -199,7 +199,7 @@ export const CertificatesSection = () => {
   };
 
   return (
-    <section className="bg-white py-24">
+    <section id="certification" className="bg-white py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <h2 className="text-center text-3xl font-extrabold uppercase tracking-[6px] text-[#111827] sm:text-[50px]">
           Certification
