@@ -30,27 +30,13 @@ export const OurWorldSection = () => {
       image: "/images/home/u3.jpg",
       alt: "Modern train interior with testing equipment",
     },
+
     {
-      id: "testing2",
-      title: "TESTING2",
-      description: "Comprehensive testing facilities for rail lighting systems",
-      image: "/images/home/u3.jpg",
-      alt: "Modern train interior with testing equipment",
-    },
-    {
-      id: "smt2",
-      title: "SMT2",
-      description:
-        "Surface Mount Technology solutions for advanced rail systems",
+      id: "Certification",
+      title: "CERTIFICATION",
+      description: "Certification for rail lighting systems",
       image: "/images/home/u1.jpg",
-      alt: "Modern light rail train with SMT technology",
-    },
-    {
-      id: "standards2",
-      title: "STANDARDS2",
-      description: "Meeting global rail safety and performance standards",
-      image: "/images/home/u2.jpg",
-      alt: "High-speed train at station platform",
+      alt: "Certification for rail lighting systems",
     },
   ];
 

@@ -896,7 +896,8 @@ export default function Earth3D({ onLocationSelect }) {
     <div
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
-      className="py-8 main_container md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg3.png')] xl:bg-[length:146%] bg-top bg-cover bg-no-repeat"
+      className="py-8 main_container md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg15.png')] bg-cover bg-no-repeat"
+      // className="py-8 main_container md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/new-contact.jpg')]  bg-top bg-cover bg-no-repeat"
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg6.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg5.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
       // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.jpg')] bg-cover bg-center bg-no-repeat"

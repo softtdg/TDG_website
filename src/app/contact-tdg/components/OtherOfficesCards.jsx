@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 
 const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
@@ -42,47 +41,54 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
   if (otherLocations.length === 0) return null;
 
   return (
-    <div className="max-w-[1300px] mx-auto    py-10 sm:py-12">
-      <div className="mb-6 sm:mb-8">
-        <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+    <div className="max-w-[1300px] mx-auto py-10 sm:pt-[100px] sm:pb-[150px]">
+      <div className="mb-6 sm:mb-15">
+        <h3 className="text-xl sm:text-[30px] text-center font-bold text-gray-900">
           Explore Other Offices
         </h3>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
         {otherLocations.map((location) => (
           <button
             key={location.id}
             type="button"
             onClick={() => handleSelect(location)}
-            className="group relative overflow-hidden text-left w-full rounded-2xl p-6 bg-gradient-to-br from-[#F6F9FF] via-white to-[#F9FBFF] border border-gray-200 shadow-sm hover:shadow-lg hover:border-gray-300 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#0E54C4]/20"
+            className="group relative overflow-hidden text-left w-full rounded-[24px] p-8 bg-white border-2 border-[#F0F0F0] hover:border-[#0E54C4]/30 shadow-[0_8px_24px_rgba(14,84,196,0.05)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#0E54C4]/10"
           >
-            <div className="flex items-start gap-4">
-              <div
-                className="mt-1 w-3 h-3 rounded-full flex-shrink-0"
-                style={{ backgroundColor: location.color || "#0E54C4" }}
-              />
-              <div className="flex-1">
-                <p className="text-sm font-semibold tracking-wide text-gray-900 group-hover:text-[#0E54C4] break-all">
-                  {String(location.email || "").toUpperCase()}
-                </p>
-                <p className="mt-2 text-[15px] leading-6 text-gray-700">
-                  {location.address}
-                </p>
-                <div className="mt-4 flex items-center text-sm font-medium text-[#0E54C4]">
-                  <span className="mr-2">Contact</span>
-                  <svg
-                    className="w-4 h-4 transform transition-transform group-hover:translate-x-0.5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 3.293a1 1 0 011.414 0l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L13.586 10H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
+            <div className="flex h-full flex-col gap-4">
+              <div className="flex items-start gap-4">
+                {/* <div
+                  className="mt-1 w-3 h-3 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: "#F48C06" }}
+                /> */}
+                <div className="flex-1">
+                  <p className="text-[12px]  font-semibold   text-[#F48C06] uppercase">
+                    {location.name}
+                  </p>
+                  <h4 className="mt-3 text-[18px] sm:text-[20px] font-semibold leading-[1.4] text-gray-900 group-hover:text-[#0E54C4]">
+                    {String(location.email || "").toUpperCase()}
+                  </h4>
                 </div>
+              </div>
+
+              <p className="pl-7 text-[15px] leading-7 text-gray-600">
+                {location.address}
+              </p>
+
+              <div className="mt-auto pl-7 flex items-center text-sm font-semibold text-[#0E54C4]">
+                <span className="mr-3 tracking-wide">CONTACT NOW</span>
+                <svg
+                  className="w-4 h-4 transform transition-transform group-hover:translate-x-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L13.586 10H4a1 1 0 110-2h9.586l-3.293-3.293a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
               </div>
             </div>
           </button>
