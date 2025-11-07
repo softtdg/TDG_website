@@ -126,7 +126,7 @@ export const StandardsSection = () => {
         <div className="flex-1 lg:flex">
           <div className="flex h-full w-full flex-col justify-center rounded-[0] bg-[#0000003b] p-[2px] text-white shadow-xl">
             <div className="flex h-full w-full flex-col justify-center rounded-[0] bg-gradient-to-br from-[#edeff5] via-[#dddfdf] to-[#dadfe9] px-10 py-16 text-[#0f1624] sm:px-12">
-              <p className="text-3xl md:text-[43px] font-bold uppercase leading-tight mb-2 opacity-90 mt-[50px]">
+              {/* <p className="text-3xl md:text-[43px] font-bold uppercase leading-tight mb-2 opacity-90 mt-[50px]">
                 Dive in!
               </p>
               <p className="text-3xl md:text-[43px] font-bold uppercase leading-tight mb-2 opacity-90">
@@ -143,7 +143,7 @@ export const StandardsSection = () => {
                 className="mt-10 w-fit px-8 py-4 inline-flex shadow-2xl items-center rounded-[8px] bg-[#fff]   text-xs font-semibold uppercase tracking-widest text-[#1155CC] transition-colors duration-200 hover:bg-[#1155CC] hover:text-white"
               >
                 Discover More
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
