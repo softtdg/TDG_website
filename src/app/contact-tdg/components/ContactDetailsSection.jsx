@@ -37,6 +37,9 @@ const ContactDetailsSection = ({ selectedLocation }) => {
               {/* Contact Information */}
               <div className="space-y-6">
                 <div className="space-y-1">
+                  <p className="text-[12px]  font-semibold text-[#F48C06] uppercase">
+                    {location.name}
+                  </p>
                   <h2 className="text-black font-bold text-[20px] sm:text-[23px]">
                     FOR SALES AND INQUIRIES:
                   </h2>

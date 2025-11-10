@@ -89,6 +89,20 @@ export const officeLocations = [
     map_lat: 28.53313,
     map_lng: 77.46848,
   },
+  {
+    id: 6,
+    name: "TDG Poland",
+    city: "Zabrze",
+    country: "Poland",
+    address: "Jozefa Dworaczka 1, 41-806 Zabrze, Poland",
+    phone: "+48 32 123 4567",
+    email: "sales_poland@tdgdesign.com",
+    lat: 50.3107,
+    lng: 18.7856,
+    color: "#FFFB00",
+    map_lat: 50.3107,
+    map_lng: 18.7856,
+  },
 ];
 
 // Convert lat/lng to 3D coordinates on sphere
