@@ -55,19 +55,20 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
             onClick={() => handleSelect(location)}
             className="group relative overflow-hidden text-left w-full rounded-[24px] p-8 bg-white border-2 border-[#F0F0F0] hover:border-[#0E54C4]/30 shadow-[0_8px_24px_rgba(14,84,196,0.05)] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#0E54C4]/10"
           >
-            <div className="flex h-full flex-col gap-4">
+            <div className="flex h-full flex-col gap-3">
               <div className="flex items-start gap-4">
                 {/* <div
                   className="mt-1 w-3 h-3 rounded-full flex-shrink-0"
                   style={{ backgroundColor: "#F48C06" }}
                 /> */}
                 <div className="flex-1">
-                  <p className="text-[12px]  font-semibold   text-[#F48C06] uppercase">
+                  <h4 className="mb-3 text-[18px] sm:text-[20px] font-semibold leading-[1.4] text-[#F48C06] group-hover:text-[#0E54C4]">
                     {location.name}
-                  </p>
-                  <h4 className="mt-3 text-[18px] sm:text-[20px] font-semibold leading-[1.4] text-gray-900 group-hover:text-[#0E54C4]">
-                    {String(location.email || "").toUpperCase()}
                   </h4>
+
+                  <p className="pl-7 text-[12px] font-semibold text-gray-900 uppercase">
+                    {String(location.email || "").toUpperCase()}
+                  </p>
                 </div>
               </div>
 

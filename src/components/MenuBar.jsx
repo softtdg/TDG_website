@@ -27,9 +27,9 @@ const MenuBar = () => {
       href: "#",
     },
     {
-      name: "Safety & Innovation",
+      name: "Innovation",
       image: "/images/safety.png",
-      href: "#",
+      href: "/innovation",
     },
     {
       name: "Contacts",

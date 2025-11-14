@@ -10,7 +10,7 @@ export const HeroSection = () => {
     >
       <div className="text-center w-full flex items-center justify-center h-full">
         <h1 className="text-white text-4xl sm:text-[62px] lg:text-6xl font-medium mb-4 drop-shadow-lg">
-          CAREER
+          CAREERS
         </h1>
       </div>
     </div>

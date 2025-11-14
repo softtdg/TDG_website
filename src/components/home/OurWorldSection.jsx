@@ -1,10 +1,9 @@
 "use client";
-"use client";
 
 import React from "react";
 import { useRouter } from "next/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // nice icons
@@ -35,6 +34,7 @@ export const OurWorldSection = () => {
       description: "Comprehensive testing facilities for rail lighting systems",
       image: "/images/home/u3.jpg",
       alt: "Modern train interior with testing equipment",
+      href: "/testing",
     },
 
     {
@@ -59,9 +59,14 @@ export const OurWorldSection = () => {
 
         {/* Swiper Carousel */}
         <Swiper
-          modules={[Navigation]}
+          modules={[Navigation, Autoplay]}
           spaceBetween={24}
           slidesPerView={1}
+          loop
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
           breakpoints={{
             640: { slidesPerView: 1 },
             1024: { slidesPerView: 3 },

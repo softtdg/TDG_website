@@ -85,7 +85,7 @@ const Footer = () => {
               onClick={handleCareerClick}
               className="hover:text-gray-300 text-left font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
             >
-              Career
+              Careers
             </button>
             <a
               href="#"
