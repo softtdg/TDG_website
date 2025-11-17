@@ -36,7 +36,6 @@ export const OurWorldSection = () => {
       alt: "Modern train interior with testing equipment",
       href: "/testing",
     },
-
     {
       id: "Certification",
       title: "CERTIFICATION",
@@ -44,6 +43,23 @@ export const OurWorldSection = () => {
       image: "/images/home/u4.jpg",
       alt: "Certification for rail lighting systems",
       href: "/safety-standards#certification",
+    },
+    {
+      id: "about",
+      title: "ABOUT",
+      description: "Learn about our company, history, and global presence",
+      image: "/images/about-us/i1.jpg",
+      alt: "About TDG - Company overview and history",
+      href: "/about-us",
+    },
+    {
+      id: "innovation",
+      title: "INNOVATION",
+      description:
+        "Cutting-edge technology and innovative solutions for rail systems",
+      image: "/images/innovation/img1.jpg",
+      alt: "TDG Innovation - Advanced rail technology solutions",
+      href: "/innovation",
     },
   ];
 

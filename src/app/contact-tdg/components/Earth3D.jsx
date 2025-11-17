@@ -281,7 +281,8 @@ function Earth({
   });
 
   return (
-    <group ref={earthRef} rotation={[1.4, 4.2, 1.2]}>
+    // <group ref={earthRef} rotation={[1.4, 4.2, 1.2]}>
+    <group ref={earthRef} rotation={[0.7, 6.1, 0.3]}>
       {/* Main Earth */}
       <Sphere
         args={[2.2, 64, 64]}
