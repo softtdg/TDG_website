@@ -70,14 +70,6 @@ const ContactPage = () => {
             const data = await response.json();
             if (data.country) {
               setVisitorCountry(data.country);
-              console.log("🌍 Visitor's Country Detected:", data.country);
-              console.log("📍 Full Location Data:", {
-                country: data.country,
-                countryCode: data.country_code,
-                city: data.city,
-                region: data.region,
-                ip: data.ip,
-              });
               setCountryDetectionLoading(false);
               return;
             }
@@ -123,10 +115,10 @@ const ContactPage = () => {
       );
 
       if (matchingLocation) {
-        console.log(
-          `✅ Auto-selecting ${matchingLocation.name} based on visitor's country (${visitorCountry})`
-        );
-        // setSelectedLocation(matchingLocation);
+        // console.log(
+        //   `✅ Auto-selecting ${matchingLocation.name} based on visitor's country (${visitorCountry})`
+        // );
+        setSelectedLocation(matchingLocation);
       }
     }
   }, [visitorCountry, countryDetectionLoading]);
@@ -138,7 +130,10 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* <HeroSection /> */}
-      <Earth3D onLocationSelect={handleLocationSelect} />
+      <Earth3D
+        onLocationSelect={handleLocationSelect}
+        visitorCountry={visitorCountry}
+      />
       <ContactDetailsSection selectedLocation={selectedLocation} />
       <OtherOfficesCards
         locations={officeLocations}

@@ -91,6 +91,21 @@ export const officeLocations = [
   },
   {
     id: 6,
+    name: "TDG India",
+    city: "Surat",
+    country: "India",
+    address:
+      "2029, Silver Business Point, VIP Cir, Mota Varachha, Surat, Gujarat 394105",
+    phone: "+91 261 123 4567",
+    email: "sales_india@tdgdesign.com",
+    lat: 21.243,
+    lng: 72.9126,
+    color: "#FFFB00",
+    map_lat: 21.23377,
+    map_lng: 72.86358,
+  },
+  {
+    id: 7,
     name: "TDG Poland",
     city: "Zabrze",
     country: "Poland",
@@ -170,6 +185,7 @@ function Earth({
   onLocationClick,
   hoveredLocation,
   onEarthClick,
+  visitorCountry,
 }) {
   // Earth textures
   const [earthTexture, normalMap, specularMap] = useTexture([
@@ -280,9 +296,26 @@ function Earth({
     }
   });
 
+  const initialRotation = useMemo(() => {
+    if (visitorCountry === "Canada" || visitorCountry === "United States") {
+      return [0.7, 6.1, 0.3];
+    } else if (
+      visitorCountry === "United Kingdom" ||
+      visitorCountry === "Poland" ||
+      visitorCountry === "France"
+    ) {
+      return [1.2, 3.7, 0.6];
+    } else if (visitorCountry === "India") {
+      return [0.4, 3.4, 0];
+    } else {
+      return [0.7, 6.1, 0.3];
+    }
+  }, [visitorCountry]);
+
+  // <group ref={earthRef} rotation={initialRotation}>
+
   return (
-    // <group ref={earthRef} rotation={[1.4, 4.2, 1.2]}>
-    <group ref={earthRef} rotation={[0.7, 6.1, 0.3]}>
+    <group ref={earthRef} rotation={initialRotation}>
       {/* Main Earth */}
       <Sphere
         args={[2.2, 64, 64]}
@@ -612,7 +645,7 @@ function OfficePopup({
 }
 
 // Main Earth3D component
-export default function Earth3D({ onLocationSelect }) {
+export default function Earth3D({ onLocationSelect, visitorCountry }) {
   const [hoveredLocation, setHoveredLocation] = useState(null);
   const [sidebarHoveredLocation, setSidebarHoveredLocation] = useState(null);
   const [clickedLocation, setClickedLocation] = useState(null);
@@ -1035,6 +1068,7 @@ export default function Earth3D({ onLocationSelect }) {
                   onLocationClick={handleMarkerClick}
                   hoveredLocation={hoveredLocation}
                   onEarthClick={handleEarthClick}
+                  visitorCountry={visitorCountry}
                 />
 
                 {/* Camera controls */}
