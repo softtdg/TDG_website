@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 
 export const LightingInMotionSection = () => {
   const [expandedSection, setExpandedSection] = useState("railways");
@@ -12,17 +12,28 @@ export const LightingInMotionSection = () => {
       title: "RAILWAYS",
       description:
         "TDG offers customized and innovative solutions for both interior and exterior lighting systems for the global rail industry. With LED drivers in service since 1999 and an LED main lighting system in service since 2003, TDG has over 100,000 hours of actual in car performance from its systems. There are nearly one million TDG LED drivers in service globally in the rail industry.",
+      image: "/images/home/l2.jpg",
     },
     defense: {
       title: "DEFENSE",
       description:
         "Advanced lighting solutions for defense applications including military vehicles, aircraft, and specialized equipment. Our cutting-edge LED technology ensures reliability and performance in the most demanding environments.",
+      image: "/images/home/projects/1.jpg",
     },
     support: {
       title: "SUPPORT",
       description:
         "Comprehensive technical support and maintenance services for all our lighting systems. Our expert team provides 24/7 assistance to ensure optimal performance and minimal downtime for your operations.",
+      image: "/images/home/projects/2.jpg",
     },
+  };
+
+  // Get current image based on expanded section, default to railways
+  const getCurrentImage = () => {
+    if (expandedSection && sections[expandedSection]) {
+      return sections[expandedSection].image;
+    }
+    return sections.railways.image;
   };
 
   const containerVariants = {
@@ -112,30 +123,43 @@ export const LightingInMotionSection = () => {
 
         {/* NEW UI - COLLAPSIBLE SECTIONS */}
         <motion.div
-          className="flex flex-col lg:flex-row gap-8 lg:min-h-[1000px]"
+          className="flex flex-col lg:flex-row gap-8 lg:min-h-[900px]"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Left - Train Image */}
-          <motion.div className="flex-[1.1] flex" variants={itemVariants}>
-            <motion.img
-              src="/images/home/l2.jpg"
-              alt="Modern train interior with LED lighting"
-              className="rounded-[0px] w-full lg:h-[1000px]"
-              whileHover={{
-                scale: 1.02,
-                transition: { duration: 0.3 },
-              }}
-              initial={{ opacity: 0, x: -50 }}
-              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            />
+          {/* Left - Dynamic Image */}
+          <motion.div
+            className="flex-[1.1] flex relative order-2 lg:order-1"
+            variants={itemVariants}
+          >
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={expandedSection || "railways"}
+                src={getCurrentImage()}
+                alt={
+                  expandedSection === "defense"
+                    ? "Defense lighting solutions"
+                    : expandedSection === "support"
+                    ? "Support services"
+                    : "Modern train interior with LED lighting"
+                }
+                className="rounded-[0px] w-full lg:h-[900px] object-cover"
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 30 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                whileHover={{
+                  scale: 1.02,
+                  transition: { duration: 0.3 },
+                }}
+              />
+            </AnimatePresence>
           </motion.div>
 
           {/* Right - Collapsible Content */}
           <motion.div
-            className="flex-1 flex flex-col justify-center sm:px-[30px]"
+            className="flex-1 flex flex-col justify-center sm:px-[30px] order-1 lg:order-2"
             variants={itemVariants}
           >
             {/* Debug info */}
@@ -155,8 +179,7 @@ export const LightingInMotionSection = () => {
                   onClick={() => {
                     const newExpandedSection =
                       expandedSection === key ? null : key;
-
-                    setExpandedSection(newExpandedSection);
+                    setExpandedSection(newExpandedSection || "railways");
                   }}
                   className="w-full text-left flex items-center justify-between py-4 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
                   whileHover={{ scale: 1.02 }}

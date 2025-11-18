@@ -62,7 +62,7 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
                   style={{ backgroundColor: "#F48C06" }}
                 /> */}
                 <div className="flex-1">
-                  <h4 className="mb-3 text-[18px] sm:text-[20px] font-semibold leading-[1.4] text-[#F48C06] group-hover:text-[#0E54C4]">
+                  <h4 className="mb-3 text-[18px] sm:text-[20px] font-semibold leading-[1.4] group-hover:text-[#F48C06] text-[#0E54C4]">
                     {location.name}
                   </h4>
 

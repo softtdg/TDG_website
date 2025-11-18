@@ -37,16 +37,16 @@ const ContactDetailsSection = ({ selectedLocation }) => {
               {/* Contact Information */}
               <div className="space-y-6">
                 <div className="space-y-1">
-                  <p className="text-[12px]  font-semibold text-[#F48C06] uppercase">
+                  <h2 className="text-[20px] sm:text-[25px] font-semibold text-[#F48C06] uppercase">
                     {location.name}
-                  </p>
-                  <h2 className="text-black font-bold text-[20px] sm:text-[23px]">
-                    FOR SALES AND INQUIRIES:
                   </h2>
+                  <p className="text-black font-bold text-[14px]">
+                    FOR SALES AND INQUIRIES:
+                  </p>
 
                   <a
                     href={`mailto:${location.email}`}
-                    className="text-[#0E54C4] font-bold text-[18px] sm:text-[23px] block hover:text-red-700 transition-colors mb-3 sm:mb-5 break-all"
+                    className="text-[#0E54C4] font-bold  text-[14px] block hover:text-red-700 transition-colors mb-3 sm:mb-5 break-all"
                   >
                     {location.email.toUpperCase()}
                   </a>

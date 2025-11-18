@@ -6,29 +6,34 @@ import { useRouter, usePathname } from "next/navigation";
 const MenuBar = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const [currentImage, setCurrentImage] = useState("/images/railways.png");
+  const [currentImage, setCurrentImage] = useState("/images/home/u1.jpg");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
   const navigationItems = [
     {
-      name: "Railways",
-      image: "/images/railways.png",
+      name: "SMT",
+      image: "/images/home/u1.jpg",
       href: "#",
     },
     {
-      name: "Defense",
-      image: "/images/defense.png",
-      href: "#",
+      name: "Standards & Certification",
+      image: "/images/home/u2.jpg",
+      href: "/safety-standards",
     },
     {
-      name: "Support",
-      image: "/images/support.png",
-      href: "#",
+      name: "Testing",
+      image: "/images/home/u3.jpg",
+      href: "/testing",
+    },
+    {
+      name: "About Us",
+      image: "/images/about-us/i1.jpg",
+      href: "/about-us",
     },
     {
       name: "Innovation",
-      image: "/images/safety.png",
+      image: "/images/innovation/img1.jpg",
       href: "/innovation",
     },
     {
@@ -40,8 +45,15 @@ const MenuBar = () => {
 
   // Get current navigation item based on pathname
   const getCurrentNavigationItem = () => {
-    const currentItem = navigationItems.find((item) => item.href === pathname);
-    return currentItem || navigationItems[0]; // Default to Railways if no match
+    const currentItem = navigationItems.find((item) => {
+      // Handle hash routes by checking if pathname matches the base path
+      if (item.href.includes("#")) {
+        const basePath = item.href.split("#")[0];
+        return pathname === basePath || pathname === item.href;
+      }
+      return item.href === pathname;
+    });
+    return currentItem || navigationItems[0]; // Default to SMT if no match
   };
 
   // Update current image when pathname changes
@@ -161,32 +173,43 @@ const MenuBar = () => {
           </div>
 
           <main className="flex min-h-[calc(100vh-80px)]">
-            <nav className="w-full lg:w-[533px] border-r border-gray-300 bg-white px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12 pl-[20px] sm:pl-[40px] lg:pl-[70px] pr-[20px] sm:pr-[25px] lg:pr-[30px] flex flex-col text-lg font-normal text-black">
-              {navigationItems.map((item, index) => (
-                <div
-                  key={index}
-                  className={`flex items-center justify-between text-[24px] sm:text-[28px] lg:text-[34px] transition-all duration-300 group h-[80px] sm:h-[100px] lg:h-[120px] cursor-pointer ${
-                    pathname === item.href
-                      ? "font-semibold text-[#0356C2] border-b-2 border-[#0356C2]"
-                      : "font-medium hover:font-semibold hover:text-[#0356C2] hover:border-b-2 hover:border-[#0356C2]"
-                  }`}
-                  onClick={() => handleNavigation(item.href)}
-                  onMouseEnter={() => handleImageChange(item.image)}
-                  onMouseLeave={() => {
-                    const currentItem = getCurrentNavigationItem();
-                    setCurrentImage(currentItem.image);
-                  }}
-                >
-                  {item.name}
-                  {pathname === item.href && (
-                    <img
-                      src="/icons/right-arrow.svg"
-                      alt=""
-                      className="w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] lg:w-auto lg:h-auto"
-                    />
-                  )}
-                </div>
-              ))}
+            <nav className="w-full lg:w-[633px] border-r border-gray-300 bg-white px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-12 pl-[20px] sm:pl-[40px] lg:pl-[70px] pr-[20px] sm:pr-[25px] lg:pr-[30px] flex flex-col text-lg font-normal text-black">
+              {navigationItems.map((item, index) => {
+                // Check if this item is active (handle hash routes)
+                const isActive = (() => {
+                  if (item.href.includes("#")) {
+                    const basePath = item.href.split("#")[0];
+                    return pathname === basePath || pathname === item.href;
+                  }
+                  return pathname === item.href;
+                })();
+
+                return (
+                  <div
+                    key={index}
+                    className={`flex items-center justify-between text-[24px] sm:text-[28px] lg:text-[34px] transition-all duration-300 group h-[80px] sm:h-[100px] lg:h-[120px] cursor-pointer ${
+                      isActive
+                        ? "font-semibold text-[#0356C2] border-b-2 border-[#0356C2]"
+                        : "font-medium hover:font-semibold hover:text-[#0356C2] hover:border-b-2 hover:border-[#0356C2]"
+                    }`}
+                    onClick={() => handleNavigation(item.href)}
+                    onMouseEnter={() => handleImageChange(item.image)}
+                    onMouseLeave={() => {
+                      const currentItem = getCurrentNavigationItem();
+                      setCurrentImage(currentItem.image);
+                    }}
+                  >
+                    {item.name}
+                    {isActive && (
+                      <img
+                        src="/icons/right-arrow.svg"
+                        alt=""
+                        className="w-[20px] h-[20px] sm:w-[24px] sm:h-[24px] lg:w-auto lg:h-auto"
+                      />
+                    )}
+                  </div>
+                );
+              })}
             </nav>
             <div className="flex-1 hidden lg:block">
               {/* <img
