@@ -43,9 +43,9 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
   return (
     <div className="max-w-[1300px] mx-auto py-10 sm:pt-[100px] sm:pb-[150px]">
       <div className="mb-6 sm:mb-15">
-        <h3 className="text-xl sm:text-[30px] text-center font-bold text-gray-900">
-          Explore Other Offices
-        </h3>
+        <h2 className="text-center text-3xl font-extrabold uppercase tracking-[6px] text-[#111827] sm:text-[50px]">
+          Global Sites
+        </h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
         {otherLocations.map((location) => (

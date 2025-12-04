@@ -14,13 +14,13 @@ const accordionItems = [
     image: "/images/innovation/img1.jpg",
   },
   {
-    title: "ADVANCED LED PRODUCTION",
+    title: "LED PCB PRODUCTION",
     description:
       "Consider the largest proportion of LED fixture assembly in one company, in the industry. Assuring you of breadth and depth in LED expertise.",
     image: "/images/innovation/img2.jpg",
   },
   {
-    title: "ADVANCED LED LIGHT ENGINES",
+    title: "LED Light Engine / Drivers",
     description:
       "Think of LED lights that last more than 200,000 hours, nearly twice what other companies offer. Slashing your maintenance, replacement, and energy consumption costs.",
     image: "/images/innovation/img3.jpg",

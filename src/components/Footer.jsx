@@ -21,6 +21,37 @@ const Footer = () => {
     router.push("/career");
   };
 
+  const handleInnovationClick = () => {
+    router.push("/innovation");
+  };
+
+  const handleSafetyStandardsClick = () => {
+    router.push("/safety-standards");
+  };
+
+  const handleTestingClick = () => {
+    router.push("/testing");
+  };
+
+  const handleSustainabilityClick = () => {
+    router.push("/sustainability");
+  };
+
+  const handleMediaClick = () => {
+    router.push("/media");
+  };
+
+  const handleProductsClick = () => {
+    router.push("/products");
+  };
+
+  const handleLinkedInClick = () => {
+    window.open(
+      "https://in.linkedin.com/company/tdg-transit-design-group",
+      "_blank"
+    );
+  };
+
   return (
     <footer className="relative w-full text-white px-6 lg:px-20 py-12 lg:py-16">
       {/* Background Wave */}
@@ -42,7 +73,7 @@ const Footer = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[1400px] mx-auto pt-[90px] pb-[50px]">
+      <div className="relative z-10 max-w-[1500px] mx-auto pt-[90px] pb-[50px]">
         {/* First Row - Logo and Navigation Links */}
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-8 mb-8">
           {/* Logo */}
@@ -56,43 +87,88 @@ const Footer = () => {
           </div>
 
           {/* Right Section - Links */}
-          <div className="grid grid-cols-2 gap-x-22 gap-y-6 text-sm font-medium">
+          <div className="grid grid-cols-2  gap-y-6 text-sm font-medium">
             <button
               onClick={handleAboutUsClick}
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer"
+              className="group relative font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
             >
-              About Us
+              <span className="relative">
+                About Us
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
+            </button>
+            {/* <button
+              onClick={handleContactsClick}
+              className="group relative text-left font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
+            >
+              <span className="relative">
+                Contacts
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
+            </button> */}
+            <button
+              onClick={handleTestingClick}
+              className="group relative font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
+            >
+              <span className="relative">
+                Testing
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </button>
             <button
-              onClick={handleContactsClick}
-              className="hover:text-gray-300 text-left font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
+              onClick={handleSustainabilityClick}
+              className="group relative font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
             >
-              Contacts
+              <span className="relative">
+                Sustainability
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </button>
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
+            <button
+              onClick={handleMediaClick}
+              className="group relative font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
             >
-              Sustainability
-            </a>
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
-            >
-              Media
-            </a>
+              <span className="relative">
+                Media
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
+            </button>
             <button
               onClick={handleCareerClick}
-              className="hover:text-gray-300 text-left font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer"
+              className="group relative text-left font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
             >
-              Careers
+              <span className="relative">
+                Careers
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </button>
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px]"
+            <button
+              onClick={handleProductsClick}
+              className="group relative font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
             >
-              Products
-            </a>
+              <span className="relative">
+                Products
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
+            </button>
+            <button
+              onClick={handleInnovationClick}
+              className="group relative font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
+            >
+              <span className="relative">
+                Innovation
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
+            </button>
+            <button
+              onClick={handleSafetyStandardsClick}
+              className="group relative font-bold text-lg sm:text-2xl md:text-[26px] lg:text-[30px] text-left cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
+            >
+              <span className="relative">
+                Standards & Certification
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
+            </button>
           </div>
         </div>
 
@@ -100,35 +176,44 @@ const Footer = () => {
         <div className="flex flex-col gap-4 pt-[50px]">
           {/* Privacy Links */}
           <div className="flex flex-wrap justify-center lg:justify-start gap-4 text-sm">
-            <a
-              href="#"
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[20px] "
+            <button
+              onClick={handleAccessibilityClick}
+              className="group relative font-bold text-lg sm:text-2xl md:text-[20px] cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
             >
-              Privacy
-            </a>
-            <span className="font-bold text-lg sm:text-2xl md:text-[20px] ">
+              <span className="relative">
+                Accessibility
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
+            </button>
+            <span className="font-bold text-lg sm:text-2xl md:text-[20px]">
               |
             </span>
             <button
               onClick={handleContactsClick}
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[20px]  cursor-pointer"
+              className="group relative font-bold text-lg sm:text-2xl md:text-[20px] cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
             >
-              Contacts
+              <span className="relative">
+                Contacts
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </button>
-            <span className="font-bold text-lg sm:text-2xl md:text-[20px] ">
+            <span className="font-bold text-lg sm:text-2xl md:text-[20px]">
               |
             </span>
             <button
-              onClick={handleAccessibilityClick}
-              className="hover:text-gray-300 font-bold text-lg sm:text-2xl md:text-[20px]  cursor-pointer"
+              onClick={handleLinkedInClick}
+              className="group relative font-bold text-lg sm:text-2xl md:text-[20px] cursor-pointer transition-all duration-300 hover:text-[#DBE2E7] hover:scale-105 transform"
             >
-              Accessibility
+              <span className="relative">
+                LinkedIn
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
+              </span>
             </button>
           </div>
 
           {/* Copyright */}
           <p className="font-bold text-center lg:text-left text-base sm:text-lg md:text-xl lg:text-[14px]">
-            © TDG TRANSIT DESIGN GROUP 2025
+            © TDG TRANSIT DESIGN GROUP {new Date().getFullYear()}
           </p>
         </div>
       </div>

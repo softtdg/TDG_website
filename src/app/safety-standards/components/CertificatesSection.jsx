@@ -226,28 +226,34 @@ export const CertificatesSection = () => {
                         </div>
                       )}
                       {row.items.map((item) => (
-                        <button
-                          key={item.src}
-                          type="button"
-                          onClick={() => handleOpen(item)}
-                          className="group cursor-pointer shadow-lg focus:outline-none"
-                        >
-                          <div className="relative flex h-full w-full items-center justify-center overflow-hidden border border-[#000000] bg-white">
-                            <img
-                              src={item.src}
-                              alt={`${title} certification`}
-                              className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
-                            />
-                            <div className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/50 via-black/10 to-transparent px-5 pb-6 opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:from-black/85 group-hover:via-black/60">
-                              <h3 className="translate-y-4 text-base font-semibold uppercase tracking-wide text-white opacity-0 transition-all duration-700 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-                                {item.title}
-                              </h3>
-                              <p className="mt-2 translate-y-6 text-sm text-white/90 opacity-0 transition-all duration-700 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-                                {item.description}
-                              </p>
-                            </div>
+                        // <button
+                        //                         key={item.src}
+                        //                         type="button"
+                        //                         onClick={() => handleOpen(item)}
+                        //                         className="group cursor-pointer shadow-lg focus:outline-none"
+                        //                       >
+                        //                         <div className="relative flex h-full w-full items-center justify-center overflow-hidden border border-[#000000] bg-white">
+                        //                           <img
+                        //                             src={item.src}
+                        //                             alt={`${title} certification`}
+                        //                             className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
+                        //                           />
+                        //                           <div className="pointer-events-none absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/50 via-black/10 to-transparent px-5 pb-6 opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:from-black/85 group-hover:via-black/60">
+                        //                             <h3 className="translate-y-4 text-base font-semibold uppercase tracking-wide text-white opacity-0 transition-all duration-700 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                        //                               {item.title}
+                        //                             </h3>
+                        //                             <p className="mt-2 translate-y-6 text-sm text-white/90 opacity-0 transition-all duration-700 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                        //                               {item.description}
+                        //                             </p>
+                        //                           </div>
+                        //                         </div>
+                        //                       </button>
+
+                        <div key={item.src} className="group shadow-lg">
+                          <div className="relative flex h-[300px] w-full items-center justify-center overflow-hidden border border-[#000000] bg-gray-300">
+                            {/* Placeholder for certificate image */}
                           </div>
-                        </button>
+                        </div>
                       ))}
                       {totalColumns < 4 &&
                         Array.from({ length: 4 - totalColumns }).map(
@@ -293,16 +299,27 @@ export const CertificatesSection = () => {
                   zoom > 1 ? (isDragging ? "grabbing" : "grab") : "default",
               }}
             >
-              <img
+              {/* <img
                 src={selectedCertificate.src}
                 alt={selectedCertificate.title}
                 draggable={false}
                 className="h-full w-auto select-none drop-shadow-2xl"
+                 style={{
+                  transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+                  transformOrigin,
+                }}
+              /> */}
+              <div
+                className="h-full w-full bg-gray-300 flex items-center justify-center"
                 style={{
                   transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
                   transformOrigin,
                 }}
-              />
+              >
+                <div className="text-gray-500 text-sm font-medium">
+                  {/* Placeholder for certificate image */}
+                </div>
+              </div>
             </div>
             <div className="absolute bottom-6 right-6 flex items-center gap-2 rounded-full bg-black/60 p-2 text-white">
               <button

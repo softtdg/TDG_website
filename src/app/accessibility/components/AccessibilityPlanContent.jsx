@@ -4,12 +4,18 @@ export const AccessibilityPlanContent = () => {
   return (
     <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-16 lg:py-[100px] bg-white">
       {/* Download Header */}
-      <div className="flex flex-row  items-center gap-3 mb-8">
+      <a
+        href="https://tdgdesign.com/wp-content/uploads/2021/10/Multi-Year-Accessibility-Plan.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex flex-row items-center gap-3 mb-8 focus:outline-none group"
+        aria-label="Download Multi Year Accessibility Plan"
+      >
         <img src="/icons/download.svg" alt="" className="w-10 sm:w-[46px]" />
-        <h2 className="text-2xl sm:text-[30px] font-bold text-[#000000] sm:ms-4 mt-4 sm:mt-0">
+        <h2 className="text-2xl sm:text-[30px] font-bold text-[#000000] sm:ms-4 mt-4 sm:mt-0 group-hover:underline">
           DOWNLOAD OUR MULTI YEAR ACCESSIBILITY PLAN
         </h2>
-      </div>
+      </a>
 
       {/* Introduction */}
       <div className="mb-10 md:mb-12">

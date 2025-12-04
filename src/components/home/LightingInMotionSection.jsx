@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export const LightingInMotionSection = () => {
   const [expandedSection, setExpandedSection] = useState("railways");
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-
+  const router = useRouter();
   const sections = {
     railways: {
       title: "RAILWAYS",
@@ -207,7 +208,7 @@ export const LightingInMotionSection = () => {
                 >
                   <div className="pb-4">
                     <motion.p
-                      className="text-[black] leading-relaxed text-sm lg:text-[20px]"
+                      className="text-[black] leading-relaxed text-sm lg:text-[20px] mb-6"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{
                         opacity: expandedSection === key ? 1 : 0,
@@ -217,6 +218,138 @@ export const LightingInMotionSection = () => {
                     >
                       {section.description}
                     </motion.p>
+
+                    {/* Links for Railways section */}
+                    {key === "railways" && expandedSection === key && (
+                      <motion.div
+                        className="flex flex-col gap-4 mt-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: expandedSection === key ? 1 : 0,
+                          y: expandedSection === key ? 0 : 20,
+                        }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
+                      >
+                        <motion.button
+                          onClick={() => {
+                            router.push("/media");
+                          }}
+                          className="group relative inline-flex items-center bg-[#E3F2FD] hover:bg-[#BBDEFB]  border-[#0356C2] px-5 py-3 rounded-lg text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit shadow-sm hover:shadow-md"
+                        >
+                          <span>
+                            View TDG's latest railway projects{" "}
+                            <span className="font-bold underline">
+                              click here
+                            </span>
+                          </span>
+                          <motion.svg
+                            className="ml-2 w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            whileHover={{ x: 3 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
+                          </motion.svg>
+                        </motion.button>
+
+                        <motion.button
+                          onClick={() => {
+                            router.push("/products");
+                          }}
+                          className="group relative inline-flex items-center bg-[#E3F2FD] hover:bg-[#BBDEFB]  border-[#0356C2] px-5 py-3 rounded-lg text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit shadow-sm hover:shadow-md"
+                        >
+                          <span>
+                            View TDG's product offering{" "}
+                            <span className="font-bold underline">
+                              click here
+                            </span>
+                          </span>
+                          <motion.svg
+                            className="ml-2 w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            whileHover={{ x: 3 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
+                          </motion.svg>
+                        </motion.button>
+                      </motion.div>
+                    )}
+
+                    {/* Content for Support section */}
+                    {key === "support" && expandedSection === key && (
+                      <motion.div
+                        className="flex flex-col gap-4 mt-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: expandedSection === key ? 1 : 0,
+                          y: expandedSection === key ? 0 : 20,
+                        }}
+                        transition={{ duration: 0.3, delay: 0.2 }}
+                      >
+                        <motion.p
+                          className="text-[black] text-sm lg:text-[18px] font-medium"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{
+                            opacity: expandedSection === key ? 1 : 0,
+                            y: expandedSection === key ? 0 : 20,
+                          }}
+                          transition={{ duration: 0.3, delay: 0.25 }}
+                        >
+                          For immediate assistance please call{" "}
+                          <span className="font-semibold text-[#0356C2]">
+                            +1 905-608-9539
+                          </span>
+                        </motion.p>
+
+                        <motion.a
+                          href="#"
+                          className="group relative inline-flex items-center bg-[#E3F2FD] hover:bg-[#BBDEFB]  border-[#0356C2] px-5 py-3 rounded-lg text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit shadow-sm hover:shadow-md"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{
+                            opacity: expandedSection === key ? 1 : 0,
+                            y: expandedSection === key ? 0 : 20,
+                          }}
+                          transition={{ duration: 0.3, delay: 0.3 }}
+                        >
+                          <span>
+                            Find TDG support in your region{" "}
+                            <span className="font-bold underline">
+                              click here
+                            </span>
+                          </span>
+                          <motion.svg
+                            className="ml-2 w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            whileHover={{ x: 3 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
+                          </motion.svg>
+                        </motion.a>
+                      </motion.div>
+                    )}
                   </div>
                 </motion.div>
 
