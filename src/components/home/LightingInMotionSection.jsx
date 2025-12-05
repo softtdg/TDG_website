@@ -234,7 +234,7 @@ export const LightingInMotionSection = () => {
                           onClick={() => {
                             router.push("/media");
                           }}
-                          className="group relative inline-flex items-center bg-[#E3F2FD] hover:bg-[#BBDEFB]  border-[#0356C2] px-5 py-3 rounded-lg text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit shadow-sm hover:shadow-md"
+                          className="group relative inline-flex items-center text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit"
                         >
                           <span>
                             View TDG's latest railway projects{" "}
@@ -263,7 +263,7 @@ export const LightingInMotionSection = () => {
                           onClick={() => {
                             router.push("/products");
                           }}
-                          className="group relative inline-flex items-center bg-[#E3F2FD] hover:bg-[#BBDEFB]  border-[#0356C2] px-5 py-3 rounded-lg text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit shadow-sm hover:shadow-md"
+                          className="group relative inline-flex items-center text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit"
                         >
                           <span>
                             View TDG's product offering{" "}
@@ -316,15 +316,18 @@ export const LightingInMotionSection = () => {
                           </span>
                         </motion.p>
 
-                        <motion.a
+                        <motion.button
                           href="#"
-                          className="group relative inline-flex items-center bg-[#E3F2FD] hover:bg-[#BBDEFB]  border-[#0356C2] px-5 py-3 rounded-lg text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit shadow-sm hover:shadow-md"
+                          className="group relative inline-flex items-center text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit"
                           initial={{ opacity: 0, y: 20 }}
                           animate={{
                             opacity: expandedSection === key ? 1 : 0,
                             y: expandedSection === key ? 0 : 20,
                           }}
                           transition={{ duration: 0.3, delay: 0.3 }}
+                          onClick={() => {
+                            router.push("/contact-tdg");
+                          }}
                         >
                           <span>
                             Find TDG support in your region{" "}
@@ -347,7 +350,7 @@ export const LightingInMotionSection = () => {
                               d="M9 5l7 7-7 7"
                             />
                           </motion.svg>
-                        </motion.a>
+                        </motion.button>
                       </motion.div>
                     )}
                   </div>

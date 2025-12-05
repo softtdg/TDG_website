@@ -113,11 +113,11 @@ const mediaSections = [
 ];
 
 export const MediaContent = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [openIndices, setOpenIndices] = useState([]);
 
   return (
     <section className="bg-white">
-      <div className="mx-auto w-full max-w-[1500px] px-4 py-16 md:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[1400px] px-4 py-16 md:px-8 lg:px-10">
         {/* Introduction Text */}
         <div className="mb-12 md:mb-20">
           <p className="mt-6 md:mt-8 text-[21px] leading-relaxed text-[#111827]">
@@ -137,8 +137,8 @@ export const MediaContent = () => {
               key={section.title}
               section={section}
               index={index}
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
+              openIndices={openIndices}
+              setOpenIndices={setOpenIndices}
             />
           ))}
         </div>
@@ -150,10 +150,10 @@ export const MediaContent = () => {
 const MediaAccordionItem = ({
   section,
   index,
-  activeIndex,
-  setActiveIndex,
+  openIndices,
+  setOpenIndices,
 }) => {
-  const isActive = activeIndex === index;
+  const isActive = openIndices.includes(index);
 
   const gradientSummaryStyles = useMemo(
     () =>
@@ -166,7 +166,15 @@ const MediaAccordionItem = ({
   return (
     <Accordion
       expanded={isActive}
-      onChange={() => setActiveIndex(isActive ? -1 : index)}
+      onChange={() => {
+        setOpenIndices((prev) => {
+          if (isActive) {
+            return prev.filter((i) => i !== index);
+          } else {
+            return [...prev, index];
+          }
+        });
+      }}
       disableGutters
       square={false}
       elevation={0}
@@ -190,20 +198,20 @@ const MediaAccordionItem = ({
         </h2>
       </AccordionSummary>
       <AccordionDetails className="bg-[#F5F5F5] !px-6 !pb-6 !pt-6 text-black transition-[padding] duration-500 ease-in-out">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+        <div className="flex flex-col gap-6 mt-4">
           {section.items.map((item, itemIndex) => (
             <div
               key={itemIndex}
-              className="bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              className="bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row"
             >
-              <div className="relative w-full h-[300px] overflow-hidden">
+              <div className="relative w-[400px] h-[300px] overflow-hidden flex-shrink-0">
                 <img
                   src={item.image}
                   alt={item.title}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="p-6">
+              <div className="p-6 flex-1">
                 <h3 className="text-xl font-bold text-[#111827] mb-3">
                   {item.title}
                 </h3>
