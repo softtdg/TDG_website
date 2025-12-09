@@ -117,10 +117,10 @@ export const MediaContent = () => {
 
   return (
     <section className="bg-white">
-      <div className="mx-auto w-full max-w-[1400px] px-4 py-16 md:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-7xl px-3 py-10 sm:py-14 md:py-16 lg:py-20 md:px-6 lg:px-10">
         {/* Introduction Text */}
-        <div className="mb-12 md:mb-20">
-          <p className="mt-6 md:mt-8 text-[21px] leading-relaxed text-[#111827]">
+        <div className="mb-10 md:mb-16 lg:mb-20">
+          <p className="mt-0 md:mt-8 text-[17px] sm:text-lg md:text-[20px] lg:text-[21px] leading-relaxed">
             Stay informed with the latest articles, industry references, news
             updates, and upcoming events related to advanced lighting and
             interior solutions for trains, buses, commercial buildings, and
@@ -185,19 +185,20 @@ const MediaAccordionItem = ({
         overflow: "hidden",
         my: 3,
         backgroundColor: "#F5F5F5",
+        p: 0,
       }}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon className="text-black" />}
         className={`${
           isActive ? "!border-l-4 !border-[#0E54C4]" : ""
-        } flex w-full items-center justify-between px-6 py-3 text-left text-base font-semibold uppercase tracking-wide transition-colors ${gradientSummaryStyles}`}
+        } flex w-full items-center justify-between !px-4 !py-3 sm:!px-6 text-left text-[17px] font-semibold uppercase tracking-wide transition-colors ${gradientSummaryStyles}`}
       >
         <h2 className="text-[18px] leading-relaxed font-bold">
           {section.title}
         </h2>
       </AccordionSummary>
-      <AccordionDetails className="bg-[#F5F5F5] !px-6 !pb-6 !pt-6 text-black transition-[padding] duration-500 ease-in-out">
+      <AccordionDetails className="bg-[#F5F5F5] !px-2 sm:!px-6 !pb-6 !pt-4 sm:!pt-6 text-black transition-[padding] duration-500 ease-in-out">
         <div className="flex flex-col gap-6 mt-4">
           {section.items.map((item, itemIndex) => (
             <div
@@ -211,7 +212,7 @@ const MediaAccordionItem = ({
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
               </div>
-              <div className="p-6 flex-1">
+              <div className="p-4 sm:p-6 flex-1">
                 <h3 className="text-xl font-bold text-[#111827] mb-3">
                   {item.title}
                 </h3>

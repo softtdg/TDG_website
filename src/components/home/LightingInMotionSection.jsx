@@ -1,13 +1,25 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 export const LightingInMotionSection = () => {
   const [expandedSection, setExpandedSection] = useState("railways");
+  const [isDesktop, setIsDesktop] = useState(false);
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const router = useRouter();
+
+  // Detect screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
   const sections = {
     railways: {
       title: "RAILWAYS",
@@ -129,9 +141,9 @@ export const LightingInMotionSection = () => {
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Left - Dynamic Image */}
+          {/* Desktop - Left Dynamic Image (hidden on mobile) */}
           <motion.div
-            className="flex-[1.1] flex relative order-2 lg:order-1"
+            className="hidden lg:flex flex-[1.1] relative"
             variants={itemVariants}
           >
             <AnimatePresence mode="wait">
@@ -158,215 +170,256 @@ export const LightingInMotionSection = () => {
             </AnimatePresence>
           </motion.div>
 
-          {/* Right - Collapsible Content */}
+          {/* Content Section */}
           <motion.div
-            className="flex-1 flex flex-col justify-center sm:px-[30px] order-1 lg:order-2"
+            className="flex-1 flex flex-col justify-center sm:px-[30px]"
             variants={itemVariants}
           >
-            {/* Debug info */}
-            {/* <div className="mb-4 p-2 bg-gray-100 text-xs">
-              Current expandedSection: {expandedSection || "null"}
-            </div> */}
-            {Object.entries(sections).map(([key, section], index) => (
-              <motion.div
-                key={key}
-                className="mb-6"
-                variants={itemVariants}
-                whileHover={{ x: 10 }}
-                transition={{ duration: 0.2 }}
-              >
-                {/* Section Header */}
-                <motion.button
-                  onClick={() => {
-                    const newExpandedSection =
-                      expandedSection === key ? null : key;
-                    setExpandedSection(newExpandedSection || "railways");
-                  }}
-                  className="w-full text-left flex items-center justify-between py-4 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <motion.h3
-                    className={`text-2xl lg:text-[70px] font-bold uppercase transition-colors duration-300 ${
-                      expandedSection === key ? "text-[#0356C2]" : "text-black"
-                    }`}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {section.title}
-                  </motion.h3>
-                </motion.button>
+            {Object.entries(sections).map(([key, section], index) => {
+              // On mobile (< lg), always expanded; on desktop (>= lg), use collapsible behavior
+              const isExpanded = !isDesktop || expandedSection === key;
 
-                {/* Collapsible Content */}
+              return (
                 <motion.div
-                  className="overflow-hidden"
-                  initial={false}
-                  animate={{
-                    height: expandedSection === key ? "auto" : 0,
-                    opacity: expandedSection === key ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  key={key}
+                  className="mb-6"
+                  variants={itemVariants}
+                  whileHover={{ x: 10 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <div className="pb-4">
-                    <motion.p
-                      className="text-[black] leading-relaxed text-sm lg:text-[20px] mb-6"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{
-                        opacity: expandedSection === key ? 1 : 0,
-                        y: expandedSection === key ? 0 : 20,
-                      }}
-                      transition={{ duration: 0.3, delay: 0.1 }}
+                  {/* Section Header - Title */}
+                  <motion.button
+                    onClick={() => {
+                      // Only allow collapsing/expanding on desktop
+                      if (isDesktop) {
+                        const newExpandedSection =
+                          expandedSection === key ? null : key;
+                        setExpandedSection(newExpandedSection || "railways");
+                      }
+                    }}
+                    className={`w-full text-left flex items-center justify-between py-4 transition-colors duration-200 ${
+                      isDesktop
+                        ? "hover:bg-gray-50 cursor-pointer"
+                        : "cursor-default"
+                    }`}
+                    whileHover={isDesktop ? { scale: 1.02 } : {}}
+                    whileTap={isDesktop ? { scale: 0.98 } : {}}
+                  >
+                    <motion.h3
+                      className={`text-2xl lg:text-[70px] font-bold uppercase transition-colors duration-300 ${
+                        isDesktop && expandedSection === key
+                          ? "text-[#0356C2]"
+                          : "text-black"
+                      }`}
+                      transition={{ duration: 0.2 }}
                     >
-                      {section.description}
-                    </motion.p>
+                      {section.title}
+                    </motion.h3>
+                  </motion.button>
 
-                    {/* Links for Railways section */}
-                    {key === "railways" && expandedSection === key && (
-                      <motion.div
-                        className="flex flex-col gap-4 mt-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{
-                          opacity: expandedSection === key ? 1 : 0,
-                          y: expandedSection === key ? 0 : 20,
-                        }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                      >
-                        <motion.button
-                          onClick={() => {
-                            router.push("/media");
-                          }}
-                          className="group relative inline-flex items-center text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit"
-                        >
-                          <span>
-                            View TDG's latest railway projects{" "}
-                            <span className="font-bold underline">
-                              click here
-                            </span>
-                          </span>
-                          <motion.svg
-                            className="ml-2 w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            whileHover={{ x: 3 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </motion.svg>
-                        </motion.button>
-
-                        <motion.button
-                          onClick={() => {
-                            router.push("/products");
-                          }}
-                          className="group relative inline-flex items-center text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit"
-                        >
-                          <span>
-                            View TDG's product offering{" "}
-                            <span className="font-bold underline">
-                              click here
-                            </span>
-                          </span>
-                          <motion.svg
-                            className="ml-2 w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            whileHover={{ x: 3 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </motion.svg>
-                        </motion.button>
-                      </motion.div>
-                    )}
-
-                    {/* Content for Support section */}
-                    {key === "support" && expandedSection === key && (
-                      <motion.div
-                        className="flex flex-col gap-4 mt-6"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{
-                          opacity: expandedSection === key ? 1 : 0,
-                          y: expandedSection === key ? 0 : 20,
-                        }}
-                        transition={{ duration: 0.3, delay: 0.2 }}
-                      >
-                        <motion.p
-                          className="text-[black] text-sm lg:text-[18px] font-medium"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{
-                            opacity: expandedSection === key ? 1 : 0,
-                            y: expandedSection === key ? 0 : 20,
-                          }}
-                          transition={{ duration: 0.3, delay: 0.25 }}
-                        >
-                          For immediate assistance please call{" "}
-                          <span className="font-semibold text-[#0356C2]">
-                            +1 905-608-9539
-                          </span>
-                        </motion.p>
-
-                        <motion.button
-                          href="#"
-                          className="group relative inline-flex items-center text-sm lg:text-[16px] font-semibold text-[#0356C2] transition-all duration-300 w-fit"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{
-                            opacity: expandedSection === key ? 1 : 0,
-                            y: expandedSection === key ? 0 : 20,
-                          }}
-                          transition={{ duration: 0.3, delay: 0.3 }}
-                          onClick={() => {
-                            router.push("/contact-tdg");
-                          }}
-                        >
-                          <span>
-                            Find TDG support in your region{" "}
-                            <span className="font-bold underline">
-                              click here
-                            </span>
-                          </span>
-                          <motion.svg
-                            className="ml-2 w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            whileHover={{ x: 3 }}
-                            transition={{ duration: 0.2 }}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </motion.svg>
-                        </motion.button>
-                      </motion.div>
-                    )}
-                  </div>
-                </motion.div>
-
-                {/* Separator Line */}
-                {index < Object.keys(sections).length - 1 && (
+                  {/* Content - Always visible on mobile, collapsible on desktop */}
                   <motion.div
-                    className="border-t border-[black] my-4 lg:my-8"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.5, delay: 0.3 }}
-                  />
-                )}
-              </motion.div>
-            ))}
+                    className="overflow-hidden"
+                    initial={false}
+                    animate={{
+                      height: isExpanded ? "auto" : 0,
+                      opacity: isExpanded ? 1 : 0,
+                    }}
+                    transition={{
+                      duration: isDesktop ? 0.5 : 0,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <div className="pb-4">
+                      {/* Mobile Image - Show on mobile, hide on desktop */}
+                      <motion.div
+                        className="mb-6 lg:hidden"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: isExpanded ? 1 : 0,
+                          y: isExpanded ? 0 : 20,
+                        }}
+                        transition={{ duration: 0.3, delay: 0.05 }}
+                      >
+                        <img
+                          src={section.image}
+                          alt={
+                            key === "defense"
+                              ? "Defense lighting solutions"
+                              : key === "support"
+                              ? "Support services"
+                              : "Modern train interior with LED lighting"
+                          }
+                          className="w-full h-[250px] sm:h-[300px] object-cover rounded-lg"
+                        />
+                      </motion.div>
+
+                      {/* Description */}
+                      <motion.p
+                        className="text-[black] leading-relaxed text-sm lg:text-[20px] mb-6"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: isExpanded ? 1 : 0,
+                          y: isExpanded ? 0 : 20,
+                        }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                      >
+                        {section.description}
+                      </motion.p>
+
+                      {/* Links for Railways section */}
+                      {key === "railways" && isExpanded && (
+                        <motion.div
+                          className="flex flex-col gap-4 mt-6"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{
+                            opacity: isExpanded ? 1 : 0,
+                            y: isExpanded ? 0 : 20,
+                          }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
+                          {/* <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+                          <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
+                          ENERGY EFFICIENCY
+                        </h3> */}
+                          <motion.button
+                            onClick={() => {
+                              router.push("/media");
+                            }}
+                            className="group relative inline-flex items-center sm:w-[500px] justify-between text-sm lg:text-[16px] py-3 px-4 sm:px-5 font-semibold text-[#0356C2] transition-all duration-300 bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm"
+                          >
+                            <span>
+                              View TDG's latest railway projects{" "}
+                              {/* <span className="font-bold underline">
+                              click here
+                            </span> */}
+                            </span>
+                            <motion.svg
+                              className="ml-2 w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              whileHover={{ x: 3 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </motion.svg>{" "}
+                          </motion.button>
+
+                          <motion.button
+                            onClick={() => {
+                              router.push("/products");
+                            }}
+                            className="group relative inline-flex items-center sm:w-[500px] justify-between text-sm lg:text-[16px] py-3 px-4 sm:px-5 font-semibold text-[#0356C2] transition-all duration-300 bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm"
+                          >
+                            <span className="">
+                              View TDG's product offering{" "}
+                              {/* <span className="font-bold underline">
+                              click here
+                            </span> */}
+                            </span>
+                            <motion.svg
+                              className="ml-2 w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              whileHover={{ x: 3 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </motion.svg>
+                          </motion.button>
+                        </motion.div>
+                      )}
+
+                      {/* Content for Support section */}
+                      {key === "support" && isExpanded && (
+                        <motion.div
+                          className="flex flex-col gap-4 mt-6"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{
+                            opacity: isExpanded ? 1 : 0,
+                            y: isExpanded ? 0 : 20,
+                          }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
+                          <motion.p
+                            className="text-[black] text-sm lg:text-[18px] font-medium"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{
+                              opacity: isExpanded ? 1 : 0,
+                              y: isExpanded ? 0 : 20,
+                            }}
+                            transition={{ duration: 0.3, delay: 0.25 }}
+                          >
+                            For immediate assistance please call{" "}
+                            <span className="font-semibold text-[#0356C2]">
+                              +1 905-608-9539
+                            </span>
+                          </motion.p>
+
+                          <motion.button
+                            href="#"
+                            className="group relative inline-flex items-center sm:w-[500px] justify-between text-sm lg:text-[16px] py-3 px-4 sm:px-5 font-semibold text-[#0356C2] transition-all duration-300 bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{
+                              opacity: isExpanded ? 1 : 0,
+                              y: isExpanded ? 0 : 20,
+                            }}
+                            transition={{ duration: 0.3, delay: 0.3 }}
+                            onClick={() => {
+                              router.push("/contact-tdg");
+                            }}
+                          >
+                            <span>
+                              Find TDG support in your region{" "}
+                              {/* <span className="font-bold underline">
+                                click here
+                              </span> */}
+                            </span>
+                            <motion.svg
+                              className="ml-2 w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              whileHover={{ x: 3 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </motion.svg>
+                          </motion.button>
+                        </motion.div>
+                      )}
+                    </div>
+                  </motion.div>
+
+                  {/* Separator Line */}
+                  {index < Object.keys(sections).length - 1 && (
+                    <motion.div
+                      className="border-t border-[black] my-4 lg:my-8"
+                      initial={{ scaleX: 0 }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 0.5, delay: 0.3 }}
+                    />
+                  )}
+                </motion.div>
+              );
+            })}
           </motion.div>
         </motion.div>
       </div>

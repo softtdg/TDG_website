@@ -7,7 +7,7 @@ import { CertificatesSection } from "./components/CertificatesSection";
 
 const page = () => {
   return (
-    <div>
+    <div className="min-h-screen bg-white">
       <HeroSection />
       <RequirementsSection />
       <StandardsSection />

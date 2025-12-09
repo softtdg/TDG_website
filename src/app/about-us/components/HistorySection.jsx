@@ -105,7 +105,7 @@ export const HistorySection = () => {
       className="w-full bg-white py-10 sm:py-20 px-4 sm:px-6 lg:px-[50px]"
       ref={ref}
     >
-      <div className="text-center pt-[50px] pb-[50px] sm:pb-[150px]">
+      <div className="text-center pt-[20px] lg:pt-[50px] pb-[30px] lg:pb-[150px]">
         {/* Our Product Label */}
         <div className="flex items-center justify-center mb-6">
           <div className="w-16 h-0.5 bg-[#000000]"></div>
@@ -116,7 +116,7 @@ export const HistorySection = () => {
         </div>
 
         {/* Main Title */}
-        <h1 className="text-4xl lg:text-6xl font-bold text-black uppercase leading-[60px] sm:leading-[80px]">
+        <h1 className="text-2xl lg:text-6xl font-bold text-black uppercase leading-[50px] lg:leading-[80px]">
           TDG TRANSIT DESIGN <br /> GROUP HISTORY
         </h1>
       </div>
@@ -172,7 +172,7 @@ export const HistorySection = () => {
 
                     setExpandedSection(newExpandedSection);
                   }}
-                  className="w-full text-left flex items-center justify-between py-4 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
+                  className="w-full text-left flex items-center justify-between py-1 lg:py-4 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

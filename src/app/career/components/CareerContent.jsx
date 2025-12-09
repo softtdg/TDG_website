@@ -166,24 +166,24 @@ const jobOpenings = [
 
 const CareerContent = () => {
   return (
-    <div className="max-w-[1300px] mx-auto px-4 sm:px-6 md:px-8 py-8 md:py-16 lg:py-[100px] bg-white">
-      {/* Download Header */}
-      <div className="flex flex-row  items-center mb-8">
-        <h2 className="text-2xl sm:text-[30px] font-bold text-[#000000]  ">
-          TDG’s Commitment to Student Development
+    <div className="max-w-[1300px] mx-auto px-3 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12 lg:py-16 xl:py-[100px] bg-white">
+      {/* Header */}
+      <div className="mb-6 sm:mb-8 md:mb-10">
+        <h2 className="text-xl sm:text-2xl md:text-[28px] lg:text-[30px] font-bold text-[#000000] leading-tight">
+          TDG's Commitment to Student Development
         </h2>
       </div>
 
       {/* Introduction */}
-      <div className="mb-10 md:mb-12">
-        <p className="mb-4 text-base sm:text-lg md:text-[17px] leading-[33px]">
+      <div className="mb-8 sm:mb-10 md:mb-12">
+        <p className="mb-4 sm:mb-5 text-[17px] leading-6 sm:leading-7 md:leading-8 text-[#1f2937]">
           At TDG, we recognize that the future of our industry depends on the
           knowledge, creativity, and passion of the next generation. We are
           committed to supporting the professional and personal development of
           students by providing opportunities to learn, grow, and gain practical
           experience.
         </p>
-        <p className="mb-4 text-base sm:text-lg md:text-[17px] leading-[33px]">
+        <p className="mb-4 sm:mb-5 text-[17px] leading-6 sm:leading-7 md:leading-8 text-[#1f2937]">
           Through collaboration with educational institutions, internships,
           training initiatives, and mentoring programs, TDG actively invests in
           building pathways for young people to develop their skills and prepare
@@ -192,66 +192,42 @@ const CareerContent = () => {
           to innovation and progress.
         </p>
 
-        <p className="mb-4 text-base sm:text-lg md:text-[17px] leading-[33px]">
+        <p className="mb-4 sm:mb-5 text-[17px] leading-6 sm:leading-7 md:leading-8 text-[#1f2937]">
           We firmly believe that by supporting students today, we are shaping
           the leaders, innovators, and experts of tomorrow. This commitment
-          reflects TDG’s values of responsibility, excellence, and long-term
+          reflects TDG's values of responsibility, excellence, and long-term
           partnership with the communities in which we operate.
         </p>
       </div>
 
       {/* Vacancies */}
-      <div className="mb-12 md:mb-16">
+      <div className="mb-10 sm:mb-12 md:mb-16">
         <section>
-          <h3 className="text-2xl font-bold uppercase text-[#000000]">
+          <h3 className="text-xl sm:text-2xl md:text-2xl font-bold uppercase text-[#000000] mb-4 sm:mb-6">
             Current Opportunities
           </h3>
-          <JobAccordionList className="mt-6" />
+          <JobAccordionList className="mt-4 sm:mt-6" />
         </section>
       </div>
 
       {/* Training Section */}
-      <div className="mb-10 md:mb-12">
-        {/* <ul className="mb-4 text-base sm:text-lg md:text-[20px] list-disc ml-6 md:ml-8 space-y-1">
-          <li className="mb-4">
-            Students interested in internship and COOP opportunities are
-            encouraged to <br /> send their resumes to{" "}
+      <div className="mb-8 sm:mb-10 md:mb-12">
+        <ul className="space-y-4 sm:space-y-5 text-[17px] md:text-[17px] leading-6 sm:leading-7 list-disc ml-5 sm:ml-6 md:ml-8">
+          <li className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <span className="text-[#1f2937]">Students / internship :</span>
             <a
               href="mailto:careers@tdgdesign.com?subject=Internship%20and%20COOP%20Opportunities"
-              className="bg-[#DBE2E7] px-5 py-2 rounded-md font-semibold text-[18px] sm:text-[20px] inline-block hover:bg-gray-300 transition-colors duration-200 "
+              className="bg-[#DBE2E7] px-4 sm:px-5 py-2.5 sm:py-2.5 rounded-md font-semibold text-[17px] md:text-[18px] hover:bg-gray-300 active:bg-gray-400 transition-colors duration-200 min-h-[44px] flex items-center justify-center w-fit"
             >
               Send Email
             </a>
           </li>
 
-          <li className="mb-4">
-            this is the email we created where people : careers@tdgdesign.com{" "}
-            <br /> send their resumes to{" "}
-            <a
-              href="mailto:careers@tdgdesign.com?subject=Internship%20and%20COOP%20Opportunities"
-              className="bg-[#DBE2E7] px-5 py-2 rounded-md font-semibold text-[18px] sm:text-[20px] inline-block hover:bg-gray-300 transition-colors duration-200 "
-            >
-              Send Email
-            </a>
-          </li>
-        </ul> */}
-
-        <ul className="mb-4 text-base sm:text-lg md:text-[17px] list-disc ml-6 md:ml-8 space-y-1">
-          <li className="mb-5">
-            Students / internship :
-            <a
-              href="mailto:careers@tdgdesign.com?subject=Internship%20and%20COOP%20Opportunities"
-              className="bg-[#DBE2E7] ml-5 px-5 py-2 rounded-md font-semibold text-[18px] sm:text-[20px] inline-block hover:bg-gray-300 transition-colors duration-200 "
-            >
-              Send Email
-            </a>
-          </li>
-
-          <li className="mb-4">
-            Careers :
+          <li className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+            <span className="text-[#1f2937]">Careers :</span>
             <a
               href="mailto:careers@tdgdesign.com?subject=Career%20Opportunities"
-              className="bg-[#DBE2E7] ml-5 px-5 py-2 rounded-md font-semibold text-[18px] sm:text-[20px] inline-block hover:bg-gray-300 transition-colors duration-200 "
+              className="bg-[#DBE2E7] px-4 sm:px-5 py-2.5 sm:py-2.5 rounded-md font-semibold text-[17px] md:text-[18px] hover:bg-gray-300 active:bg-gray-400 transition-colors duration-200 min-h-[44px] flex items-center justify-center w-fit"
             >
               Send Email
             </a>
@@ -265,10 +241,10 @@ const CareerContent = () => {
 export default CareerContent;
 
 const JobAccordionList = ({ className = "" }) => {
-  const [activeIndex, setActiveIndex] = useState(5);
+  const [activeIndex, setActiveIndex] = useState(-1);
 
   return (
-    <div className={`space-y-4 ${className}`}>
+    <div className={`space-y-3 sm:space-y-4 md:space-y-5 ${className}`}>
       {jobOpenings.map((job, index) => (
         <JobAccordionItem
           key={job.title}
@@ -338,48 +314,71 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
       square={false}
       elevation={0}
       sx={{
-        borderRadius: "0px",
+        borderRadius: "0px !important",
         "&::before": { display: "none" },
         overflow: "hidden",
         backgroundColor: "transparent",
-        my: 5,
+        my: { xs: 0.5, sm: 1 },
+        boxShadow: isOpen
+          ? "0 2px 8px rgba(0,0,0,0.1)"
+          : "0 1px 3px rgba(0,0,0,0.05)",
+        transition: "box-shadow 0.3s ease",
+        marginBottom: { xs: "12px", sm: "16px" },
       }}
     >
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon className="text-black" />}
-        className={`${
-          isOpen ? "!border-l-4 !border-[#0E54C4]" : "border-b bg-[#F5F5F5]"
-        } flex w-full flex-col gap-3 px-4 py-4 text-left transition-colors sm:flex-row sm:items-center sm:gap-6 ${gradientSummaryStyles}`}
-      >
-        <div className="flex items-center gap-3">
-          <img
-            src="/icons/logo.svg"
-            alt="TDG logo"
-            className="h-12 w-12 flex-shrink-0 object-contain"
+        expandIcon={
+          <ExpandMoreIcon
+            className="text-black flex-shrink-0"
+            sx={{ fontSize: { xs: 20, sm: 24, md: 28 } }}
           />
-          <div>
-            <h4 className="text-lg font-semibold text-[#000000]">
-              {job.title}
-            </h4>
-            {/* <p className="text-sm font-semibold text-[#0F172A]">
-              {job.company}
-            </p>
-            <p className="text-sm text-[#475569]">{job.location}</p> */}
+        }
+        className={`${
+          isOpen
+            ? "!border-l-4 !border-[#0E54C4]"
+            : "border-b border-gray-200 bg-[#F5F5F5]"
+        } !flex w-full !px-1 sm:!px-4 md:!px-5 !py-3 sm:!py-4 text-left transition-colors ${gradientSummaryStyles} min-h-[80px] sm:min-h-[85px]`}
+        sx={{
+          "&:hover": {
+            backgroundColor: isOpen ? undefined : "#E6F2FF",
+          },
+          "& .MuiAccordionSummary-content": {
+            margin: 0,
+            display: "flex",
+            flexDirection: { xs: "row", sm: "row" },
+            alignItems: { xs: "flex-start", sm: "center" },
+            gap: { xs: "8px", sm: "12px", md: "16px" },
+            width: "100%",
+            "&.Mui-expanded": {
+              margin: 0,
+            },
+          },
+        }}
+      >
+        {/* Logo */}
+        <img
+          src="/icons/logo.svg"
+          alt="TDG logo"
+          className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 max-sm:hidden flex-shrink-0 object-contain"
+        />
+
+        {/* Title and Status Container */}
+        <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 w-full sm:w-auto">
+          {/* Job Title */}
+          <h4 className="text-[17px] md:text-lg lg:text-xl font-semibold text-[#000000] leading-snug sm:leading-tight break-words flex-1">
+            {job.title}
+          </h4>
+
+          {/* Status Badge */}
+          <div className="flex items-center text-xs sm:text-sm font-semibold text-[#0E54C4] flex-shrink-0">
+            <BadgeCheck className="mr-1.5 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
+            <span className="whitespace-nowrap">{job.status}</span>
           </div>
-        </div>
-        <div className="flex flex-1 flex-col items-start justify-center gap-2 text-sm font-semibold text-[#0E54C4] sm:items-end">
-          <div className="flex items-center text-sm font-semibold text-[#0E54C4]">
-            <BadgeCheck className="mr-2 h-4 w-4" />
-            {job.status}
-          </div>
-          {/* <span className="text-xs font-semibold uppercase text-[#1BA301]">
-            {job.posted}
-          </span> */}
         </div>
       </AccordionSummary>
-      <AccordionDetails className="bg-[#F5F5F5] px-4 pb-6 pt-2 text-[#0F172A]">
+      <AccordionDetails className="bg-[#F5F5F5] !px-2 sm:!px-4 md:!px-5 !pb-4 sm:!pb-6 !pt-3 sm:!pt-4 text-[#0F172A]">
         {hasStructuredSections ? (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6">
             {structuredSections.map((section) => (
               <DetailSection key={section.title} section={section} />
             ))}
@@ -387,14 +386,16 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
         ) : (
           <>
             {job.summary && (
-              <p className="mb-4 text-sm leading-relaxed">{job.summary}</p>
+              <p className="mb-4 text-[16px] leading-6 sm:leading-7 text-[#1f2937]">
+                {job.summary}
+              </p>
             )}
             {job.responsibilities && job.responsibilities.length > 0 && (
               <>
-                <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-[#0E54C4]">
+                <h5 className="mb-2 sm:mb-3 text-xs sm:text-sm font-bold uppercase tracking-wide text-[#0E54C4]">
                   Key Responsibilities
                 </h5>
-                <ul className="list-disc pl-5 text-sm leading-relaxed text-[#1f2937]">
+                <ul className="list-disc pl-5 sm:pl-6 text-[16px] leading-6 sm:leading-7 text-[#1f2937] space-y-1 sm:space-y-2">
                   {job.responsibilities.map((item) => (
                     <li key={item} className="mb-1">
                       {item}
@@ -405,18 +406,18 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
             )}
           </>
         )}
-        <div className="mt-5 flex flex-wrap items-center gap-3">
+        <div className="mt-4 sm:mt-5 md:mt-6 flex flex-wrap items-center gap-3">
           {job.applyUrl ? (
             <a
               href={job.applyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg bg-[#0A66C2] px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-[#084c93]"
+              className="bg-[#0A66C2] rounded-md px-4 sm:px-5 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold uppercase tracking-wide text-white transition hover:bg-[#084c93] active:bg-[#063d7a] min-h-[44px] flex items-center justify-center"
             >
-              Apply with LinkedIn
+              Apply through LinkedIn
             </a>
           ) : (
-            <p className="text-xs text-[#475569]">
+            <p className="text-xs sm:text-sm text-[#475569] leading-5">
               To apply, email careers@tdgdesign.com and reference the job title.
             </p>
           )}
@@ -428,20 +429,20 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
 
 const DetailSection = ({ section: { title, paragraphs, list } }) => (
   <div>
-    <h5 className="mb-2 text-sm font-bold uppercase tracking-wide text-[#0E54C4]">
+    <h5 className="mb-2 sm:mb-3 text-xs sm:text-sm font-bold uppercase tracking-wide text-[#0E54C4]">
       {title}
     </h5>
     {paragraphs &&
       paragraphs.map((paragraph) => (
         <p
           key={paragraph}
-          className="mb-3 text-sm leading-relaxed text-[#1f2937]"
+          className="mb-3 sm:mb-4 text-[16px] leading-6 sm:leading-7 text-[#1f2937]"
         >
           {paragraph}
         </p>
       ))}
     {list && (
-      <ul className="list-disc pl-5 text-sm leading-relaxed text-[#1f2937]">
+      <ul className="list-disc pl-5 sm:pl-6 text-[16px] leading-6 sm:leading-7 text-[#1f2937] space-y-1.5 sm:space-y-2">
         {list.map((item) => (
           <li key={item} className="mb-1">
             {item}

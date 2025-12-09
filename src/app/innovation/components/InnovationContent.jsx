@@ -78,9 +78,9 @@ export const InnovationContent = () => {
 
   return (
     <section className="bg-white">
-      <div className="mx-auto w-full max-w-7xl px-4 py-16 md:px-8 lg:px-10">
-        <div className="mb-12 md:mb-20">
-          <p className="mt-6 md:mt-8 text-[21px] leading-relaxed">
+      <div className="mx-auto w-full max-w-7xl px-3 py-10 sm:py-14 md:py-16 lg:py-20 md:px-6 lg:px-10">
+        <div className="mb-10 md:mb-16 lg:mb-20">
+          <p className="mt-0 md:mt-8 text-[17px] sm:text-lg md:text-[20px] lg:text-[21px] leading-relaxed">
             Transit Design Group (TDG) provides customized, innovative interior
             and exterior lighting solutions for the global rail industry, with
             LED drivers in service since 1999 and complete LED lighting systems
@@ -97,7 +97,7 @@ export const InnovationContent = () => {
             in lighting.
           </p>
         </div>
-        <div className="overflow-hidden">
+        <div className="overflow-visible">
           {accordionItems.map((item, index) => (
             <AccordionItem
               key={item.title}
@@ -138,45 +138,50 @@ const AccordionItem = ({ item, index, activeIndex, setActiveIndex }) => {
         overflow: "hidden",
         my: 3,
         backgroundColor: "#F5F5F5",
+        p: 0,
       }}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon className="text-black" />}
         className={`${
           isActive ? "!border-l-4 !border-[#0E54C4]" : ""
-        } flex w-full items-center justify-between px-6 py-3 text-left text-base font-semibold uppercase tracking-wide transition-colors ${gradientSummaryStyles}`}
+        } flex w-full items-center justify-between !px-4 !py-3 sm:!px-6 text-left text-[17px] font-semibold uppercase tracking-wide transition-colors ${gradientSummaryStyles}`}
       >
-        <h2 className="text-[18px] leading-relaxed font-bold">{item.title}</h2>
+        <h2 className="text-[17px] sm:text-[18px] leading-relaxed font-bold">
+          {item.title}
+        </h2>
       </AccordionSummary>
-      <AccordionDetails className="bg-[#F5F5F5] !px-6 !pb-6 !pt-6 text-black transition-[padding] duration-500 ease-in-out">
+      <AccordionDetails className="bg-[#F5F5F5] !px-2 sm:!px-6 !pb-6 !pt-4 sm:!pt-6 text-black transition-[padding] duration-500 ease-in-out">
         {item.video ? (
-          <div className="flex flex-col items-center gap-6 md:flex-row">
-            <div className="flex w-full flex-1 items-center justify-center rounded-lg">
+          <div className="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-stretch">
+            <div className="flex w-full md:w-[300px] md:min-w-[220px] md:max-w-[350px] justify-center items-center flex-shrink-0 mb-4 md:mb-0">
               <video
                 src={item.video}
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="h-full w-full object-cover max-h-[317px]"
+                className="w-full h-[180px] sm:h-[240px] md:h-[260px] lg:h-[317px] object-cover"
+                style={{ minWidth: "180px", maxWidth: "100%" }}
               />
             </div>
-            <div className="flex flex-1 items-center">
+            <div className="flex-1 flex items-center">
               <p className="text-[17px] leading-relaxed !text-[#000000]">
                 {item.description}
               </p>
             </div>
           </div>
         ) : item.image ? (
-          <div className="flex flex-col items-center gap-6 md:flex-row">
-            <div className="flex w-full items-center justify-center rounded-lg flex-1">
+          <div className="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-stretch">
+            <div className="flex w-full md:w-[300px] md:min-w-[220px] md:max-w-[350px] justify-center items-center flex-shrink-0 mb-4 md:mb-0">
               <img
                 src={item.image}
                 alt={item.title}
-                className="h-full w-full object-cover max-h-[317px]"
+                className="w-full h-[180px] sm:h-[240px] md:h-[260px] lg:h-[317px] object-cover"
+                style={{ minWidth: "180px", maxWidth: "100%" }}
               />
             </div>
-            <div className="flex flex-1 items-center">
+            <div className="flex-1 flex items-center">
               <p className="text-[17px] leading-relaxed !text-[#000000]">
                 {item.description}
               </p>

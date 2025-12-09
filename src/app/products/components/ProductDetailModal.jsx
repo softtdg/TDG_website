@@ -9,33 +9,7 @@ import {
   defaultProductSpecs,
   productSpecs,
 } from "../consant/productsConstants";
-
-// 3D Model Component
-function Model3D({ url }) {
-  const { scene } = useGLTF(url);
-
-  // Calculate bounding box to center and scale the model
-  useEffect(() => {
-    if (!scene) return;
-
-    // Calculate bounding box
-    const box = new THREE.Box3().setFromObject(scene);
-    const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
-
-    // Center the model
-    scene.position.sub(center);
-
-    // Scale to fit (adjust scale factor as needed)
-    const maxDim = Math.max(size.x, size.y, size.z);
-    if (maxDim > 0) {
-      const scale = 2 / maxDim; // Adjust this value to control model size
-      scene.scale.multiplyScalar(scale);
-    }
-  }, [scene]);
-
-  return <primitive object={scene} />;
-}
+import { Model3D } from "../page";
 
 export const ProductDetailModal = ({ product, onClose }) => {
   useEffect(() => {
@@ -73,14 +47,14 @@ export const ProductDetailModal = ({ product, onClose }) => {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/45 px-4 py-6 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/45 px-0 sm:px-4 py-0 sm:py-6 backdrop-blur-sm"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
       <motion.div
-        className="relative bg-white shadow-2xl max-w-[1600px] w-full max-h-[98vh] overflow-hidden"
+        className="relative bg-white shadow-2xl w-full h-full sm:max-w-[1600px] sm:w-full sm:max-h-[98vh] sm:h-auto overflow-hidden"
         initial={{ scale: 0.9, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -89,19 +63,19 @@ export const ProductDetailModal = ({ product, onClose }) => {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute z-50 bg-black/85 right-6 top-6 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/90 hover:text-[#111827]"
+          className="absolute z-50 bg-black/85 right-4 top-4 sm:right-6 sm:top-6 inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/90 hover:text-[#111827]"
         >
           ✕
         </button>
 
         {/* Modal Header */}
-        <div className="bg-gradient-to-r from-[#0356C2] via-[#0E54C4] to-[#0356C2] px-8 py-6">
+        <div className="bg-gradient-to-r from-[#0356C2] via-[#0E54C4] to-[#0356C2] px-4 py-4 sm:px-8 sm:py-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm md:text-base text-white/80 uppercase tracking-wide mb-2">
+              <p className="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide mb-2">
                 {product.category}
               </p>
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">
                 {product.name}
               </h2>
             </div>
@@ -109,15 +83,15 @@ export const ProductDetailModal = ({ product, onClose }) => {
         </div>
 
         {/* Modal Content */}
-        <div className="overflow-y-auto max-h-[calc(98vh-180px)]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 md:p-8">
+        <div className="overflow-y-auto h-[calc(100vh-140px)] sm:max-h-[calc(98vh-180px)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 p-4 sm:p-6 md:p-8">
             {/* Left Column - 3D Model */}
-            <div className="space-y-6">
-              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <h3 className="text-xl font-bold text-[#111827] mb-4 uppercase tracking-wide">
+            <div className="space-y-4 sm:space-y-6">
+              <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
                   3D Model View
                 </h3>
-                <div className="relative w-full h-[400px] md:h-[500px] bg-white rounded-lg overflow-hidden">
+                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] bg-white rounded-lg overflow-hidden">
                   <Suspense
                     fallback={
                       <div className="w-full h-full flex items-center justify-center">
@@ -139,7 +113,7 @@ export const ProductDetailModal = ({ product, onClose }) => {
                         intensity={0.5}
                       />
                       <pointLight position={[0, 0, 5]} intensity={0.5} />
-                      <Model3D url="/3dModels/demo.glb" />
+                      <Model3D url={product.model || "/3dModels/demo.glb"} />
                       <OrbitControls
                         enableZoom={true}
                         enablePan={false}
@@ -159,11 +133,11 @@ export const ProductDetailModal = ({ product, onClose }) => {
               </div>
 
               {/* Product Image */}
-              <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
-                <h3 className="text-xl font-bold text-[#111827] mb-4 uppercase tracking-wide">
+              <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
+                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
                   Product Image
                 </h3>
-                <div className="relative w-full h-64 md:h-80 overflow-hidden rounded-lg border border-gray-300">
+                <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden rounded-lg border border-gray-300">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -174,27 +148,27 @@ export const ProductDetailModal = ({ product, onClose }) => {
             </div>
 
             {/* Right Column - Product Details */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Description */}
-              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                <h3 className="text-xl font-bold text-[#111827] mb-4 uppercase tracking-wide">
+              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200">
+                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
                   Description
                 </h3>
-                <p className="text-base md:text-lg leading-relaxed text-[#4B5563]">
+                <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#4B5563]">
                   {product.description}
                 </p>
               </div>
 
               {/* Specifications */}
-              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                <h3 className="text-xl font-bold text-[#111827] mb-4 uppercase tracking-wide">
+              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200">
+                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
                   Technical Specifications
                 </h3>
                 <ul className="space-y-3">
                   {specs.specifications.map((spec, index) => (
                     <li
                       key={index}
-                      className="flex items-start text-base text-[#4B5563]"
+                      className="flex items-start text-sm sm:text-base text-[#4B5563]"
                     >
                       <span className="text-[#0356C2] mr-3 mt-1">•</span>
                       <span>{spec}</span>
@@ -204,15 +178,15 @@ export const ProductDetailModal = ({ product, onClose }) => {
               </div>
 
               {/* Features */}
-              <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
-                <h3 className="text-xl font-bold text-[#111827] mb-4 uppercase tracking-wide">
+              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200">
+                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
                   Key Features
                 </h3>
                 <ul className="space-y-3">
                   {specs.features.map((feature, index) => (
                     <li
                       key={index}
-                      className="flex items-start text-base text-[#4B5563]"
+                      className="flex items-start text-sm sm:text-base text-[#4B5563]"
                     >
                       <span className="text-[#0356C2] mr-3 mt-1">✓</span>
                       <span>{feature}</span>

@@ -91,8 +91,8 @@ const AccordionItem = ({ title, items, isOpen, onToggle }) => {
       >
         <h3 className="text-[18px] font-bold leading-relaxed">{title}</h3>
       </AccordionSummary>
-      <AccordionDetails className="bg-[#F5F5F5] !px-6 !pb-6 !pt-4 text-black">
-        <ul className="list-disc pl-6 text-[17px] leading-relaxed text-[#000000]">
+      <AccordionDetails className="bg-[#F5F5F5] !px-2 sm:!px-6 !pb-6 !pt-4 sm:!pt-6 text-black">
+        <ul className="list-disc pl-6 text-[17px]  leading-relaxed text-[#000000]">
           {items.map((item) => (
             <li key={item} className="mb-2">
               {item}
@@ -112,8 +112,8 @@ export const StandardsSection = () => {
   };
 
   return (
-    <section className="bg-white py-[50px]">
-      <div className="mx-auto flex max-w-7xl flex-col gap-16 px-6 lg:flex-row lg:items-stretch lg:gap-20">
+    <section className="bg-white py-2 sm:py-8 ">
+      <div className="mx-auto flex max-w-7xl flex-col gap-8 sm:gap-12 lg:gap-16 px-3 sm:px-6 lg:px-8 lg:flex-row lg:items-stretch">
         <div className="flex-1 space-y-8">
           {standardsData.map(({ title, items }, index) => (
             <AccordionItem

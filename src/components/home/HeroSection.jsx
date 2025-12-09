@@ -5,7 +5,7 @@ export const HeroSection = () => {
     <div className="relative">
       <video
         src="/videos/TDG Web Home V2.mp4"
-        className="w-full h-[100vh] object-cover"
+        className="w-full h-[400px] md:h-[100vh] object-cover"
         autoPlay
         loop
         muted

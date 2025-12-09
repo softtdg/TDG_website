@@ -10,16 +10,21 @@ const MenuBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
+  // Hide menu bar on product detail pages
+  if (pathname?.startsWith("/products/") && pathname !== "/products") {
+    return null;
+  }
+
   const navigationItems = [
     {
-      name: "SMT",
+      name: "Products",
       image: "/images/home/u1.jpg",
-      href: "#",
+      href: "/products",
     },
     {
-      name: "Standards & Certification",
-      image: "/images/home/u2.jpg",
-      href: "/safety-standards",
+      name: "Innovation",
+      image: "/images/innovation/img1.jpg",
+      href: "/innovation",
     },
     {
       name: "Testing",
@@ -27,14 +32,14 @@ const MenuBar = () => {
       href: "/testing",
     },
     {
+      name: "Standards & Certification",
+      image: "/images/home/u2.jpg",
+      href: "/safety-standards",
+    },
+    {
       name: "About Us",
       image: "/images/about-us/i1.jpg",
       href: "/about-us",
-    },
-    {
-      name: "Innovation",
-      image: "/images/innovation/img1.jpg",
-      href: "/innovation",
     },
     {
       name: "Contacts",
@@ -115,7 +120,7 @@ const MenuBar = () => {
       </Button>
 
       <Button
-        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !right-[20px] sm:!right-[50px]   !z-[100] !w-[100px] sm:!w-[120px] lg:!w-[150px] !h-[45px] sm:!h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
+        className="m-font !absolute !top-[20px] sm:!top-[25px] lg:!top-[30px] !right-[20px] sm:!right-[50px] !z-[100] !w-[120px] lg:!w-[150px] !h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
         variant="outlined"
         sx={{
           borderColor: "transparent",
@@ -167,9 +172,22 @@ const MenuBar = () => {
                 />
               </span>
             </Button>
-            <div className="w-[100px] h-[60px] sm:w-[120px] sm:h-[70px] lg:w-[150px] lg:h-[90px]">
+
+            <Button
+              className="m-font !fixed !top-[20px] sm:!top-[25px] lg:!top-[30px] !right-[20px] sm:!right-[50px] !z-[100] !w-[120px] lg:!w-[150px] !h-[50px] lg:!h-[60px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
+              variant="outlined"
+              sx={{
+                borderColor: "transparent",
+                borderWidth: "1px",
+                backgroundColor: "transparent",
+              }}
+              onClick={() => router.push("/")}
+            >
+              <img src="/icons/logo.svg" alt="" />
+            </Button>
+            {/* <div className="w-[100px] h-[60px] sm:w-[120px] sm:h-[70px] lg:w-[150px] lg:h-[90px]">
               <img src="/icons/logo.svg" alt="" className="w-full h-full" />
-            </div>
+            </div> */}
           </div>
 
           <main className="flex min-h-[calc(100vh-80px)]">

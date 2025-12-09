@@ -2,9 +2,9 @@ import React from "react";
 
 export const RequirementsSection = () => {
   return (
-    <section className="bg-[#ffffff] py-20">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <p className="mt-6 md:mt-8 text-[21px] leading-relaxed">
+    <section className="bg-white py-12 sm:py-16 lg:py-20">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <p className="text-base sm:text-lg md:text-[19px] lg:text-[21px] leading-relaxed text-gray-800">
           TDG is fully conversant with North American, European, Japanese and
           other global emergency rail safety standards. We have been invited to
           sit on various APTA safety committees for over 3 decades. Our fixtures

@@ -21,41 +21,29 @@
  * Example: /public/models/headlight-hl3000.glb
  */
 
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ProductModal } from "./ProductModal";
-import { ProductDetailModal } from "./ProductDetailModal";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 import {
+  introductionText,
   productData,
   productSections,
-  introductionText,
 } from "../consant/productsConstants";
+import { ProductModal } from "./ProductModal";
 
-export const ProductsContent = () => {
+export const ProductsContent = ({ Model3D }) => {
   const [selectedCard, setSelectedCard] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleCardClick = (cardTitle) => {
     setSelectedCard(cardTitle);
-    setSelectedProduct(null);
-  };
-
-  const handleProductClick = (product, cardTitle) => {
-    setSelectedProduct({ ...product, category: cardTitle });
   };
 
   const handleCloseModal = () => {
     setSelectedCard(null);
-    setSelectedProduct(null);
-  };
-
-  const handleCloseProductModal = () => {
-    setSelectedProduct(null);
   };
 
   return (
     <section className="bg-white">
-      <div className="mx-auto w-full max-w-[1400px] px-4 py-16 ">
+      <div className="mx-auto w-full max-w-[1400px] px-3 py-16 max-sm:py-8">
         {/* Introduction Paragraph */}
         <motion.div
           className="mb-12 md:mb-16 mx-auto"
@@ -63,7 +51,7 @@ export const ProductsContent = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-base sm:text-lg md:text-[21px] leading-relaxed text-[#111827]">
+          <p className="text-[17px] sm:text-lg md:text-[21px] leading-relaxed text-[#111827]">
             {introductionText}
           </p>
         </motion.div>
@@ -96,7 +84,7 @@ export const ProductsContent = () => {
                 <motion.div
                   key={itemIndex}
                   onClick={() => handleCardClick(item.title)}
-                  className="bg-white shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer"
+                  className="bg-white shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer flex flex-col h-full"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -106,7 +94,7 @@ export const ProductsContent = () => {
                   whileHover={{ y: -5 }}
                 >
                   {/* Image */}
-                  <div className="relative w-full h-48 md:h-56 overflow-hidden bg-gray-200">
+                  <div className="relative w-full h-48 md:h-56 overflow-hidden bg-gray-200 flex-shrink-0">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -116,13 +104,22 @@ export const ProductsContent = () => {
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-grow">
                     <h4 className="text-xl md:text-2xl font-bold text-[#111827] mb-3 uppercase tracking-wide">
                       {item.title}
                     </h4>
-                    <p className="text-base md:text-[17px] leading-relaxed text-[#4B5563]">
+                    <p className="text-base md:text-[17px] leading-relaxed text-[#4B5563] mb-4 flex-grow">
                       {item.description}
                     </p>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCardClick(item.title);
+                      }}
+                      className="w-full mt-auto bg-[#0E54C4] hover:bg-[#084c93] active:bg-[#063d7a] text-white font-semibold py-3 px-6 rounded-md transition-all duration-200 text-sm sm:text-base shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#0E54C4] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      View Details
+                    </button>
                   </div>
                 </motion.div>
               ))}
@@ -132,22 +129,12 @@ export const ProductsContent = () => {
 
         {/* Category Product Modal */}
         <AnimatePresence>
-          {selectedCard && productData[selectedCard] && !selectedProduct && (
+          {selectedCard && productData[selectedCard] && (
             <ProductModal
               cardTitle={selectedCard}
               products={productData[selectedCard]}
               onClose={handleCloseModal}
-              onProductClick={handleProductClick}
-            />
-          )}
-        </AnimatePresence>
-
-        {/* Individual Product Detail Modal */}
-        <AnimatePresence>
-          {selectedProduct && (
-            <ProductDetailModal
-              product={selectedProduct}
-              onClose={handleCloseProductModal}
+              Model3D={Model3D}
             />
           )}
         </AnimatePresence>

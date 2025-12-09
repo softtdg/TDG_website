@@ -37,12 +37,14 @@ export const productData = {
       description:
         "High-intensity LED headlight system with 3000 lumens output, designed for long-range visibility in all weather conditions. Features advanced thermal management and IP67 rating.",
       image: getRailwayImage("exterior", 0),
+      model: "/3dModels/demo.glb",
     },
     {
       name: "Compact LED Headlight HL-2000",
       description:
         "Compact design with 2000 lumens, perfect for urban rail applications. Energy-efficient with 50,000+ hour lifespan and integrated dimming control.",
       image: getRailwayImage("exterior", 1),
+      model: "/3dModels/demo3.glb",
     },
     {
       name: "High-Power Headlight HL-5000",
@@ -387,7 +389,7 @@ export const productData = {
 
 export const productSections = [
   {
-    title: "EXTERIOR LIGHT",
+    title: "EXTERIOR LIGHTING",
     items: [
       {
         title: "Headlight",
@@ -397,9 +399,9 @@ export const productSections = [
           "https://previews.123rf.com/images/sania01/sania012002/sania01200200294/141118784-the-headlight-of-a-modern-high-speed-train-with-the-reflection-of-a-railway-station-in-it.jpg",
       },
       {
-        title: "Light Marker",
+        title: "Marker Light",
         description:
-          "Advanced light marker solutions for train identification and safety. Compact, durable LED markers that ensure clear visibility in all weather conditions and lighting environments.",
+          "Advanced marker light solutions for train identification and safety. Compact, durable LED markers that ensure clear visibility in all weather conditions and lighting environments.",
         image:
           "https://s.alicdn.com/@sc04/kf/H6802c398cec34ae88ea783c3866e60f1V/Emark-Certified-5-Inch-Square-24V-160-150W-Sealed-Beam-For-Passenger-Cars-Trains.jpg",
       },
@@ -420,10 +422,10 @@ export const productSections = [
     ],
   },
   {
-    title: "INTERIOR LIGHT",
+    title: "INTERIOR LIGHTING",
     items: [
       {
-        title: "Main",
+        title: "Main Lighting",
         description:
           "Primary interior lighting systems providing optimal illumination for passenger comfort and safety. Energy-efficient LED solutions designed to create pleasant ambient lighting throughout train carriages.",
         image: "/images/innovation/img2.jpg",
@@ -452,7 +454,7 @@ export const productSections = [
     title: "EMERGENCY & CONTROL SYSTEMS",
     items: [
       {
-        title: "Emergency",
+        title: "Emergency Lighting",
         description:
           "Critical emergency lighting systems ensuring passenger safety during power failures or emergency situations. Battery-backed LED solutions providing reliable illumination for safe evacuation and emergency procedures.",
         image: "/images/home/u1.jpg",
@@ -464,9 +466,9 @@ export const productSections = [
         image: "/images/home/u2.jpg",
       },
       {
-        title: "Controller",
+        title: "Energy Control",
         description:
-          "Intelligent lighting control systems for centralized management of all lighting functions. Features include dimming control, scheduling, monitoring, and integration with train management systems.",
+          "Intelligent energy controller systems for centralized management of all lighting functions. Features include dimming control, scheduling, monitoring, and integration with train management systems.",
         image: "/images/home/u3.jpg",
       },
     ],

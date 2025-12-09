@@ -199,13 +199,13 @@ export const CertificatesSection = () => {
   };
 
   return (
-    <section id="certification" className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <h2 className="text-center text-3xl font-extrabold uppercase tracking-[6px] text-[#111827] sm:text-[50px]">
+    <section id="certification" className="bg-white py-12 sm:py-16 lg:py-24">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+        <h2 className="text-center text-2xl sm:text-3xl lg:text-4xl xl:text-[50px] font-extrabold uppercase tracking-[4px] sm:tracking-[6px] text-[#111827]">
           Certification
         </h2>
 
-        <div className="mt-16 space-y-16">
+        <div className="mt-8 sm:mt-12 lg:mt-16 space-y-8 sm:space-y-12 lg:space-y-16">
           {certificateGroups.map(({ title, items }, groupIdx) => (
             <div key={title} className="space-y-10">
               <div className="space-y-8">
@@ -216,11 +216,11 @@ export const CertificatesSection = () => {
                   return (
                     <div
                       key={`${title}-row-${rowIdx}`}
-                      className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+                      className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
                     >
                       {row.includeTitle && (
-                        <div className="flex items-center justify-center bg-white p-4 text-center">
-                          <span className="text-[30px] font-semibold uppercase tracking-[6px] text-[#111827]">
+                        <div className="flex items-center justify-center bg-white p-4 sm:p-6 text-center">
+                          <span className="text-xl sm:text-2xl lg:text-[30px] font-semibold uppercase tracking-[2px] sm:tracking-[4px] lg:tracking-[6px] text-[#111827]">
                             {title}
                           </span>
                         </div>
@@ -250,7 +250,7 @@ export const CertificatesSection = () => {
                         //                       </button>
 
                         <div key={item.src} className="group shadow-lg">
-                          <div className="relative flex h-[300px] w-full items-center justify-center overflow-hidden border border-[#000000] bg-gray-300">
+                          <div className="relative flex h-[250px] sm:h-[300px] lg:h-[350px] w-full items-center justify-center overflow-hidden border border-[#000000] bg-gray-300">
                             {/* Placeholder for certificate image */}
                           </div>
                         </div>
