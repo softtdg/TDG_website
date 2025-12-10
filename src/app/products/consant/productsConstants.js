@@ -65,7 +65,7 @@ export const productData = {
       image: getRailwayImage("exterior", 4),
     },
   ],
-  "Light Marker": [
+  "Marker Light": [
     {
       name: "LED Light Marker LM-100",
       description:
@@ -161,7 +161,7 @@ export const productData = {
       image: getRailwayImage("exterior", 4),
     },
   ],
-  Main: [
+  "Main Lighting": [
     {
       name: "Main Interior Lighting System IL-5000",
       description:
@@ -289,7 +289,7 @@ export const productData = {
       image: getRailwayImage("interior", 4),
     },
   ],
-  Emergency: [
+  "Emergency Lighting": [
     {
       name: "Emergency Lighting System EL-500",
       description:
@@ -353,7 +353,7 @@ export const productData = {
       image: getRailwayImage("emergency", 4),
     },
   ],
-  Controller: [
+  "Energy Control": [
     {
       name: "Central Lighting Controller CLC-2000",
       description:

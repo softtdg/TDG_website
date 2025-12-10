@@ -62,10 +62,10 @@ const MenuBar = () => {
   };
 
   // Update current image when pathname changes
-  useEffect(() => {
-    const currentItem = getCurrentNavigationItem();
-    setCurrentImage(currentItem.image);
-  }, [pathname]);
+  // useEffect(() => {
+  //   const currentItem = getCurrentNavigationItem();
+  //   setCurrentImage(currentItem.image);
+  // }, [pathname]);
 
   const handleImageChange = (imagePath) => {
     setCurrentImage(imagePath);
