@@ -10,31 +10,31 @@ import { useGLTF } from "@react-three/drei";
 import { productData } from "./consant/productsConstants";
 
 // 3D Model Component
-export const Model3D = ({ url }) => {
-  const { scene } = useGLTF(url);
+// export const Model3D = ({ url }) => {
+//   const { scene } = useGLTF(url);
 
-  // Calculate bounding box to center and scale the model
-  useEffect(() => {
-    if (!scene) return;
+//   // Calculate bounding box to center and scale the model
+//   useEffect(() => {
+//     if (!scene) return;
 
-    // Calculate bounding box
-    const box = new THREE.Box3().setFromObject(scene);
-    const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
+//     // Calculate bounding box
+//     const box = new THREE.Box3().setFromObject(scene);
+//     const center = box.getCenter(new THREE.Vector3());
+//     const size = box.getSize(new THREE.Vector3());
 
-    // Center the model
-    scene.position.sub(center);
+//     // Center the model
+//     scene.position.sub(center);
 
-    // Scale to fit (adjust scale factor as needed)
-    const maxDim = Math.max(size.x, size.y, size.z);
-    if (maxDim > 0) {
-      const scale = 2 / maxDim; // Adjust this value to control model size
-      scene.scale.multiplyScalar(scale);
-    }
-  }, [scene]);
+//     // Scale to fit (adjust scale factor as needed)
+//     const maxDim = Math.max(size.x, size.y, size.z);
+//     if (maxDim > 0) {
+//       const scale = 2 / maxDim; // Adjust this value to control model size
+//       scene.scale.multiplyScalar(scale);
+//     }
+//   }, [scene]);
 
-  return <primitive object={scene} />;
-};
+//   return <primitive object={scene} />;
+// };
 
 const page = () => {
   return (
@@ -42,7 +42,7 @@ const page = () => {
       <HeroSection />
       <ProductsContent />
       <div className="h-[2px] opacity-0">
-        {productData.Headlight?.map((product) => {
+        {/* {productData.Headlight?.map((product) => {
           return (
             <Canvas
               camera={{ position: [0, 0, 5], fov: 30 }}
@@ -65,7 +65,7 @@ const page = () => {
               <Environment preset="city" />
             </Canvas>
           );
-        })}
+        })} */}
       </div>
     </div>
   );
