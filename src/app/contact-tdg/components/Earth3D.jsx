@@ -375,12 +375,6 @@ function LocationMarker({ location, onClick, isHovered }) {
     [location.lat, location.lng]
   );
 
-  // Use the fixed color for all marker visuals
-  const markerColor = "#FFFB00";
-
-  // Load the location marker texture
-  const locationTexture = useTexture("/images/contact/location-mark.png");
-
   // Function to get screen position of marker center
   const getMarkerScreenPosition = () => {
     // Get the marker's world position
@@ -977,23 +971,15 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
 
   return (
     <div
-      // className="relative py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
-      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
-      className="py-8 main_container md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg15.png')] bg-cover bg-no-repeat"
-      // className="py-8 main_container md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg15.png')] bg-cover bg-no-repeat"
-      // className="py-8 main_container md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/new-contact.jpg')]  bg-top bg-cover bg-no-repeat"
-      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg6.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
-      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg5.png')] xl:bg-[length:146%] bg-top bg-no-repeat"
-      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.jpg')] bg-cover bg-center bg-no-repeat"
-      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg3.jpg')] bg-cover bg-center bg-no-repeat"
-      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg4.png')] bg-cover bg-center bg-no-repeat"
-      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg2.avif')] bg-cover bg-center bg-no-repeat"
-      // className="py-8 main_container max-md:min-h-[100vh] max-md:py-[200px] bg-[url('/images/contact/contact-bg13.png')] bg-cover bg-center bg-no-repeat "
+      className="py-8 main_container md:min-h-[100vh] max-md:py-[200px]"
+      style={{
+        background:
+          // "radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 25%, #0f1419 50%, #0a0e1a 75%, #000000 100%)",
+          "radial-gradient(ellipse at center, #000000 0%, #000000 25%, #000000 50%, #000000 75%, #000000 100%)",
+      }}
       onWheel={handleWheelScroll}
     >
-      {/* Overlay to darken the image */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30 pointer-events-none" />
-      <div className="max-w-[1300px] mx-auto px-2 sm:px-4 lg:px-6">
+      <div className="w-full">
         {/* <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
             Our Global Locations
@@ -1007,7 +993,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
         <div className="items-center">
           {/* 3D Earth Container */}
           <div
-            className="lg:col-span-2"
+            className="w-full"
             // onClick={handleEarthContainerClick}
             // onMouseEnter={() => {
             //   // Only set container hover if not already hovering a marker
@@ -1022,10 +1008,16 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
             //   }
             // }}
           >
-            <div className="relative from-white p-2 sm:p-4 h-[400px] sm:h-[600px] lg:h-[100vh] overflow-hidden">
+            <div className="relative w-full h-[400px] sm:h-[600px] lg:h-[100vh] overflow-hidden">
               <Canvas
                 camera={{ position: [0, 0, 6], fov: 55 }}
-                style={{ background: "transparent" }}
+                style={{
+                  background:
+                    // "radial-gradient(ellipse at center, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.86) 20%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
+                    "radial-gradient(rgb(30 30 54 / 80%) 0%, rgb(15 23 44 / 86%) 20%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
+                  width: "100%",
+                  height: "100%",
+                }}
                 onClick={(e) => {
                   // Check if this was a marker click
                   if (isMarkerClickRef.current) {
@@ -1133,7 +1125,37 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                   color="#ffffff"
                 />
 
-                {/* Light background - no stars for light theme */}
+                {/* Stars for space background - Soft Earth-style with subtle glow */}
+                {/* Small stars - softer and more subtle */}
+                <Stars
+                  radius={400}
+                  depth={100}
+                  count={8000}
+                  factor={8}
+                  saturation={0}
+                  fade
+                  speed={0.2}
+                />
+                {/* Medium stars - gentle glow */}
+                <Stars
+                  radius={400}
+                  depth={100}
+                  count={2000}
+                  factor={12}
+                  saturation={0}
+                  fade
+                  speed={0.2}
+                />
+                {/* Large stars - very subtle, Earth-like twinkle */}
+                <Stars
+                  radius={400}
+                  depth={100}
+                  count={200}
+                  factor={40}
+                  saturation={0}
+                  fade
+                  speed={0.2}
+                />
 
                 {/* Camera Reset Controller */}
                 <CameraResetController
