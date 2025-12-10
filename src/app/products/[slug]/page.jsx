@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
@@ -61,6 +61,7 @@ const ProductDetailContent = () => {
   const router = useRouter();
   const slug = params.slug;
   const category = searchParams.get("category");
+  const [showVisibleModel, setShowVisibleModel] = useState(false);
 
   // Find the product
   const product = findProductBySlug(slug, category);
@@ -71,6 +72,15 @@ const ProductDetailContent = () => {
       router.push("/products");
     }
   }, [product, category, router]);
+
+  // Show visible model after 2 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowVisibleModel(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!product || !category) {
     return (
@@ -135,6 +145,39 @@ const ProductDetailContent = () => {
         </div>
       </div>
 
+      <div className="h-[2px] opacity-0">
+        <Suspense
+          fallback={
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading 3D Model...</p>
+              </div>
+            </div>
+          }
+        >
+          <Canvas
+            camera={{ position: [0, 0, 5], fov: 30 }}
+            style={{ background: "transparent" }}
+          >
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[5, 5, 5]} intensity={1} />
+            <directionalLight position={[-5, -5, -5]} intensity={0.5} />
+            <pointLight position={[0, 0, 5]} intensity={0.5} />
+            <Model3D url={product.model || "/3dModels/demo.glb"} />
+            <OrbitControls
+              enableZoom={true}
+              enablePan={false}
+              enableRotate={true}
+              minDistance={2}
+              maxDistance={10}
+              autoRotate={false}
+            />
+            <Environment preset="city" />
+          </Canvas>
+        </Suspense>
+      </div>
+
       {/* Content */}
       <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
@@ -149,38 +192,51 @@ const ProductDetailContent = () => {
               <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4 sm:mb-6 uppercase tracking-wide">
                 3D Model View
               </h2>
-              <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] bg-white rounded-lg overflow-hidden">
-                <Suspense
-                  fallback={
-                    <div className="w-full h-full flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-                        <p className="text-gray-600">Loading 3D Model...</p>
+              {showVisibleModel && (
+                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] bg-white rounded-lg overflow-hidden">
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+                          <p className="text-gray-600">Loading 3D Model...</p>
+                        </div>
                       </div>
-                    </div>
-                  }
-                >
-                  <Canvas
-                    camera={{ position: [0, 0, 5], fov: 30 }}
-                    style={{ background: "transparent" }}
+                    }
                   >
-                    <ambientLight intensity={0.5} />
-                    <directionalLight position={[5, 5, 5]} intensity={1} />
-                    <directionalLight position={[-5, -5, -5]} intensity={0.5} />
-                    <pointLight position={[0, 0, 5]} intensity={0.5} />
-                    <Model3D url={product.model || "/3dModels/demo.glb"} />
-                    <OrbitControls
-                      enableZoom={true}
-                      enablePan={false}
-                      enableRotate={true}
-                      minDistance={2}
-                      maxDistance={10}
-                      autoRotate={true}
-                    />
-                    <Environment preset="city" />
-                  </Canvas>
-                </Suspense>
-              </div>
+                    <Canvas
+                      camera={{ position: [0, 0, 5], fov: 30 }}
+                      style={{ background: "transparent" }}
+                    >
+                      <ambientLight intensity={0.5} />
+                      <directionalLight position={[5, 5, 5]} intensity={1} />
+                      <directionalLight
+                        position={[-5, -5, -5]}
+                        intensity={0.5}
+                      />
+                      <pointLight position={[0, 0, 5]} intensity={0.5} />
+                      <Model3D url={product.model || "/3dModels/demo.glb"} />
+                      <OrbitControls
+                        enableZoom={true}
+                        enablePan={false}
+                        enableRotate={true}
+                        minDistance={2}
+                        maxDistance={10}
+                        autoRotate={false}
+                      />
+                      <Environment preset="city" />
+                    </Canvas>
+                  </Suspense>
+                </div>
+              )}
+              {!showVisibleModel && (
+                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] bg-white rounded-lg overflow-hidden flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+                    <p className="text-gray-600">Loading 3D Model...</p>
+                  </div>
+                </div>
+              )}
               <p className="text-sm text-gray-600 mt-4 italic">
                 * Interactive 3D model - Click and drag to rotate, scroll to
                 zoom
