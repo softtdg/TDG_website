@@ -84,14 +84,17 @@ const ProductDetailContent = () => {
 
   if (!product || !category) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center bg-white rounded-xl shadow-md border border-gray-200 p-8 sm:p-12 max-w-md mx-4">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
             Product Not Found
           </h1>
+          <p className="text-gray-600 mb-6">
+            The product you're looking for doesn't exist or has been removed.
+          </p>
           <button
             onClick={() => router.push("/products")}
-            className="text-[#0356C2] hover:underline"
+            className="bg-[#0356C2] hover:bg-[#0248A0] text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0356C2] focus:ring-offset-2"
           >
             Return to Products
           </button>
@@ -104,43 +107,229 @@ const ProductDetailContent = () => {
   const specs = productSpecs[product.name] || defaultProductSpecs;
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div
-        className="px-4 py-6 sm:px-8 sm:py-8"
-        style={{
-          background: "linear-gradient(120deg, #15345C 0%, #235891 100%)", // professional blue gradient
-        }}
-      >
-        <div className="max-w-[1600px] mx-auto">
-          {/* <button
-            onClick={() => router.push("/products")}
-            className="mb-4 text-white hover:text-gray-200 transition-colors flex items-center gap-2"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+    <div className="min-h-screen bg-gray-50">
+      {/* Fixed Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-800 shadow-lg">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4 sm:gap-6 py-3 sm:py-4">
+            {/* Back Button */}
+            <button
+              onClick={() => router.push("/products")}
+              className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group flex-shrink-0"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-            Back to Products
-          </button> */}
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs sm:text-sm md:text-base text-white/80 font-medium uppercase tracking-wide mb-2">
-                {category}
+              <svg
+                className="w-5 h-5 transform transition-transform group-hover:-translate-x-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <span className="font-medium text-sm sm:text-base hidden sm:inline">
+                Back
+              </span>
+            </button>
+
+            {/* Separator */}
+            <div className="h-6 w-px bg-gray-700"></div>
+
+            {/* Category Badge */}
+            <span className="inline-block px-3 py-1 bg-[#0356C2] text-white text-xs sm:text-sm font-semibold uppercase tracking-wide rounded flex-shrink-0">
+              {category}
+            </span>
+
+            {/* Separator */}
+            <div className="h-6 w-px bg-gray-700"></div>
+
+            {/* Product Title */}
+            <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white uppercase tracking-wide truncate flex-1 min-w-0">
+              {product.name}
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      {/* Content with top padding to account for fixed header */}
+      <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 pt-24 sm:pt-28 pb-12 sm:pb-16 lg:pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Left Column - 3D Model */}
+          <div className="space-y-8">
+            <motion.div
+              className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {/* Section Header with Accent */}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                  3D Model View
+                </h2>
+              </div>
+
+              {showVisibleModel && (
+                <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                        <div className="text-center">
+                          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+                          <p className="text-gray-600 font-medium">
+                            Loading 3D Model...
+                          </p>
+                        </div>
+                      </div>
+                    }
+                  >
+                    <Canvas
+                      camera={{ position: [0, 0, 5], fov: 30 }}
+                      style={{ background: "transparent" }}
+                    >
+                      <ambientLight intensity={0.5} />
+                      <directionalLight position={[5, 5, 5]} intensity={1} />
+                      <directionalLight
+                        position={[-5, -5, -5]}
+                        intensity={0.5}
+                      />
+                      <pointLight position={[0, 0, 5]} intensity={0.5} />
+                      <Model3D url={product.model || "/3dModels/demo.glb"} />
+                      <OrbitControls
+                        enableZoom={true}
+                        enablePan={false}
+                        enableRotate={true}
+                        minDistance={2}
+                        maxDistance={10}
+                        autoRotate={false}
+                      />
+                      <Environment preset="city" />
+                    </Canvas>
+                  </Suspense>
+                </div>
+              )}
+              {!showVisibleModel && (
+                <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+                    <p className="text-gray-600 font-medium">
+                      Loading 3D Model...
+                    </p>
+                  </div>
+                </div>
+              )}
+              <p className="text-sm text-gray-500 mt-4 italic">
+                * Interactive 3D model - Click and drag to rotate, scroll to
+                zoom
               </p>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase">
-                {product.name}
-              </h1>
-            </div>
+            </motion.div>
+
+            {/* Product Image */}
+            <motion.div
+              className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              {/* Section Header with Accent */}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                  Product Image
+                </h2>
+              </div>
+              <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Column - Product Details */}
+          <div className="space-y-8">
+            {/* Description */}
+            <motion.div
+              className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {/* Section Header with Accent */}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                  Description
+                </h2>
+              </div>
+              <p className="text-base sm:text-lg leading-relaxed text-gray-700">
+                {product.description}
+              </p>
+            </motion.div>
+
+            {/* Specifications */}
+            <motion.div
+              className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              {/* Section Header with Accent */}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                  Technical Specifications
+                </h2>
+              </div>
+              <ul className="space-y-4">
+                {specs.specifications.map((spec, index) => (
+                  <li
+                    key={index}
+                    className="flex items-start text-base text-gray-700"
+                  >
+                    <span className="text-[#0356C2] mr-4 mt-1.5 font-bold text-lg">
+                      •
+                    </span>
+                    <span className="flex-1 leading-relaxed">{spec}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Features */}
+            <motion.div
+              className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              {/* Section Header with Accent */}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                  Key Features
+                </h2>
+              </div>
+              <ul className="space-y-4">
+                {specs.features.map((feature, index) => (
+                  <li
+                    key={index}
+                    className="flex items-start text-base text-gray-700"
+                  >
+                    <span className="text-[#0356C2] mr-4 mt-1.5 font-bold text-lg">
+                      ✓
+                    </span>
+                    <span className="flex-1 leading-relaxed">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
           </div>
         </div>
       </div>
@@ -177,157 +366,6 @@ const ProductDetailContent = () => {
           </Canvas>
         </Suspense>
       </div>
-
-      {/* Content */}
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
-          {/* Left Column - 3D Model */}
-          <div className="space-y-6 sm:space-y-8">
-            <motion.div
-              className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4 sm:mb-6 uppercase tracking-wide">
-                3D Model View
-              </h2>
-              {showVisibleModel && (
-                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] bg-white rounded-lg overflow-hidden">
-                  <Suspense
-                    fallback={
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-center">
-                          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-                          <p className="text-gray-600">Loading 3D Model...</p>
-                        </div>
-                      </div>
-                    }
-                  >
-                    <Canvas
-                      camera={{ position: [0, 0, 5], fov: 30 }}
-                      style={{ background: "transparent" }}
-                    >
-                      <ambientLight intensity={0.5} />
-                      <directionalLight position={[5, 5, 5]} intensity={1} />
-                      <directionalLight
-                        position={[-5, -5, -5]}
-                        intensity={0.5}
-                      />
-                      <pointLight position={[0, 0, 5]} intensity={0.5} />
-                      <Model3D url={product.model || "/3dModels/demo.glb"} />
-                      <OrbitControls
-                        enableZoom={true}
-                        enablePan={false}
-                        enableRotate={true}
-                        minDistance={2}
-                        maxDistance={10}
-                        autoRotate={false}
-                      />
-                      <Environment preset="city" />
-                    </Canvas>
-                  </Suspense>
-                </div>
-              )}
-              {!showVisibleModel && (
-                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] bg-white rounded-lg overflow-hidden flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading 3D Model...</p>
-                  </div>
-                </div>
-              )}
-              <p className="text-sm text-gray-600 mt-4 italic">
-                * Interactive 3D model - Click and drag to rotate, scroll to
-                zoom
-              </p>
-            </motion.div>
-
-            {/* Product Image */}
-            <motion.div
-              className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4 sm:mb-6 uppercase tracking-wide">
-                Product Image
-              </h2>
-              <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden rounded-lg border border-gray-300">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right Column - Product Details */}
-          <div className="space-y-6 sm:space-y-8">
-            {/* Description */}
-            <motion.div
-              className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4 sm:mb-6 uppercase tracking-wide">
-                Description
-              </h2>
-              <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#4B5563]">
-                {product.description}
-              </p>
-            </motion.div>
-
-            {/* Specifications */}
-            <motion.div
-              className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4 sm:mb-6 uppercase tracking-wide">
-                Technical Specifications
-              </h2>
-              <ul className="space-y-3">
-                {specs.specifications.map((spec, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start text-sm sm:text-base text-[#4B5563]"
-                  >
-                    <span className="text-[#0356C2] mr-3 mt-1">•</span>
-                    <span>{spec}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Features */}
-            <motion.div
-              className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4 sm:mb-6 uppercase tracking-wide">
-                Key Features
-              </h2>
-              <ul className="space-y-3">
-                {specs.features.map((feature, index) => (
-                  <li
-                    key={index}
-                    className="flex items-start text-sm sm:text-base text-[#4B5563]"
-                  >
-                    <span className="text-[#0356C2] mr-3 mt-1">✓</span>
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
@@ -336,10 +374,12 @@ const ProductDetailPage = () => {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading product details...</p>
+            <p className="text-gray-600 font-medium">
+              Loading product details...
+            </p>
           </div>
         </div>
       }
