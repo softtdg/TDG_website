@@ -124,10 +124,10 @@ const ProductDetailContent = () => {
           </button> */}
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide mb-2">
+              <p className="text-xs sm:text-sm md:text-base text-white/80 font-medium uppercase tracking-wide mb-2">
                 {category}
               </p>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white uppercase">
                 {product.name}
               </h1>
             </div>
