@@ -971,7 +971,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
 
   return (
     <div
-      className="py-8 main_container md:min-h-[100vh] max-md:py-[200px]"
+      className="pb-8 main_container md:min-h-[100vh] max-md:py-[200px]"
       style={{
         background:
           // "radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 25%, #0f1419 50%, #0a0e1a 75%, #000000 100%)",
@@ -1014,7 +1014,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                 style={{
                   background:
                     // "radial-gradient(ellipse at center, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.86) 20%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
-                    "radial-gradient(rgb(30 30 54 / 80%) 0%, rgb(15 23 44 / 86%) 20%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
+                    "radial-gradient(rgb(30 30 54 / 80%) 0%, rgb(15 23 44 / 86%) 5%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
                   width: "100%",
                   height: "100%",
                 }}
@@ -1130,21 +1130,30 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                 <Stars
                   radius={400}
                   depth={100}
-                  count={8000}
+                  count={9000}
+                  factor={3}
+                  saturation={0}
+                  fade
+                  speed={0.1}
+                />
+                {/* <Stars
+                  radius={400}
+                  depth={100}
+                  count={4000}
                   factor={8}
                   saturation={0}
                   fade
-                  speed={0.2}
-                />
+                  speed={0.1}
+                /> */}
                 {/* Medium stars - gentle glow */}
                 <Stars
                   radius={400}
                   depth={100}
-                  count={2000}
+                  count={2500}
                   factor={12}
                   saturation={0}
                   fade
-                  speed={0.2}
+                  speed={0.1}
                 />
                 {/* Large stars - very subtle, Earth-like twinkle */}
                 <Stars
@@ -1154,7 +1163,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                   factor={40}
                   saturation={0}
                   fade
-                  speed={0.2}
+                  speed={0.1}
                 />
 
                 {/* Camera Reset Controller */}
