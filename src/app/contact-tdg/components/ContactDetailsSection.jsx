@@ -304,8 +304,8 @@ const ContactDetailsSection = ({ selectedLocation }) => {
           </div>
 
           {/* Right Side - Map */}
-          <div className="lg:sticky lg:top-24 lg:self-start">
-            <div className="bg-white overflow-hidden border border-gray-200 h-[calc(100vh-150px)]">
+          <div className="lg:col-span-1 h-full">
+            <div className="bg-white overflow-hidden border border-gray-200 h-full">
               <iframe
                 key={`${location?.map_lat}-${location?.map_lng}`}
                 src={`https://maps.google.com/maps?q=${location.map_lat},${location.map_lng}&hl=en&z=15&output=embed`}

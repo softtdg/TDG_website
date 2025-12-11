@@ -182,7 +182,7 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
                     <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#0356C2] transition-colors duration-300">
                       {location.name}
                     </h3>
-                    <div className="h-0.5 w-12 bg-[#0356C2] rounded-full"></div>
+                    <div className="h-0.5 w-12 bg-[#0356C2] group-hover:bg-[#f48c06] rounded-full"></div>
                   </div>
                 </div>
 

@@ -24,7 +24,8 @@ export const officeLocations = [
     email: "sales_USA@tdgdesign.com",
     lat: 41.0389,
     lng: -75.8642,
-    color: "#FFFB00",
+    color: "#DC2626", // Red
+    colorLight: "#EF4444",
     map_lat: 43.06346,
     map_lng: -78.83247,
   },
@@ -39,7 +40,8 @@ export const officeLocations = [
     email: "sales_europe@tdgdesign.com",
     lat: 47.1111,
     lng: 0.6222,
-    color: "#FFFB00",
+    color: "#2563EB", // Blue
+    colorLight: "#3B82F6",
     map_lat: 47.09788,
     map_lng: 0.61348,
   },
@@ -55,7 +57,8 @@ export const officeLocations = [
     email: "sales_UK@tdgdesign.com",
     lat: 52.6369,
     lng: -1.1398,
-    color: "#FFFB00",
+    color: "#10B981", // Green
+    colorLight: "#34D399",
     map_lat: 52.59608,
     map_lng: -1.18634,
   },
@@ -69,7 +72,8 @@ export const officeLocations = [
     email: "sales_canada@tdgdesign.com",
     lat: 43.589,
     lng: -79.6441,
-    color: "#FFFB00",
+    color: "#F59E0B", // Amber/Orange
+    colorLight: "#FBBF24",
     map_lat: 43.52284,
     map_lng: -79.71041,
   },
@@ -85,7 +89,8 @@ export const officeLocations = [
     email: "sales_india@tdgdesign.com",
     lat: 28.4744,
     lng: 77.504,
-    color: "#FFFB00",
+    color: "#8B5CF6", // Purple
+    colorLight: "#A78BFA",
     map_lat: 28.53313,
     map_lng: 77.46848,
   },
@@ -100,7 +105,8 @@ export const officeLocations = [
     email: "sales_india@tdgdesign.com",
     lat: 21.243,
     lng: 72.9126,
-    color: "#FFFB00",
+    color: "#EC4899", // Pink
+    colorLight: "#F472B6",
     map_lat: 21.23377,
     map_lng: 72.86358,
   },
@@ -114,7 +120,8 @@ export const officeLocations = [
     email: "sales_poland@tdgdesign.com",
     lat: 50.3107,
     lng: 18.7856,
-    color: "#FFFB00",
+    color: "#06B6D4", // Cyan
+    colorLight: "#22D3EE",
     map_lat: 50.3107,
     map_lng: 18.7856,
   },
@@ -367,88 +374,312 @@ function Earth({
 // Location marker component
 function LocationMarker({ location, onClick, isHovered }) {
   const markerRef = useRef();
-  const glowRef = useRef();
-  const glowRef2 = useRef();
+  const pulseRing1Ref = useRef();
+  const pulseRing2Ref = useRef();
+  const pulseRing3Ref = useRef();
   const { camera, size } = useThree();
   const position = useMemo(
-    () => latLngToVector3(location.lat, location.lng, 2.25),
+    () => latLngToVector3(location.lat, location.lng, 2.12),
     [location.lat, location.lng]
   );
 
+  // Use location-specific colors
+  const markerColor = "#DC2626";
+  const markerColorLight = "#DC2626";
+
+  // Track if each ring has completed its animation
+  const ring1Completed = useRef(false);
+  const ring2Completed = useRef(false);
+  const ring3Completed = useRef(false);
+  const startTime = useRef(null);
+
+  // Unique pulse timing for each marker based on location ID
+  // Each marker will have a different base speed and phase offset
+  const pulseSpeed = useMemo(() => {
+    // Base speed varies between 0.2 and 0.4 based on location ID
+    return 0.2 + (location.id % 5) * 0.06;
+  }, [location.id]);
+
+  const phaseOffset = useMemo(() => {
+    // Phase offset varies between 0 and 1 based on location ID
+    return (location.id * 0.15) % 5;
+  }, [location.id]);
+
   // Function to get screen position of marker center
   const getMarkerScreenPosition = () => {
-    // Get the marker's world position
     const worldPosition = new THREE.Vector3();
     if (markerRef.current) {
       markerRef.current.getWorldPosition(worldPosition);
     } else {
-      // Fallback: use the group position
       worldPosition.copy(position);
     }
-
-    // Project 3D position to screen coordinates
     const vector = worldPosition.project(camera);
-
-    // Get canvas element to find its position on the page
     const canvas = document.querySelector("canvas");
     const canvasRect = canvas
       ? canvas.getBoundingClientRect()
       : { left: 0, top: 0 };
-
-    // Convert normalized device coordinates to screen coordinates
     const x = (vector.x * 0.5 + 0.5) * size.width + canvasRect.left;
     const y = (vector.y * -0.5 + 0.5) * size.height + canvasRect.top;
-
     return { x, y };
   };
 
   useFrame((state) => {
-    if (glowRef.current) {
-      glowRef.current.rotation.z += 0.02;
-      // Keep the pulse at its maximum (always "pulsed")
-      const pulseScale = 1.3;
-      glowRef.current.scale.setScalar(pulseScale);
+    // Initialize start time on first frame
+    if (startTime.current === null) {
+      startTime.current = state.clock.elapsedTime;
     }
-    if (glowRef2.current) {
-      glowRef2.current.rotation.z += 0.02;
-      // Keep the pulse at its maximum (always "pulsed")
-      const pulseScale = 1.3;
-      glowRef2.current.scale.setScalar(pulseScale);
-    }
-  });
 
+    const elapsedTime = state.clock.elapsedTime - startTime.current;
+
+    // Easing function for smooth start (ease-out cubic)
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const startScale = 1;
+    const maxScale = 1.6; // Reduced from 2 for slightly smaller rings
+
+    // Ring 1 - animate once, then stay at max scale
+    if (pulseRing1Ref.current && !ring1Completed.current) {
+      const adjustedTime = elapsedTime * pulseSpeed + phaseOffset;
+      const pulse = adjustedTime % 1;
+      const easedPulse = easeOutCubic(pulse);
+      const scale = startScale + easedPulse * (maxScale - startScale);
+      pulseRing1Ref.current.scale.setScalar(scale);
+      pulseRing1Ref.current.material.opacity = Math.max(
+        0,
+        0.5 * (1 - easedPulse)
+      );
+
+      // Check if one full cycle has completed
+      if (adjustedTime >= 1) {
+        ring1Completed.current = true;
+        pulseRing1Ref.current.scale.setScalar(maxScale);
+        pulseRing1Ref.current.material.opacity = 0.2; // Slightly better visible opacity
+      }
+    } else if (pulseRing1Ref.current && ring1Completed.current) {
+      // Keep at max scale with subtle visible opacity
+      pulseRing1Ref.current.scale.setScalar(maxScale);
+      pulseRing1Ref.current.material.opacity = 0.2;
+    }
+
+    // Ring 2 - animate once, then stay at max scale
+    if (pulseRing2Ref.current && !ring2Completed.current) {
+      const adjustedTime = elapsedTime * pulseSpeed + 0.33 + phaseOffset;
+      const pulse = adjustedTime % 1;
+      const easedPulse = easeOutCubic(pulse);
+      const scale = startScale + easedPulse * (maxScale - startScale);
+      pulseRing2Ref.current.scale.setScalar(scale);
+      pulseRing2Ref.current.material.opacity = Math.max(
+        0,
+        0.32 * (1 - easedPulse)
+      );
+
+      // Check if one full cycle has completed
+      if (adjustedTime >= 1) {
+        ring2Completed.current = true;
+        pulseRing2Ref.current.scale.setScalar(maxScale);
+        pulseRing2Ref.current.material.opacity = 0.15; // Slightly better visible opacity
+      }
+    } else if (pulseRing2Ref.current && ring2Completed.current) {
+      // Keep at max scale with subtle visible opacity
+      pulseRing2Ref.current.scale.setScalar(maxScale);
+      pulseRing2Ref.current.material.opacity = 0.15;
+    }
+
+    // Ring 3 - animate once, then stay at max scale
+    if (pulseRing3Ref.current && !ring3Completed.current) {
+      const adjustedTime = elapsedTime * pulseSpeed + 0.66 + phaseOffset;
+      const pulse = adjustedTime % 1;
+      const easedPulse = easeOutCubic(pulse);
+      const scale = startScale + easedPulse * (maxScale - startScale);
+      pulseRing3Ref.current.scale.setScalar(scale);
+      pulseRing3Ref.current.material.opacity = Math.max(
+        0,
+        0.16 * (1 - easedPulse)
+      );
+
+      // Check if one full cycle has completed
+      if (adjustedTime >= 1) {
+        ring3Completed.current = true;
+        pulseRing3Ref.current.scale.setScalar(maxScale);
+        pulseRing3Ref.current.material.opacity = 0.08; // Slightly better visible opacity
+      }
+    } else if (pulseRing3Ref.current && ring3Completed.current) {
+      // Keep at max scale with subtle visible opacity
+      pulseRing3Ref.current.scale.setScalar(maxScale);
+      pulseRing3Ref.current.material.opacity = 0.08;
+    }
+
+    /* ORIGINAL PULSE ANIMATION CODE - COMMENTED FOR BACKUP
+    // Pulse animation for all three rings, with different phases
+    // Each marker has unique timing based on location ID
+    const time = state.clock.elapsedTime;
+
+    // Easing function for smooth start (ease-out cubic)
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    // Ring 1 (phase offset based on location ID)
+    if (pulseRing1Ref.current) {
+      const pulse = (time * pulseSpeed + phaseOffset) % 1; // 0 to 1
+      const easedPulse = easeOutCubic(pulse); // Apply easing for smooth start
+      const startScale = 1; // Start from smaller scale
+      const maxScale = 2; // Maximum scale
+      const scale = startScale + easedPulse * (maxScale - startScale);
+      pulseRing1Ref.current.scale.setScalar(scale);
+      // Opacity starts low and fades out smoothly
+      pulseRing1Ref.current.material.opacity = Math.max(
+        0,
+        0.5 * (1 - easedPulse)
+      );
+    }
+    // Ring 2 (a third cycle offset + location phase offset)
+    if (pulseRing2Ref.current) {
+      const pulse = (time * pulseSpeed + 0.33 + phaseOffset) % 1;
+      const easedPulse = easeOutCubic(pulse);
+      const startScale = 1;
+      const maxScale = 2;
+      const scale = startScale + easedPulse * (maxScale - startScale);
+      pulseRing2Ref.current.scale.setScalar(scale);
+      pulseRing2Ref.current.material.opacity = Math.max(
+        0,
+        0.32 * (1 - easedPulse)
+      );
+    }
+    // Ring 3 (two thirds cycle offset + location phase offset)
+    if (pulseRing3Ref.current) {
+      const pulse = (time * pulseSpeed + 0.66 + phaseOffset) % 1;
+      const easedPulse = easeOutCubic(pulse);
+      const startScale = 1;
+      const maxScale = 2;
+      const scale = startScale + easedPulse * (maxScale - startScale);
+      pulseRing3Ref.current.scale.setScalar(scale);
+      pulseRing3Ref.current.material.opacity = Math.max(
+        0,
+        0.16 * (1 - easedPulse)
+      );
+    }
+    */
+  });
   // Handler that calculates marker center and passes it to onClick
   const handleMarkerClick = (e) => {
     e.stopPropagation();
     if (onClick) {
-      // Get the marker center position in screen coordinates
       const markerCenter = getMarkerScreenPosition();
-
-      // Create a synthetic event-like object with the marker center coordinates
       const syntheticEvent = {
         ...e,
         clientX: markerCenter.x,
         clientY: markerCenter.y,
       };
-
       onClick(location, syntheticEvent);
     }
   };
 
+  // Calculate line connection from marker to Earth surface
+  const lineLength = 0.8; // Distance from marker (2.35) to Earth surface (2.2)
+  const lineDirection = useMemo(() => {
+    // Normalize the position vector to get direction from Earth center to marker
+    // We need the opposite direction (from marker toward Earth center)
+    const dir = position.clone().normalize().multiplyScalar(-1);
+    return dir;
+  }, [position]);
+
+  // Calculate position for the cylinder (midpoint along the line, extending from marker toward Earth)
+  const linePosition = useMemo(() => {
+    // Position the line starting from the marker, extending half the length toward Earth
+    return lineDirection.clone().multiplyScalar(lineLength / 2);
+  }, [lineDirection, lineLength]);
+
+  // Calculate rotation to align cylinder with radial direction (toward Earth center)
+  const lineRotation = useMemo(() => {
+    // Create a quaternion that rotates from default up (0,1,0) to the direction toward Earth
+    const up = new THREE.Vector3(0, 1, 0);
+    const quaternion = new THREE.Quaternion();
+    quaternion.setFromUnitVectors(up, lineDirection);
+    const euler = new THREE.Euler();
+    euler.setFromQuaternion(quaternion);
+    return [euler.x, euler.y, euler.z];
+  }, [lineDirection]);
+
   return (
     <group position={position}>
-      {/* Outer pulse ring */}
-      <Sphere ref={glowRef} args={[0.051, 16, 16]} onClick={handleMarkerClick}>
-        <meshBasicMaterial color={location.color} transparent opacity={0.5} />
+      {/* Connection line from marker to Earth surface */}
+      <mesh position={linePosition} rotation={lineRotation}>
+        <cylinderGeometry args={[0.008, 0.008, lineLength, 8]} />
+        <meshStandardMaterial
+          color={markerColor}
+          roughness={0.3}
+          metalness={0.2}
+          emissive={markerColorLight}
+          emissiveIntensity={0.1}
+        />
+      </mesh>
+
+      {/* Animated Pulse Rings */}
+      <Sphere
+        ref={pulseRing1Ref}
+        args={[0.08, 16, 16]}
+        onClick={handleMarkerClick}
+      >
+        <meshBasicMaterial
+          color={markerColorLight}
+          transparent
+          opacity={0.8}
+          side={THREE.DoubleSide}
+          depthWrite={true}
+        />
+      </Sphere>
+      <Sphere
+        ref={pulseRing2Ref}
+        args={[0.08, 16, 16]}
+        onClick={handleMarkerClick}
+      >
+        <meshBasicMaterial
+          color={markerColorLight}
+          transparent
+          opacity={0.6}
+          side={THREE.DoubleSide}
+          depthWrite={true}
+        />
+      </Sphere>
+      <Sphere
+        ref={pulseRing3Ref}
+        args={[0.08, 16, 16]}
+        onClick={handleMarkerClick}
+      >
+        <meshBasicMaterial
+          color={markerColorLight}
+          transparent
+          opacity={0.6}
+          side={THREE.DoubleSide}
+          depthWrite={true}
+        />
       </Sphere>
 
-      {/* Middle glow ring */}
-      <Sphere ref={glowRef2} args={[0.068, 16, 16]} onClick={handleMarkerClick}>
-        <meshBasicMaterial color={location.color} transparent opacity={0.5} />
+      <Sphere
+        ref={markerRef}
+        args={[0.09, 16, 16]}
+        onClick={handleMarkerClick}
+        onPointerEnter={(e) => {
+          e.stopPropagation();
+          document.body.style.cursor = "pointer";
+        }}
+        onPointerLeave={(e) => {
+          e.stopPropagation();
+          document.body.style.cursor = "auto";
+        }}
+      >
+        <meshStandardMaterial
+          color={markerColor}
+          roughness={1}
+          metalness={0}
+          emissive={markerColorLight}
+          emissiveIntensity={0}
+          opacity={0.6}
+          side={THREE.DoubleSide}
+        />
       </Sphere>
 
       {/* Main marker */}
-      <Sphere
+      {/* <Sphere
         ref={markerRef}
         args={[0.05, 16, 16]}
         onClick={handleMarkerClick}
@@ -460,75 +691,97 @@ function LocationMarker({ location, onClick, isHovered }) {
           e.stopPropagation();
           document.body.style.cursor = "auto";
         }}
-        color={location.color}
+        color={markerRed}
         opacity={1}
         transparent={false}
-        emissive={location.color}
+        emissive={markerRed}
         emissiveIntensity={1}
         roughness={0}
         metalness={1}
-      >
-        {/* <meshStandardMaterial
-          color={location.color}
-          emissive={location.color} // or a very subtle version of the color
-          emissiveIntensity={1} // reduce intensity
-          roughness={0}
-          metalness={1}
-          opacity={1}
-        />{" "} */}
-      </Sphere>
-
-      {/* Inner bright core */}
-      {/* <circleGeometry args={[0.025, 8, 8]}>
-         <meshStandardMaterial
-          color={location.color}
-          roughness={1}
-          metalness={0}
-          emissive="#000000"
-          emissiveIntensity={0}
-        />
-      </circleGeometry> */}
-
-      {/* Location label with office details */}
-      {/* <Html
-        position={[0.6, isHovered ? 0.2 : 0.2, 0]}
-        center
-        distanceFactor={4}
-        occlude
-      >
-        <div
-          className={`bg-white/95 backdrop-blur-sm border border-gray-200 rounded-[10px] shadow-2xl transition-all duration-300 ${
-            isHovered
-              ? "block scale-110 xl:hidden"
-              : "hidden scale-90 xl:hidden"
-          }`}
-        >
-          {isHovered ? (
-            <div className="p-1 w-[120px] sm:w-[160px]">
-              <div className="flex items-center justify-center mb-2">
-                <h3 className="text-[10px] font-semibold text-gray-900 flex items-center gap-2">
-                  {location.name}
-                </h3>
-              </div>
-
-              <div className="space-y-1">
-                <div>
-                  <p className="text-[7px] font-medium text-gray-700 text-center">
-                    {location.city}, {location.country}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="px-3 py-1">
-              <p className="text-[10px] font-medium text-gray-900 whitespace-nowrap">
-                {location.city}, {location.country}
-              </p>
-            </div>
-          )}
-        </div>
-      </Html> */}
+      /> */}
     </group>
+
+    // <group position={position}>
+    //   {/* Pulse Ring 3 - outermost */}
+    //   <Sphere
+    //     ref={pulseRing3Ref}
+    //     args={[0.08, 16, 16]}
+    //     onClick={handleMarkerClick}
+    //   >
+    //     <meshBasicMaterial
+    //       color={markerRedLight}
+    //       transparent
+    //       opacity={0.6}
+    //       side={THREE.DoubleSide}
+    //     />
+    //   </Sphere>
+
+    //   {/* Pulse Ring 2 - middle */}
+    //   <Sphere
+    //     ref={pulseRing2Ref}
+    //     args={[0.08, 16, 16]}
+    //     onClick={handleMarkerClick}
+    //   >
+    //     <meshBasicMaterial
+    //       color={markerRedLight}
+    //       transparent
+    //       opacity={0.4}
+    //       side={THREE.DoubleSide}
+    //     />
+    //   </Sphere>
+
+    //   {/* Pulse Ring 1 - innermost */}
+    //   <Sphere
+    //     ref={pulseRing1Ref}
+    //     args={[0.08, 16, 16]}
+    //     onClick={handleMarkerClick}
+    //   >
+    //     <meshBasicMaterial
+    //       color={markerRedLight}
+    //       transparent
+    //       opacity={0.4}
+    //       side={THREE.DoubleSide}
+    //     />
+    //   </Sphere>
+
+    //   {/* Main circular marker - static, no pulse */}
+    //   <Sphere
+    //     ref={markerRef}
+    //     args={[0.05, 16, 16]}
+    //     onClick={handleMarkerClick}
+    //     onPointerEnter={(e) => {
+    //       e.stopPropagation();
+    //       document.body.style.cursor = "pointer";
+    //     }}
+    //     onPointerLeave={(e) => {
+    //       e.stopPropagation();
+    //       document.body.style.cursor = "auto";
+    //     }}
+    //   >
+    //     <meshStandardMaterial
+    //       color={markerRed}
+    //       roughness={0.2}
+    //       metalness={0.3}
+    //       emissive={markerRedLight}
+    //       emissiveIntensity={0.2}
+    //     />
+    //   </Sphere>
+
+    //   {/* Inner white highlight dot */}
+    //   <Sphere
+    //     args={[0.015, 12, 12]}
+    //     position={[0, 0, 0.03]}
+    //     onClick={handleMarkerClick}
+    //   >
+    //     <meshStandardMaterial
+    //       color={markerWhite}
+    //       roughness={0.1}
+    //       metalness={0.8}
+    //       emissive={markerWhite}
+    //       emissiveIntensity={0.3}
+    //     />
+    //   </Sphere>
+    // </group>
   );
 }
 
@@ -1014,7 +1267,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                 style={{
                   background:
                     // "radial-gradient(ellipse at center, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.86) 20%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
-                    "radial-gradient(rgb(30 30 54 / 80%) 0%, rgb(15 23 44 / 86%) 5%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
+                    "radial-gradient(rgba(30, 30, 54, 0.8) 0%, rgb(36 47 75 / 86%) 2%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
                   width: "100%",
                   height: "100%",
                 }}
