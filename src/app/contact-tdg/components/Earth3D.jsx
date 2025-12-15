@@ -379,13 +379,16 @@ function LocationMarker({ location, onClick, isHovered }) {
   const pulseRing3Ref = useRef();
   const { camera, size } = useThree();
   const position = useMemo(
-    () => latLngToVector3(location.lat, location.lng, 2.12),
+    () => latLngToVector3(location.lat, location.lng, 2.15),
     [location.lat, location.lng]
   );
 
   // Use location-specific colors
-  const markerColor = "#DC2626";
-  const markerColorLight = "#DC2626";
+  // Standard and attractive yellow and blue colors
+  // const markerColor = "#2196F3"; // Bright, attractive blue
+  // const markerColorLight = "#FFD600"; // Lively, attractive yellow
+  const markerColor = "#FFD600"; // Bright, attractive yellow
+  const markerColorLight = "#FFD600"; // Lively, attractive blue
 
   // Track if each ring has completed its animation
   const ring1Completed = useRef(false);
@@ -616,7 +619,7 @@ function LocationMarker({ location, onClick, isHovered }) {
       {/* Animated Pulse Rings */}
       <Sphere
         ref={pulseRing1Ref}
-        args={[0.08, 16, 16]}
+        args={[0.07, 16, 16]}
         onClick={handleMarkerClick}
       >
         <meshBasicMaterial
@@ -629,7 +632,7 @@ function LocationMarker({ location, onClick, isHovered }) {
       </Sphere>
       <Sphere
         ref={pulseRing2Ref}
-        args={[0.08, 16, 16]}
+        args={[0.07, 16, 16]}
         onClick={handleMarkerClick}
       >
         <meshBasicMaterial
@@ -642,7 +645,7 @@ function LocationMarker({ location, onClick, isHovered }) {
       </Sphere>
       <Sphere
         ref={pulseRing3Ref}
-        args={[0.08, 16, 16]}
+        args={[0.07, 16, 16]}
         onClick={handleMarkerClick}
       >
         <meshBasicMaterial
@@ -656,7 +659,7 @@ function LocationMarker({ location, onClick, isHovered }) {
 
       <Sphere
         ref={markerRef}
-        args={[0.09, 16, 16]}
+        args={[0.064, 16, 16]}
         onClick={handleMarkerClick}
         onPointerEnter={(e) => {
           e.stopPropagation();

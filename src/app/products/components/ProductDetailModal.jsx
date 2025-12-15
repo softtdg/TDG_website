@@ -1,203 +1,396 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useGLTF, Environment } from "@react-three/drei";
-import * as THREE from "three";
+import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
 import {
   defaultProductSpecs,
   productSpecs,
 } from "../consant/productsConstants";
-import { Model3D } from "../page";
+import * as THREE from "three";
 
-export const ProductDetailModal = ({ product, onClose }) => {
+// 3D Model Component
+const Model3D = ({ url }) => {
+  const { scene } = useGLTF(url);
+
+  // Calculate bounding box to center and scale the model
   useEffect(() => {
-    // Save current scroll position
-    const scrollY = window.scrollY;
+    if (!scene) return;
 
-    // Get current styles
-    const originalBodyOverflow = document.body.style.overflow;
-    const originalBodyPosition = document.body.style.position;
-    const originalBodyTop = document.body.style.top;
-    const originalHtmlOverflow = document.documentElement.style.overflow;
+    // Calculate bounding box
 
-    // Disable scrolling on body and html
-    document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
-    document.body.style.width = "100%";
-    document.documentElement.style.overflow = "hidden";
+    const box = new THREE.Box3().setFromObject(scene);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
 
-    return () => {
-      // Restore original styles
-      document.body.style.overflow = originalBodyOverflow;
-      document.body.style.position = originalBodyPosition;
-      document.body.style.top = originalBodyTop;
-      document.body.style.width = "";
-      document.documentElement.style.overflow = originalHtmlOverflow;
+    // Center the model
+    scene.position.sub(center);
 
-      // Restore scroll position
-      window.scrollTo(0, scrollY);
-    };
+    // Scale to fit (adjust scale factor as needed)
+    const maxDim = Math.max(size.x, size.y, size.z);
+    if (maxDim > 0) {
+      const scale = 2 / maxDim; // Adjust this value to control model size
+      scene.scale.multiplyScalar(scale);
+    }
+  }, [scene]);
+
+  return <primitive object={scene} />;
+};
+
+export const ProductDetailModal = ({ product, category, onClose }) => {
+  const [showVisibleModel, setShowVisibleModel] = useState(false);
+
+  // Show visible model after 2 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowVisibleModel(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
+
+  if (!product || !category) {
+    return null;
+  }
 
   // Get product specifications or use defaults
   const specs = productSpecs[product.name] || defaultProductSpecs;
 
-  return (
-    <motion.div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/45 px-0 sm:px-4 py-0 sm:py-6 backdrop-blur-sm"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-    >
-      <motion.div
-        className="relative bg-white shadow-2xl w-full h-full sm:max-w-[1600px] sm:w-full sm:max-h-[98vh] sm:h-auto overflow-hidden"
-        initial={{ scale: 0.9, opacity: 0, y: 20 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute z-50 bg-black/85 right-4 top-4 sm:right-6 sm:top-6 inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white/90 hover:text-[#111827]"
-        >
-          ✕
-        </button>
+  // Download handlers
+  const handleDownloadSpecs = () => {
+    // Create a text file with product specifications
+    const content = `Product: ${
+      product.name
+    }\nCategory: ${category}\n\nDescription:\n${
+      product.description
+    }\n\nTechnical Specifications:\n${specs.specifications.join(
+      "\n"
+    )}\n\nKey Features:\n${specs.features.join("\n")}`;
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${product.name.replace(/\s+/g, "_")}_Specifications.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
-        {/* Modal Header */}
-        <div className="bg-gradient-to-r from-[#0356C2] via-[#0E54C4] to-[#0356C2] px-4 py-4 sm:px-8 sm:py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs sm:text-sm md:text-base text-white/80 uppercase tracking-wide mb-2">
-                {product.category}
-              </p>
-              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+  const handleDownloadModel = () => {
+    // Download the 3D model file
+    const modelUrl = product.model || "/3dModels/demo.glb";
+    const link = document.createElement("a");
+    link.href = modelUrl;
+    link.download = `${product.name.replace(/\s+/g, "_")}_3D_Model.glb`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <>
+      {/* Backdrop */}
+      <motion.div
+        className="fixed inset-0 z-[99] bg-black/50 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        onClick={onClose}
+      />
+
+      {/* Modal */}
+      <motion.div
+        className="fixed top-[20px] left-[20px] right-[20px] bottom-[20px] sm:top-[30px] sm:bottom-[30px] xl:left-[200px] xl:right-[200px] z-[100] bg-gray-50 overflow-y-auto rounded-xl shadow-2xl"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+      >
+        {/* Fixed Header */}
+        <div className="sticky top-0 z-50 bg-gray-900 border-b border-gray-800 shadow-lg rounded-t-xl">
+          <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-4 sm:gap-6 py-3 sm:py-4">
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group flex-shrink-0"
+              >
+                <svg
+                  className="w-5 h-5 transform transition-transform group-hover:rotate-90"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+                <span className="font-medium text-sm sm:text-base hidden sm:inline">
+                  Close
+                </span>
+              </button>
+
+              {/* Separator */}
+              <div className="h-6 w-px bg-gray-700"></div>
+
+              {/* Category Badge */}
+              <span className="inline-block px-3 py-1 bg-[#0356C2] text-white text-xs sm:text-sm font-semibold uppercase tracking-wide rounded flex-shrink-0">
+                {category}
+              </span>
+
+              {/* Separator */}
+              <div className="h-6 w-px bg-gray-700"></div>
+
+              {/* Product Title */}
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-white uppercase tracking-wide truncate flex-1 min-w-0">
                 {product.name}
-              </h2>
+              </h1>
             </div>
           </div>
         </div>
 
-        {/* Modal Content */}
-        <div className="overflow-y-auto h-[calc(100vh-140px)] sm:max-h-[calc(98vh-180px)]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 p-4 sm:p-6 md:p-8">
+        {/* Content */}
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-12 sm:pb-16 lg:pb-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Left Column - 3D Model */}
-            <div className="space-y-4 sm:space-y-6">
-              <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
-                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
-                  3D Model View
-                </h3>
-                <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] bg-white rounded-lg overflow-hidden">
-                  <Suspense
-                    fallback={
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-center">
-                          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-                          <p className="text-gray-600">Loading 3D Model...</p>
-                        </div>
-                      </div>
-                    }
-                  >
-                    <Canvas
-                      camera={{ position: [0, 0, 5], fov: 30 }}
-                      style={{ background: "transparent" }}
-                    >
-                      <ambientLight intensity={0.5} />
-                      <directionalLight position={[5, 5, 5]} intensity={1} />
-                      <directionalLight
-                        position={[-5, -5, -5]}
-                        intensity={0.5}
-                      />
-                      <pointLight position={[0, 0, 5]} intensity={0.5} />
-                      <Model3D url={product.model || "/3dModels/demo.glb"} />
-                      <OrbitControls
-                        enableZoom={true}
-                        enablePan={false}
-                        enableRotate={true}
-                        minDistance={2}
-                        maxDistance={10}
-                        autoRotate={false}
-                      />
-                      <Environment preset="city" />
-                    </Canvas>
-                  </Suspense>
+            <div className="space-y-8">
+              <motion.div
+                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Section Header with Accent */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                    3D Model View
+                  </h2>
                 </div>
-                <p className="text-sm text-gray-600 mt-3 italic">
+
+                {showVisibleModel && (
+                  <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
+                    <Suspense
+                      fallback={
+                        <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                          <div className="text-center">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+                            <p className="text-gray-600 font-medium">
+                              Loading 3D Model...
+                            </p>
+                          </div>
+                        </div>
+                      }
+                    >
+                      <Canvas
+                        camera={{ position: [0, 0, 5], fov: 30 }}
+                        style={{ background: "transparent" }}
+                      >
+                        <ambientLight intensity={0.5} />
+                        <directionalLight position={[5, 5, 5]} intensity={1} />
+                        <directionalLight
+                          position={[-5, -5, -5]}
+                          intensity={0.5}
+                        />
+                        <pointLight position={[0, 0, 5]} intensity={0.5} />
+                        <Model3D url={product.model || "/3dModels/demo.glb"} />
+                        <OrbitControls
+                          enableZoom={true}
+                          enablePan={false}
+                          enableRotate={true}
+                          minDistance={2}
+                          maxDistance={10}
+                          autoRotate={false}
+                        />
+                        <Environment preset="city" />
+                      </Canvas>
+                    </Suspense>
+                  </div>
+                )}
+                {!showVisibleModel && (
+                  <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+                      <p className="text-gray-600 font-medium">
+                        Loading 3D Model...
+                      </p>
+                    </div>
+                  </div>
+                )}
+                <p className="text-sm text-gray-500 mt-4 italic">
                   * Interactive 3D model - Click and drag to rotate, scroll to
                   zoom
                 </p>
-              </div>
+              </motion.div>
 
               {/* Product Image */}
-              <div className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-200">
-                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
-                  Product Image
-                </h3>
-                <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden rounded-lg border border-gray-300">
+              <motion.div
+                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                {/* Section Header with Accent */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                    Product Image
+                  </h2>
+                </div>
+                <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-lg border border-gray-200 shadow-sm">
                   <img
                     src={product.image}
                     alt={product.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
-              </div>
+              </motion.div>
             </div>
 
             {/* Right Column - Product Details */}
-            <div className="space-y-4 sm:space-y-6">
+            <div className="space-y-8">
               {/* Description */}
-              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200">
-                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
-                  Description
-                </h3>
-                <p className="text-sm sm:text-base md:text-lg leading-relaxed text-[#4B5563]">
+              <motion.div
+                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                {/* Section Header with Accent */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                    Description
+                  </h2>
+                </div>
+                <p className="text-base sm:text-lg leading-relaxed text-gray-700">
                   {product.description}
                 </p>
-              </div>
+              </motion.div>
 
               {/* Specifications */}
-              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200">
-                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
-                  Technical Specifications
-                </h3>
-                <ul className="space-y-3">
+              <motion.div
+                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                {/* Section Header with Accent */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                    Technical Specifications
+                  </h2>
+                </div>
+                <ul className="space-y-4">
                   {specs.specifications.map((spec, index) => (
                     <li
                       key={index}
-                      className="flex items-start text-sm sm:text-base text-[#4B5563]"
+                      className="flex items-start text-base text-gray-700"
                     >
-                      <span className="text-[#0356C2] mr-3 mt-1">•</span>
-                      <span>{spec}</span>
+                      <span className="text-[#0356C2] mr-4 mt-1.5 font-bold text-lg">
+                        •
+                      </span>
+                      <span className="flex-1 leading-relaxed">{spec}</span>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
 
               {/* Features */}
-              <div className="bg-gray-50 rounded-lg p-4 sm:p-6 border border-gray-200">
-                <h3 className="text-lg sm:text-xl font-bold text-[#111827] mb-3 sm:mb-4 uppercase tracking-wide">
-                  Key Features
-                </h3>
-                <ul className="space-y-3">
+              <motion.div
+                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                {/* Section Header with Accent */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                    Key Features
+                  </h2>
+                </div>
+                <ul className="space-y-4">
                   {specs.features.map((feature, index) => (
                     <li
                       key={index}
-                      className="flex items-start text-sm sm:text-base text-[#4B5563]"
+                      className="flex items-start text-base text-gray-700"
                     >
-                      <span className="text-[#0356C2] mr-3 mt-1">✓</span>
-                      <span>{feature}</span>
+                      <span className="text-[#0356C2] mr-4 mt-1.5 font-bold text-lg">
+                        ✓
+                      </span>
+                      <span className="flex-1 leading-relaxed">{feature}</span>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
+
+              {/* Download Buttons */}
+              <motion.div
+                className=""
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Download Specs Button */}
+                  <button
+                    onClick={handleDownloadSpecs}
+                    className="group relative flex items-center justify-center gap-3 bg-[#0356C2] hover:bg-[#0248A0] text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0356C2] focus:ring-offset-2 transform hover:-translate-y-0.5"
+                  >
+                    <svg
+                      className="w-5 h-5 transition-transform group-hover:scale-110"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                      />
+                    </svg>
+                    <span className="text-sm sm:text-base">
+                      Download Specs Sheet
+                    </span>
+                  </button>
+
+                  {/* Download 3D Model Button */}
+                  <button
+                    onClick={handleDownloadModel}
+                    className="group relative flex items-center justify-center gap-3 bg-white hover:bg-gray-50 text-[#0356C2] border-2 border-[#0356C2] hover:border-[#0248A0] font-semibold py-4 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0356C2] focus:ring-offset-2 transform hover:-translate-y-0.5"
+                  >
+                    <svg
+                      className="w-5 h-5 transition-transform group-hover:scale-110"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                      />
+                    </svg>
+                    <span className="text-sm sm:text-base">
+                      Download 3D Model
+                    </span>
+                  </button>
+                </div>
+              </motion.div>
             </div>
           </div>
         </div>
       </motion.div>
-    </motion.div>
+    </>
   );
 };

@@ -127,7 +127,7 @@ const Footer = () => {
               {/* Column 2 */}
               <div className="space-y-3">
                 <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
-                  Products
+                  Offerings
                 </h4>
                 <button
                   onClick={handleProductsClick}

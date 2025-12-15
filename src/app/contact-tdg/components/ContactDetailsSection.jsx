@@ -186,7 +186,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                 {/* Office Name */}
                 <div className="flex items-start gap-3">
                   <div className="mt-1">
-                    <BusinessIcon className="text-[#f48c06] text-2xl" />
+                    <BusinessIcon className="text-[#0356C2] text-2xl" />
                   </div>
                   <div className="flex-1">
                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">

@@ -76,7 +76,7 @@ export const HeroSection = () => {
               <div className="absolute inset-0 bg-[#101828]/90 backdrop-blur-lg" />
 
               {/* Content */}
-              <div className="relative flex items-center justify-center h-[70px] px-4">
+              <div className="relative flex items-center justify-center max-sm:h-[68px] h-[90px] px-4">
                 <motion.h1
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
@@ -89,7 +89,7 @@ export const HeroSection = () => {
 
               {/* Elegant bottom border with gradient */}
               <div className="absolute bottom-0 left-0 right-0 h-[2px]">
-                <div className="h-full bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+                <div className="h-full bg-gradient-to-r from-transparent via-white/50 to-transparent" />
               </div>
             </div>
           </motion.div>

@@ -42,19 +42,13 @@ export const HeroSection = () => {
   return (
     <>
       {/* Original Hero Section */}
-      <div ref={heroRef} className="relative">
-        <img
+      <div ref={heroRef} className="relative h-0">
+        {/* <img
           src="/images/home/hero-section.png"
-          className="w-full h-[92vh] object-cover"
+          className="w-full h-[100vh] object-cover opacity-20"
           alt="Contact TDG banner"
         />
-        <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
-          <div className="text-center">
-            <h1 className="text-white text-4xl sm:text-[62px] lg:text-6xl font-semibold mb-4">
-              CONTACT TDG
-            </h1>
-          </div>
-        </div>
+        <div className="absolute top-0 left-0 w-full h-full bg-black/25 pointer-events-none" /> */}
       </div>
 
       {/* Sticky Header - appears when scrolling */}
@@ -75,7 +69,7 @@ export const HeroSection = () => {
               <div className="absolute inset-0 bg-[#101828]/90 backdrop-blur-lg" />
 
               {/* Content */}
-              <div className="relative flex items-center justify-center h-[70px] px-4">
+              <div className="relative flex items-center justify-center max-sm:h-[68px] h-[90px] px-4">
                 <motion.h1
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
