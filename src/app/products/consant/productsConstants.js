@@ -44,7 +44,7 @@ export const productData = {
       description:
         "Compact design with 2000 lumens, perfect for urban rail applications. Energy-efficient with 50,000+ hour lifespan and integrated dimming control.",
       image: getRailwayImage("exterior", 1),
-      model: "/3dModels/demo3.glb",
+      model: "/3dModels/demo_2.glb",
     },
     {
       name: "High-Power Headlight HL-5000",
