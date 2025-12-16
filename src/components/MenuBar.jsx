@@ -243,7 +243,7 @@ const MenuBar = () => {
   return (
     <div>
       <Button
-        className="m-font !fixed !top-[10px] sm:!top-[17px] !left-[10px] sm:!left-[50px] !z-[100] !w-[50px] sm:!w-[130px] !h-[45px] sm:!h-[55px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[3px] !backdrop-blur-md !shadow-lg hover:!bg-[#f6f9ff]/80 hover:!shadow-2xl transition-all duration-200"
+        className="m-font !fixed !top-[10px] sm:!top-[12.5px] !left-[10px] sm:!left-[50px] !z-[100] !w-[50px] sm:!w-[130px] !h-[45px] sm:!h-[55px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[3px] !backdrop-blur-md !shadow-lg hover:!bg-[#f6f9ff]/80 hover:!shadow-2xl transition-all duration-200"
         variant="outlined"
         sx={{
           backgroundColor: "#dbe2e738",
@@ -266,7 +266,7 @@ const MenuBar = () => {
       </Button>
 
       <Button
-        className="m-font !fixed !top-[10px] sm:!top-[15px] !p-0 !right-[10px] sm:!right-[50px] !z-[100] w-[80px] sm:!w-[120px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
+        className="m-font !fixed !top-[10px] sm:!top-[12px] !p-0 !right-[10px] sm:!right-[50px] !z-[100] w-[80px] sm:!w-[110px] !text-[16px] sm:!text-[18px] lg:!text-[20px] !rounded-[10px]"
         variant="outlined"
         sx={{
           borderColor: "transparent",
