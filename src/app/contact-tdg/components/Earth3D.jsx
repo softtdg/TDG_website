@@ -388,7 +388,8 @@ function LocationMarker({ location, onClick, isHovered }) {
   // const markerColor = "#2196F3"; // Bright, attractive blue
   // const markerColorLight = "#FFD600"; // Lively, attractive yellow
   const markerColor = "#FFD600"; // Bright, attractive yellow
-  const markerColorLight = "#FFD600"; // Lively, attractive blue
+  // const markerColorLight = "#FFD600"; // Lively, attractive blue
+  const markerColorLight = "transparent"; // Lively, attractive blue
 
   // Track if each ring has completed its animation
   const ring1Completed = useRef(false);
@@ -605,7 +606,7 @@ function LocationMarker({ location, onClick, isHovered }) {
   return (
     <group position={position}>
       {/* Connection line from marker to Earth surface */}
-      <mesh position={linePosition} rotation={lineRotation}>
+      {/* <mesh position={linePosition} rotation={lineRotation}>
         <cylinderGeometry args={[0.008, 0.008, lineLength, 8]} />
         <meshStandardMaterial
           color={markerColor}
@@ -617,7 +618,7 @@ function LocationMarker({ location, onClick, isHovered }) {
       </mesh>
 
       {/* Animated Pulse Rings */}
-      <Sphere
+      {/* <Sphere
         ref={pulseRing1Ref}
         args={[0.07, 16, 16]}
         onClick={handleMarkerClick}
@@ -655,11 +656,12 @@ function LocationMarker({ location, onClick, isHovered }) {
           side={THREE.DoubleSide}
           depthWrite={true}
         />
-      </Sphere>
+      </Sphere> */}
 
       <Sphere
         ref={markerRef}
-        args={[0.064, 16, 16]}
+        // args={[0.064, 16, 16]}
+        args={[0.07, 16, 16]}
         onClick={handleMarkerClick}
         onPointerEnter={(e) => {
           e.stopPropagation();
