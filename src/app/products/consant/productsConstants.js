@@ -395,29 +395,25 @@ export const productSections = [
         title: "Headlight",
         description:
           "High-performance LED headlight systems designed for optimal visibility and energy efficiency. Engineered to meet stringent railway safety standards while providing superior illumination for train operations.",
-        image:
-          "https://previews.123rf.com/images/sania01/sania012002/sania01200200294/141118784-the-headlight-of-a-modern-high-speed-train-with-the-reflection-of-a-railway-station-in-it.jpg",
+        image: "/images/products/product-headlight.jpg",
       },
       {
         title: "Marker Light",
         description:
           "Advanced marker light solutions for train identification and safety. Compact, durable LED markers that ensure clear visibility in all weather conditions and lighting environments.",
-        image:
-          "https://s.alicdn.com/@sc04/kf/H6802c398cec34ae88ea783c3866e60f1V/Emark-Certified-5-Inch-Square-24V-160-150W-Sealed-Beam-For-Passenger-Cars-Trains.jpg",
+        image: "/images/products/product-marker-light.jpg",
       },
       {
         title: "Indicators",
         description:
           "Reliable LED indicator systems for signaling and status display. Precision-engineered for long-lasting performance and clear visual communication in railway applications.",
-        image:
-          "https://d1c4d7gnm6as1q.cloudfront.net/Pictures/1024x536/0/7/8/39078_lillemetrotrainlighting_84609.jpg",
+        image: "/images/products/product-indicators.jpg",
       },
       {
         title: "Others",
         description:
           "Comprehensive range of additional exterior lighting solutions including tail lights, side markers, and specialized illumination systems tailored to specific railway requirements.",
-        image:
-          "https://www.shutterstock.com/image-photo/tokyo-japan-062022-metro-train-600nw-2174777919.jpg",
+        image: "/images/products/product-others.jpg",
       },
     ],
   },
@@ -428,25 +424,25 @@ export const productSections = [
         title: "Main Lighting",
         description:
           "Primary interior lighting systems providing optimal illumination for passenger comfort and safety. Energy-efficient LED solutions designed to create pleasant ambient lighting throughout train carriages.",
-        image: "/images/innovation/img2.jpg",
+        image: "/images/products/product-main-lighting.jpg",
       },
       {
         title: "Passenger Comfort",
         description:
           "Specialized lighting solutions focused on enhancing passenger experience. Features include adjustable brightness, color temperature control, and ergonomic design for long-distance travel comfort.",
-        image: "/images/innovation/img3.jpg",
+        image: "/images/products/product-passenger-comfort.jpg",
       },
       {
         title: "Indication",
         description:
           "Clear and intuitive indication lighting systems for passenger information displays, seat availability, and safety instructions. Designed for maximum visibility and user-friendly operation.",
-        image: "/images/innovation/img4.jpg",
+        image: "/images/products/product-indication.jpg",
       },
       {
         title: "Specialty",
         description:
           "Customized interior lighting solutions for specialized applications including premium class accommodations, dining cars, and unique architectural lighting requirements for modern rail vehicles.",
-        image: "/images/standards/banner.jpg",
+        image: "/images/products/product-specialty.jpg",
       },
     ],
   },
@@ -457,19 +453,19 @@ export const productSections = [
         title: "Emergency Lighting",
         description:
           "Critical emergency lighting systems ensuring passenger safety during power failures or emergency situations. Battery-backed LED solutions providing reliable illumination for safe evacuation and emergency procedures.",
-        image: "/images/home/u1.jpg",
+        image: "/images/products/product-emergency.jpg",
       },
       {
         title: "Energy Storage",
         description:
           "Advanced energy storage solutions for backup power systems and energy-efficient lighting operations. Integrated battery management systems designed for reliable performance and extended service life.",
-        image: "/images/home/u2.jpg",
+        image: "/images/products/product-energy-storage.jpg",
       },
       {
         title: "Energy Control",
         description:
           "Intelligent energy controller systems for centralized management of all lighting functions. Features include dimming control, scheduling, monitoring, and integration with train management systems.",
-        image: "/images/home/u3.jpg",
+        image: "/images/products/product-energy-control.jpg",
       },
     ],
   },

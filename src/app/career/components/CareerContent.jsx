@@ -1,170 +1,39 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { BadgeCheck } from "lucide-react";
-
-const jobOpenings = [
-  {
-    title: "Intermediate Mechanical Designer",
-    company: "TDG Transit Design Group Inc",
-    location: "Mississauga, Ontario, Canada",
-    status: "Actively Hiring",
-    posted: "2 weeks ago",
-    applyUrl:
-      "https://ca.linkedin.com/jobs/view/intermediate-mechanical-designer-at-tdg-transit-design-group-inc-4331164094?position=1&pageNum=0&refId=%2BD3skSs8gsA%2FxQ7wgLAtHQ%3D%3D&trackingId=0X551IEZosLDU4txsulPEg%3D%3D",
-    summary:
-      "Support new rail-lighting programs by translating customer specs into robust CAD assemblies and validation plans.",
-    overview:
-      "TDG is a global leader in building complete interior and exterior lighting systems for rail applications. With corporate headquarters based in Mississauga, TDG specializes in LED innovations, continually introducing new technology to provide customers the best in the market.",
-    whyWork:
-      "We are growing and looking for quality people to join our team. TDG has grown rapidly over the last 5 years and we are searching for talented individuals to grow with our company.",
-    jobDescription: [
-      "Exterior and interior design of lighting systems for locomotive and rail passenger vehicles.",
-      "Production of detailed 3D models, general assemblies, and fabrication drawings using SolidWorks.",
-      "Perform detailed 3D designs, drawings, and bills of materials.",
-      "Revise designs and drawings based on internal and customer feedback to develop engineered solutions that meet or exceed customer requirements.",
-      "Keep project design records and files up to date.",
-      "Maintain an organized filing system for all CAD files according to TDG procedures.",
-      "Adhere to timelines and project schedules.",
-    ],
-    requirements: [
-      "5+ years’ experience as a Mechanical Designer.",
-      "Experience with 3D modeling software such as CATIA, Inventor, Pro-E, SolidEdge, etc.; SolidWorks expertise is an asset.",
-      "Advanced SolidWorks skills for sheet metal design.",
-      "Knowledge of manufacturing processes including CNC machining, sheet metal, metal and plastic extruding, fabrication, 3D printing, injection molding, die-casting, and stamping.",
-      "Working knowledge of GD&T.",
-      "Basic understanding of electronics / PCB.",
-      "Proficiency with Microsoft Office (Word, Excel, Outlook, PowerPoint).",
-      "Strong written and verbal communication skills.",
-      "Excellent capacity for synthesis, analysis, and innovation.",
-    ],
-    workingConditions: [
-      "Competitive salary.",
-      "Stable schedule from Monday to Friday.",
-    ],
-    education: [
-      "Diploma in Mechanical Engineering Technology (Design) or University degree in Mechanical Engineering.",
-    ],
-    responsibilities: [
-      "Develop detailed 3D models and drawings for lighting components and mounting hardware.",
-      "Collaborate with electrical and testing teams to resolve integration issues.",
-      "Support prototype builds and drive continuous improvement initiatives.",
-    ],
-  },
-  {
-    title: "Production Supervisor",
-    company: "TDG Transit Design Group Inc",
-    location: "Mississauga, Ontario, Canada",
-    status: "Actively Hiring",
-    posted: "18 hours ago",
-    applyUrl:
-      "https://ca.linkedin.com/jobs/view/production-supervisor-at-tdg-transit-design-group-inc-4335883435?position=2&pageNum=0&refId=qol7vb%2Ff5tccRgAdaawmzg%3D%3D&trackingId=2ZBLxdJat%2BftA5baiFpWyQ%3D%3D",
-    summary:
-      "Lead plant efficiency and production scheduling efforts while ensuring high standards for quality, safety, and team development across TDG’s rail-lighting manufacturing lines.",
-    overview:
-      "TDG Transit Design Group is a non-unionized global leader in complete interior and exterior lighting for rail applications, delivering innovative LED solutions from its Mississauga headquarters since 1989.",
-    whyWork:
-      "We’re growing quickly and need an organized leader to manage day-to-day production functions. This mid-senior role suits professionals with 8–10 years of manufacturing experience who excel at scheduling, supervision, and technical oversight.",
-    jobDescription: [
-      "Own overall plant efficiency, productivity, and production scheduling.",
-      "Supervise teams to achieve corporate production and sales targets.",
-      "Recruit, coach, and evaluate production employees while meeting quality standards.",
-      "Train staff to meet customer and corporate requirements; drive KPI and ISO documentation updates.",
-      "Coordinate preventive maintenance with vendors and internal resources.",
-      "Improve and sustain 5S practices; host weekly productivity reviews with senior management.",
-    ],
-    requirements: [
-      "8–10 years of experience in a manufacturing environment.",
-      "ISO environment or auditing exposure considered an asset.",
-      "Proficiency with Microsoft Word, Excel, and Outlook.",
-      "Experience supervising teams of 20+ employees.",
-      "Mechanical and electrical assembly background preferred.",
-    ],
-    specialSkills: [
-      "Ability to lay out and execute production schedules.",
-      "Comfort leading a diverse workforce with strong time-management and organization skills.",
-      "Effective cross-functional communicator with engineering, design, and other teams.",
-      "Knowledge of Ontario employment legislation and regulations.",
-    ],
-    workingConditions: ["Full-time schedule, Monday through Friday."],
-    education: ["Post-secondary education in a technical field (asset)."],
-  },
-  {
-    title: "Electrical Engineer",
-    company: "TDG Transit Design Group Inc",
-    location: "Mississauga, Ontario, Canada",
-    status: "Actively Hiring",
-    posted: "2 weeks ago",
-    applyUrl:
-      "https://ca.linkedin.com/jobs/view/electrical-engineer-at-tdg-transit-design-group-inc-4331147820?trk=public_jobs_topcard-title",
-    summary:
-      "Design and validate intricate embedded hardware PCBs that power TDG’s global rail-lighting platforms, from schematic capture through EMI qualification.",
-    overview:
-      "TDG is a global leader in complete interior and exterior lighting systems for rail applications. Our Mississauga-based team has delivered LED innovations to transit agencies worldwide since 1989.",
-    whyWork:
-      "We’re looking for an organized engineer with 10–15 years of electronic design experience who thrives on hands-on PCB development and rigorous validation.",
-    jobDescription: [
-      "Design electronic circuits, validate concepts with simulation software, and capture schematics.",
-      "Layout PCB assemblies and build prototype boards using milling/routing equipment for hardware verification.",
-      "Analyze and troubleshoot analog circuits; write microcontroller software and manage EMI qualification tests.",
-      "Maintain documentation across PCBs and software, including international travel to TDG/customer sites when required.",
-    ],
-    requirements: [
-      "Industry experience in electronic design and engineering.",
-      "Proficiency with CAD tools (Altium preferred) and SPICE simulation software.",
-      "SMPS design expertise plus strong PCB layout techniques and microcontroller experience.",
-      "Excellent communication skills for both technical and non-technical audiences.",
-      "10–15 years of relevant experience.",
-    ],
-    desiredExperience: [
-      "Proficiency with Altium Designer and SolidWorks.",
-      "LED circuit design experience.",
-      "Ethernet hardware experience and familiarity with Ethernet protocols.",
-    ],
-    education: [
-      "University degree in Electronic Engineering or equivalent post-secondary education.",
-      "Registered Professional Engineer (PEO) or eligible for registration.",
-    ],
-  },
-  {
-    title: "SMT Supervisor",
-    company: "TDG Transit Design Group Inc",
-    location: "Mississauga, Ontario, Canada",
-    status: "Actively Hiring",
-    posted: "2 weeks ago",
-    applyUrl:
-      "https://ca.linkedin.com/jobs/view/smt-supervisor-at-tdg-transit-design-group-inc-4319412180?trk=public_jobs_topcard-title",
-    summary:
-      "Oversee SMT production across setup, equipment maintenance, and operator coaching while ensuring assemblies meet IPC and J-STD workmanship standards.",
-    overview:
-      "TDG is a global leader in rail lighting systems, delivering LED innovations from our Mississauga headquarters since 1989. We are seeking an experienced SMT supervisor to manage program setup, equipment maintenance, and team performance.",
-    whyWork:
-      "This Monday-to-Friday role offers a competitive salary, stable schedule, and the opportunity to lead a dynamic, quality-focused team.",
-    jobDescription: [
-      "Supervise daily SMT production activities, including setup, operation, and maintenance of SMT lines and equipment.",
-      "Ensure assemblies meet IPC-610 and J-STD-001 workmanship standards.",
-      "Monitor schedules to hit output, quality, and delivery targets; train, mentor, and evaluate SMT operators and technicians.",
-      "Partner with engineering and quality teams to resolve process or quality issues.",
-      "Oversee equipment calibration, preventive maintenance, and troubleshooting, including forklift operations when necessary.",
-      "Maintain production documentation, reports, and process records; drive process improvements to optimize efficiency and reduce defects.",
-    ],
-    requirements: [
-      "Minimum 3–5 years of SMT manufacturing or electronics assembly experience.",
-      "Supervisory or team-lead experience in a production environment.",
-      "Certification and working knowledge of IPC-A-610 and J-STD-001 standards.",
-      "Valid forklift license plus strong knowledge of SMT equipment (pick-and-place, reflow, AOI, stencil printers).",
-      "Excellent leadership, communication, and problem-solving skills; ability to interpret technical drawings, BOMs, and work instructions.",
-      "Proficiency in Microsoft Office.",
-    ],
-    education: ["Diploma in a relevant technical field."],
-  },
-];
+import { fetchCareers } from "@/lib/api";
 
 const CareerContent = () => {
+  const [jobOpenings, setJobOpenings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadCareers = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchCareers();
+        setJobOpenings(data || []);
+      } catch (err) {
+        console.error("Error loading careers:", err);
+        setError(
+          "Failed to load career opportunities. Please try again later."
+        );
+        setJobOpenings([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCareers();
+  }, []);
+
   return (
     <div className="max-w-[1300px] mx-auto px-3 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12 lg:py-16 xl:py-[100px] bg-white">
       {/* Header */}
@@ -206,7 +75,40 @@ const CareerContent = () => {
           <h3 className="text-xl sm:text-2xl md:text-2xl font-bold uppercase text-[#000000] mb-4 sm:mb-6">
             Current Opportunities
           </h3>
-          <JobAccordionList className="mt-4 sm:mt-6" />
+
+          {/* Loading State */}
+          {loading && (
+            <div className="text-center py-10">
+              <p className="text-lg text-gray-600">
+                Loading career opportunities...
+              </p>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && !loading && (
+            <div className="text-center py-10">
+              <p className="text-lg text-red-600">{error}</p>
+            </div>
+          )}
+
+          {/* Job Listings */}
+          {!loading && !error && (
+            <JobAccordionList
+              className="mt-4 sm:mt-6"
+              jobOpenings={jobOpenings}
+            />
+          )}
+
+          {/* Empty State */}
+          {!loading && !error && jobOpenings.length === 0 && (
+            <div className="text-center py-10">
+              <p className="text-lg text-gray-600">
+                No career opportunities available at this time. Please check
+                back later.
+              </p>
+            </div>
+          )}
         </section>
       </div>
 
@@ -240,7 +142,7 @@ const CareerContent = () => {
 
 export default CareerContent;
 
-const JobAccordionList = ({ className = "" }) => {
+const JobAccordionList = ({ className = "", jobOpenings = [] }) => {
   const [activeIndex, setActiveIndex] = useState(-1);
 
   return (
@@ -269,36 +171,44 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
     [isOpen]
   );
 
+  // Helper function to check if a value has content
+  const hasContent = (value) => {
+    if (!value) return false;
+    if (Array.isArray(value)) return value.length > 0;
+    if (typeof value === "string") return value.trim().length > 0;
+    return true;
+  };
+
   const structuredSections = [
-    job.overview && {
+    hasContent(job.overview) && {
       title: "Who we are",
       paragraphs: [job.overview],
     },
-    job.whyWork && {
+    hasContent(job.whyWork) && {
       title: "Why work for us",
       paragraphs: [job.whyWork],
     },
-    job.jobDescription && {
+    hasContent(job.jobDescription) && {
       title: "Job Description",
       list: job.jobDescription,
     },
-    job.requirements && {
+    hasContent(job.requirements) && {
       title: "Requirements & Experience",
       list: job.requirements,
     },
-    job.specialSkills && {
+    hasContent(job.specialSkills) && {
       title: "Special Skill Requirements",
       list: job.specialSkills,
     },
-    job.desiredExperience && {
+    hasContent(job.desiredExperience) && {
       title: "Desired Experience",
       list: job.desiredExperience,
     },
-    job.workingConditions && {
+    hasContent(job.workingConditions) && {
       title: "Working Conditions",
       list: job.workingConditions,
     },
-    job.education && {
+    hasContent(job.education) && {
       title: "Education",
       list: job.education,
     },
@@ -385,24 +295,10 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
           </div>
         ) : (
           <>
-            {job.summary && (
+            {hasContent(job.summary) && (
               <p className="mb-4 text-[16px] leading-6 sm:leading-7 text-[#1f2937]">
                 {job.summary}
               </p>
-            )}
-            {job.responsibilities && job.responsibilities.length > 0 && (
-              <>
-                <h5 className="mb-2 sm:mb-3 text-xs sm:text-sm font-bold uppercase tracking-wide text-[#0E54C4]">
-                  Key Responsibilities
-                </h5>
-                <ul className="list-disc pl-5 sm:pl-6 text-[16px] leading-6 sm:leading-7 text-[#1f2937] space-y-1 sm:space-y-2">
-                  {job.responsibilities.map((item) => (
-                    <li key={item} className="mb-1">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </>
             )}
           </>
         )}

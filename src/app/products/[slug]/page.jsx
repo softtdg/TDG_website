@@ -8,9 +8,9 @@ import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
 import {
   defaultProductSpecs,
   productSpecs,
-  productData,
 } from "../consant/productsConstants";
 import * as THREE from "three";
+import { fetchProducts, groupProductsByCategory } from "@/lib/api";
 
 // 3D Model Component
 export const Model3D = ({ url }) => {
@@ -48,7 +48,7 @@ const createSlug = (name) => {
 };
 
 // Helper function to find product by slug and category
-const findProductBySlug = (slug, category) => {
+const findProductBySlug = (slug, category, productData) => {
   if (!category || !productData[category]) return null;
 
   const products = productData[category];
@@ -62,16 +62,37 @@ const ProductDetailContent = () => {
   const slug = params.slug;
   const category = searchParams.get("category");
   const [showVisibleModel, setShowVisibleModel] = useState(false);
+  const [productData, setProductData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  // Fetch products from API
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true);
+        const products = await fetchProducts();
+        const grouped = groupProductsByCategory(products);
+        setProductData(grouped);
+      } catch (error) {
+        console.error("Error loading products:", error);
+        setProductData({});
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
 
   // Find the product
-  const product = findProductBySlug(slug, category);
+  const product = findProductBySlug(slug, category, productData);
 
-  // Redirect to products page if product not found
+  // Redirect to products page if product not found (after loading)
   useEffect(() => {
-    if (!product || !category) {
+    if (!loading && (!product || !category)) {
       router.push("/products");
     }
-  }, [product, category, router]);
+  }, [product, category, router, loading]);
 
   // Show visible model after 2 seconds
   useEffect(() => {
@@ -81,6 +102,17 @@ const ProductDetailContent = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+          <p className="text-gray-600 font-medium">Loading product...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!product || !category) {
     return (
@@ -103,8 +135,15 @@ const ProductDetailContent = () => {
     );
   }
 
-  // Get product specifications or use defaults
-  const specs = productSpecs[product.name] || defaultProductSpecs;
+  // Get product specifications from API or use defaults/static specs
+  const specs = {
+    specifications: product.specifications && product.specifications.length > 0
+      ? product.specifications
+      : (productSpecs[product.name]?.specifications || defaultProductSpecs.specifications),
+    features: product.features && product.features.length > 0
+      ? product.features
+      : (productSpecs[product.name]?.features || defaultProductSpecs.features),
+  };
 
   // Download handlers
   const handleDownloadSpecs = () => {

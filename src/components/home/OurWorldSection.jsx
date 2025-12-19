@@ -64,7 +64,7 @@ export const OurWorldSection = () => {
   ];
 
   return (
-    <div className="w-full bg-white py-16 sm:py-24 px-[8px]">
+    <div className="w-full bg-white pb-16 sm:pb-24 px-[8px]">
       <div className="max-w-[100%] mx-auto relative">
         {/* Section Title */}
         <div className="text-center mb-12">

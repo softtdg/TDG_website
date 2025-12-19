@@ -26,10 +26,10 @@ import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import {
   introductionText,
-  productData,
   productSections,
 } from "../consant/productsConstants";
 import { ProductModal } from "./ProductModal";
+import { fetchProducts, groupProductsByCategory } from "@/lib/api";
 
 // Helper function to create slug from product name
 const createSlug = (name) => {
@@ -40,7 +40,7 @@ const createSlug = (name) => {
 };
 
 // Helper function to find product by slug and category
-const findProductBySlug = (slug, category) => {
+const findProductBySlug = (slug, category, productData) => {
   if (!category || !productData[category]) return null;
   const products = productData[category];
   return products.find((product) => createSlug(product.name) === slug) || null;
@@ -51,15 +51,38 @@ const ProductsContentInner = ({ Model3D }) => {
   const router = useRouter();
   const [selectedCard, setSelectedCard] = useState(null);
   const [initialProduct, setInitialProduct] = useState(null);
+  const [productData, setProductData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  // Fetch products from API
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true);
+        const products = await fetchProducts();
+        const grouped = groupProductsByCategory(products);
+        setProductData(grouped);
+      } catch (error) {
+        console.error("Error loading products:", error);
+        setProductData({});
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, []);
 
   // Check URL on mount and when URL changes to open modals if needed
   useEffect(() => {
+    if (loading) return; // Wait for products to load
+
     const category = searchParams.get("category");
     const productSlug = searchParams.get("product");
 
     if (category && productSlug) {
       // Find the product
-      const product = findProductBySlug(productSlug, category);
+      const product = findProductBySlug(productSlug, category, productData);
       if (product) {
         setSelectedCard(category);
         setInitialProduct({ product, category });
@@ -77,7 +100,7 @@ const ProductsContentInner = ({ Model3D }) => {
       setSelectedCard(null);
       setInitialProduct(null);
     }
-  }, [searchParams]);
+  }, [searchParams, productData, loading]);
 
   const handleCardClick = (cardTitle) => {
     setSelectedCard(cardTitle);
@@ -95,9 +118,24 @@ const ProductsContentInner = ({ Model3D }) => {
     router.push("/products", { scroll: false });
   };
 
+  if (loading) {
+    return (
+      <section className="bg-white">
+        <div className="mx-auto w-full max-w-[1400px] px-3 py-16 max-sm:py-8">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+              <p className="text-gray-600 font-medium">Loading products...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="bg-white">
-      <div className="mx-auto w-full max-w-[1500px] px-3 py-16 max-sm:py-8">
+    <section className="bg-[#f6f7f9]">
+      <div className="mx-auto w-full max-w-[1400px] px-3 py-16 max-sm:py-8">
         {/* Introduction Paragraph */}
         <motion.div
           className="mb-12 md:mb-16 mx-auto"
@@ -121,8 +159,8 @@ const ProductsContentInner = ({ Model3D }) => {
           >
             {/* Section Title Banner */}
             <div className="mb-8">
-              <div className="relative rounded-[5px] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] py-6 px-6 shadow-sm border-l-4 border-[#0356C2]">
-                <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-[#111827] uppercase tracking-wide text-center">
+              <div className="relative bg-[#edeff3] py-4 px-6 border-l-4 border-[#2d4a86]">
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#192a4d] uppercase tracking-[3px] text-center">
                   {section.title}
                 </h3>
               </div>
@@ -138,7 +176,7 @@ const ProductsContentInner = ({ Model3D }) => {
                 <motion.div
                   key={itemIndex}
                   onClick={() => handleCardClick(item.title)}
-                  className="bg-white shadow-md rounded-[5px] overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 group cursor-pointer flex flex-col h-full"
+                  className="bg-white overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col h-full"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -148,7 +186,7 @@ const ProductsContentInner = ({ Model3D }) => {
                   whileHover={{ y: -5 }}
                 >
                   {/* Image */}
-                  <div className="relative w-full h-48 md:h-56 overflow-hidden bg-gray-200 flex-shrink-0">
+                  <div className="relative w-full overflow-hidden border-2 border-[#192a4d33]">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -159,7 +197,7 @@ const ProductsContentInner = ({ Model3D }) => {
 
                   {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
-                    <h4 className="text-xl md:text-2xl font-semibold text-[#111827] mb-3 uppercase tracking-wide">
+                    <h4 className="text-xl md:text-[21px] font-semibold text-[#111827] mb-3 uppercase tracking-wide">
                       {item.title}
                     </h4>
                     <p className="text-base md:text-[17px] leading-relaxed text-[#4B5563] mb-4 flex-grow">
@@ -170,7 +208,7 @@ const ProductsContentInner = ({ Model3D }) => {
                         e.stopPropagation();
                         handleCardClick(item.title);
                       }}
-                      className="w-full mt-auto bg-[#0E54C4] hover:bg-[#084c93] active:bg-[#063d7a] text-white font-semibold py-3 px-6 rounded-[5px] transition-all duration-200 text-sm sm:text-base shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#0E54C4] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full mt-auto bg-[#192a4d] text-white font-semibold py-2.5 px-5 rounded-[4px] transition-all duration-200 text-sm shadow-sm hover:shadow-md border border-slate-600/50"
                     >
                       View Details
                     </button>

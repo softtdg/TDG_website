@@ -54,8 +54,18 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
     return null;
   }
 
-  // Get product specifications or use defaults
-  const specs = productSpecs[product.name] || defaultProductSpecs;
+  // Get product specifications from API or use defaults/static specs
+  const specs = {
+    specifications:
+      product.specifications && product.specifications.length > 0
+        ? product.specifications
+        : productSpecs[product.name]?.specifications ||
+          defaultProductSpecs.specifications,
+    features:
+      product.features && product.features.length > 0
+        ? product.features
+        : productSpecs[product.name]?.features || defaultProductSpecs.features,
+  };
 
   // Download handlers
   const handleDownloadSpecs = () => {
@@ -192,14 +202,14 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                         camera={{ position: [0, 0, 5], fov: 30 }}
                         style={{ background: "transparent" }}
                       >
-                        <ambientLight intensity={0.5} />
+                        {/* <ambientLight intensity={0.5} />
                         <directionalLight position={[5, 5, 5]} intensity={1} />
                         <directionalLight
                           position={[-5, -5, -5]}
                           intensity={0.5}
                         />
-                        <pointLight position={[0, 0, 5]} intensity={0.5} />
-                        <Model3D url={product.model || "/3dModels/demo.glb"} />
+                        <pointLight position={[0, 0, 5]} intensity={0.5} /> */}
+                        <Model3D url={product.model} />
                         <OrbitControls
                           enableZoom={true}
                           enablePan={false}
@@ -208,7 +218,7 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                           maxDistance={10}
                           autoRotate={false}
                         />
-                        <Environment preset="city" />
+                        <Environment preset="studio" />
                       </Canvas>
                     </Suspense>
                   </div>

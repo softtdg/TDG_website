@@ -78,14 +78,14 @@ export const LightingInMotionSection = () => {
       className="w-full bg-white py-10 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8"
       ref={ref}
     >
-      <div className="max-w-[1600px] mx-auto">
+      <div className="max-w-[1650px] mx-auto">
         {/* OLD CODE - COMMENTED OUT FOR BACKUP */}
         {/* ... */}
 
         {/* NEW UI - COLLAPSIBLE SECTIONS */}
 
         <motion.div
-          className="flex flex-col lg:flex-row gap-6 lg:gap-10 lg:min-h-[550px]"
+          className="flex flex-col lg:flex-row gap-6 lg:gap-10 lg:min-h-[650px]"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -106,7 +106,7 @@ export const LightingInMotionSection = () => {
                     ? "Support services"
                     : "Modern train interior with LED lighting"
                 }
-                className="rounded-lg w-full h-[550px] object-cover shadow-lg"
+                className="rounded-lg w-full h-[650px] object-cover shadow-lg"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 30 }}

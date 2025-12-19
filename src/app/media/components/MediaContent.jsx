@@ -1,119 +1,68 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { fetchAllMediaSections } from "@/lib/api";
 
-const mediaSections = [
+// Default/fallback data structure
+const defaultMediaSections = [
   {
     title: "NEWS",
-    items: [
-      {
-        image: "/images/home/l2.jpg",
-        title: "TDG Launches Next-Generation LED Lighting System",
-        description:
-          "TDG Transit Design Group introduces its latest energy-efficient LED lighting solution, designed to exceed 200,000 hours of operation while reducing energy consumption by up to 80% compared to traditional systems.",
-        date: "March 15, 2024",
-      },
-      {
-        image: "/images/home/projects/1.jpg",
-        title: "Global Railway Partnership Expansion",
-        description:
-          "TDG announces strategic partnerships with leading railway operators across North America and Europe, expanding its reach in sustainable transportation lighting solutions.",
-        date: "February 28, 2024",
-      },
-      {
-        image: "/images/home/projects/2.jpg",
-        title: "Innovation Award for Sustainable Design",
-        description:
-          "TDG receives recognition for its commitment to environmental sustainability and innovative lighting technologies that contribute to reduced carbon footprints in the rail industry.",
-        date: "January 10, 2024",
-      },
-      {
-        image: "/images/innovation/img1.jpg",
-        title: "New Manufacturing Facility Opens",
-        description:
-          "TDG opens state-of-the-art manufacturing facility to meet growing demand for LED lighting systems, incorporating advanced production technologies and sustainable practices.",
-        date: "December 5, 2023",
-      },
-    ],
+    items: [],
   },
   {
     title: "REFERENCES",
-    items: [
-      {
-        image: "/images/innovation/img2.jpg",
-        title: "Technical Specifications Guide",
-        description:
-          "Comprehensive reference document covering TDG's complete product line, including technical specifications, installation guidelines, and performance metrics for railway lighting systems.",
-        category: "Technical Documentation",
-      },
-      {
-        image: "/images/innovation/img3.jpg",
-        title: "Case Study: Metro Rail Implementation",
-        description:
-          "Detailed analysis of TDG's LED lighting system implementation in a major metropolitan rail network, showcasing energy savings, maintenance reduction, and passenger satisfaction improvements.",
-        category: "Case Study",
-      },
-      {
-        image: "/images/innovation/img4.jpg",
-        title: "Industry Standards Compliance",
-        description:
-          "Reference guide detailing TDG's compliance with international railway safety and environmental standards, including certifications and testing protocols.",
-        category: "Compliance",
-      },
-      {
-        image: "/images/standards/banner.jpg",
-        title: "Product Catalog 2024",
-        description:
-          "Complete product catalog featuring TDG's latest lighting solutions for trains, buses, and transportation infrastructure, with detailed specifications and application examples.",
-        category: "Product Catalog",
-      },
-    ],
+    items: [],
   },
   {
     title: "EVENTS",
-    items: [
-      {
-        image: "/images/home/u1.jpg",
-        title: "Railway Technology Expo 2024",
-        description:
-          "TDG will be showcasing its latest LED lighting innovations at the Railway Technology Expo in Berlin. Visit our booth to see live demonstrations and meet our engineering team.",
-        date: "June 12-15, 2024",
-        location: "Berlin, Germany",
-      },
-      {
-        image: "/images/home/u2.jpg",
-        title: "Sustainable Transportation Summit",
-        description:
-          "Join TDG at the Sustainable Transportation Summit where we'll present our latest research on energy-efficient lighting solutions and their impact on reducing carbon emissions.",
-        date: "September 8-10, 2024",
-        location: "Toronto, Canada",
-      },
-      {
-        image: "/images/home/u3.jpg",
-        title: "International Rail Conference",
-        description:
-          "TDG experts will be presenting technical sessions on advanced LED lighting systems and their applications in modern railway infrastructure at this year's International Rail Conference.",
-        date: "November 20-22, 2024",
-        location: "London, UK",
-      },
-      {
-        image: "/images/about-us/i1.jpg",
-        title: "Product Launch Webinar",
-        description:
-          "Attend our online webinar to learn about TDG's newest product line, featuring interactive Q&A sessions with our technical team and virtual product demonstrations.",
-        date: "May 25, 2024",
-        location: "Online",
-      },
-    ],
+    items: [],
   },
 ];
 
 export const MediaContent = () => {
   const [openIndices, setOpenIndices] = useState([]);
+  const [mediaSections, setMediaSections] = useState(defaultMediaSections);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadMediaData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchAllMediaSections();
+
+        // Transform API data to match the component structure
+        setMediaSections([
+          {
+            title: "NEWS",
+            items: data.news || [],
+          },
+          {
+            title: "REFERENCES",
+            items: data.references || [],
+          },
+          {
+            title: "EVENTS",
+            items: data.events || [],
+          },
+        ]);
+      } catch (err) {
+        console.error("Error loading media data:", err);
+        setError("Failed to load media content. Please try again later.");
+        // Keep default empty sections on error
+        setMediaSections(defaultMediaSections);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMediaData();
+  }, []);
 
   return (
     <section className="bg-white">
@@ -130,18 +79,45 @@ export const MediaContent = () => {
           </p>
         </div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className="text-center py-10">
+            <p className="text-lg text-gray-600">Loading media content...</p>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && !loading && (
+          <div className="text-center py-10">
+            <p className="text-lg text-red-600">{error}</p>
+          </div>
+        )}
+
         {/* Collapsible Sections */}
-        <div className="overflow-hidden">
-          {mediaSections.map((section, index) => (
-            <MediaAccordionItem
-              key={section.title}
-              section={section}
-              index={index}
-              openIndices={openIndices}
-              setOpenIndices={setOpenIndices}
-            />
-          ))}
-        </div>
+        {!loading && !error && (
+          <div className="overflow-hidden">
+            {mediaSections.map((section, index) => (
+              <MediaAccordionItem
+                key={section.title}
+                section={section}
+                index={index}
+                openIndices={openIndices}
+                setOpenIndices={setOpenIndices}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading &&
+          !error &&
+          mediaSections.every((s) => s.items.length === 0) && (
+            <div className="text-center py-10">
+              <p className="text-lg text-gray-600">
+                No media content available at this time.
+              </p>
+            </div>
+          )}
       </div>
     </section>
   );
@@ -207,9 +183,13 @@ const MediaAccordionItem = ({
             >
               <div className="relative w-[400px] h-[300px] overflow-hidden flex-shrink-0">
                 <img
-                  src={item.image}
-                  alt={item.title}
+                  src={item.image || "/images/home/l2.jpg"}
+                  alt={item.title || "Media item"}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    // Fallback to default image if image fails to load
+                    e.target.src = "/images/home/l2.jpg";
+                  }}
                 />
               </div>
               <div className="p-4 sm:p-6 flex-1">
