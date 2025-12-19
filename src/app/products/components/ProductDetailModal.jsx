@@ -1,71 +1,34 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Suspense, useEffect, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
+import { useMemo } from "react";
 import {
   defaultProductSpecs,
   productSpecs,
 } from "../consant/productsConstants";
-import * as THREE from "three";
-
-// 3D Model Component
-const Model3D = ({ url }) => {
-  const { scene } = useGLTF(url);
-
-  // Calculate bounding box to center and scale the model
-  useEffect(() => {
-    if (!scene) return;
-
-    // Calculate bounding box
-
-    const box = new THREE.Box3().setFromObject(scene);
-    const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
-
-    // Center the model
-    scene.position.sub(center);
-
-    // Scale to fit (adjust scale factor as needed)
-    const maxDim = Math.max(size.x, size.y, size.z);
-    if (maxDim > 0) {
-      const scale = 2 / maxDim; // Adjust this value to control model size
-      scene.scale.multiplyScalar(scale);
-    }
-  }, [scene]);
-
-  return <primitive object={scene} />;
-};
+import { Product3DModelView } from "./Product3DModelView";
 
 export const ProductDetailModal = ({ product, category, onClose }) => {
-  const [showVisibleModel, setShowVisibleModel] = useState(false);
-
-  // Show visible model after 2 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowVisibleModel(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   if (!product || !category) {
     return null;
   }
 
-  // Get product specifications from API or use defaults/static specs
-  const specs = {
-    specifications:
-      product.specifications && product.specifications.length > 0
-        ? product.specifications
-        : productSpecs[product.name]?.specifications ||
-          defaultProductSpecs.specifications,
-    features:
-      product.features && product.features.length > 0
-        ? product.features
-        : productSpecs[product.name]?.features || defaultProductSpecs.features,
-  };
+  // Memoize product specifications to avoid recalculation on every render
+  const specs = useMemo(
+    () => ({
+      specifications:
+        product.specifications && product.specifications.length > 0
+          ? product.specifications
+          : productSpecs[product.name]?.specifications ||
+            defaultProductSpecs.specifications,
+      features:
+        product.features && product.features.length > 0
+          ? product.features
+          : productSpecs[product.name]?.features ||
+            defaultProductSpecs.features,
+    }),
+    [product.specifications, product.features, product.name]
+  );
 
   // Download handlers
   const handleDownloadSpecs = () => {
@@ -103,12 +66,13 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
     <>
       {/* Backdrop */}
       <motion.div
-        className="fixed inset-0 z-[99] bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 z-[99] bg-black/50"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
         onClick={onClose}
+        style={{ willChange: "opacity" }}
       />
 
       {/* Modal */}
@@ -171,72 +135,17 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
             {/* Left Column - 3D Model */}
             <div className="space-y-8">
               <motion.div
-                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
+                style={{ willChange: "auto" }}
               >
-                {/* Section Header with Accent */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
-                    3D Model View
-                  </h2>
-                </div>
-
-                {showVisibleModel && (
-                  <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] bg-gray-100 rounded-lg overflow-hidden border border-gray-200">
-                    <Suspense
-                      fallback={
-                        <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                          <div className="text-center">
-                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-                            <p className="text-gray-600 font-medium">
-                              Loading 3D Model...
-                            </p>
-                          </div>
-                        </div>
-                      }
-                    >
-                      <Canvas
-                        camera={{ position: [0, 0, 5], fov: 30 }}
-                        style={{ background: "transparent" }}
-                      >
-                        {/* <ambientLight intensity={0.5} />
-                        <directionalLight position={[5, 5, 5]} intensity={1} />
-                        <directionalLight
-                          position={[-5, -5, -5]}
-                          intensity={0.5}
-                        />
-                        <pointLight position={[0, 0, 5]} intensity={0.5} /> */}
-                        <Model3D url={product.model} />
-                        <OrbitControls
-                          enableZoom={true}
-                          enablePan={false}
-                          enableRotate={true}
-                          minDistance={2}
-                          maxDistance={10}
-                          autoRotate={false}
-                        />
-                        <Environment preset="studio" />
-                      </Canvas>
-                    </Suspense>
-                  </div>
-                )}
-                {!showVisibleModel && (
-                  <div className="relative w-full h-[350px] sm:h-[450px] md:h-[550px] bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-                      <p className="text-gray-600 font-medium">
-                        Loading 3D Model...
-                      </p>
-                    </div>
-                  </div>
-                )}
-                <p className="text-sm text-gray-500 mt-4 italic">
-                  * Interactive 3D model - Click and drag to rotate, scroll to
-                  zoom
-                </p>
+                <Product3DModelView
+                  modelUrl={product.model}
+                  title="3D Model View"
+                  showTitle={true}
+                  delayMs={2000}
+                />
               </motion.div>
 
               {/* Product Image */}
@@ -245,6 +154,7 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
+                style={{ willChange: "auto" }}
               >
                 {/* Section Header with Accent */}
                 <div className="flex items-center gap-4 mb-6">
@@ -271,6 +181,7 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
+                style={{ willChange: "auto" }}
               >
                 {/* Section Header with Accent */}
                 <div className="flex items-center gap-4 mb-6">
@@ -290,6 +201,7 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
+                style={{ willChange: "auto" }}
               >
                 {/* Section Header with Accent */}
                 <div className="flex items-center gap-4 mb-6">
@@ -319,6 +231,7 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
+                style={{ willChange: "auto" }}
               >
                 {/* Section Header with Accent */}
                 <div className="flex items-center gap-4 mb-6">
@@ -348,6 +261,7 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
+                style={{ willChange: "auto" }}
               >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Download Specs Button */}
