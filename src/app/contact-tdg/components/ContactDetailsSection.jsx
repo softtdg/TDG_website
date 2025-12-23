@@ -192,7 +192,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
                       {location.name}
                     </h2>
-                    <div className="h-1 w-16 bg-[#f48c06] rounded-full"></div>
+                    <div className="h-1 w-16 bg-[#0356C2] rounded-full"></div>
                   </div>
                 </div>
 

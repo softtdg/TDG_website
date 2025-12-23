@@ -68,7 +68,7 @@ export const OurWorldSection = () => {
       <div className="max-w-[100%] mx-auto relative">
         {/* Section Title */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl lg:text-6xl font-bold text-[#0E54C4] uppercase mb-4">
+          <h2 className="text-4xl lg:text-6xl font-bold text-[#2d4a86] uppercase mb-4">
             OUR WORLD
           </h2>
         </div>

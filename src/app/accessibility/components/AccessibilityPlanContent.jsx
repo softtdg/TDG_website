@@ -45,7 +45,7 @@ export const AccessibilityPlanContent = () => {
 
       {/* Communication Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           COMMUNICATION
         </h3>
@@ -57,7 +57,7 @@ export const AccessibilityPlanContent = () => {
 
       {/* Assistive Devices Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           ASSISTIVE DEVICES
         </h3>
@@ -78,7 +78,7 @@ export const AccessibilityPlanContent = () => {
 
       {/* Service Animals Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           SERVICE ANIMALS
         </h3>
@@ -102,7 +102,7 @@ export const AccessibilityPlanContent = () => {
 
       {/* Support Persons Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           SUPPORT PERSONS
         </h3>
@@ -119,7 +119,7 @@ export const AccessibilityPlanContent = () => {
 
       {/* Notice of Temporary Service Disruption Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           NOTICE OF TEMPORARY SERVICE DISRUPTION
         </h3>
@@ -136,7 +136,7 @@ export const AccessibilityPlanContent = () => {
 
       {/* Training Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           TRAINING
         </h3>
@@ -185,7 +185,7 @@ export const AccessibilityPlanContent = () => {
 
       {/* Feedback Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           FEEDBACK
         </h3>

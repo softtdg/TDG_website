@@ -72,7 +72,7 @@ const CareerContent = () => {
       {/* Vacancies */}
       <div className="mb-10 sm:mb-12 md:mb-16">
         <section>
-          <h3 className="text-xl sm:text-2xl md:text-2xl font-bold uppercase text-[#000000] mb-4 sm:mb-6">
+          <h3 className="text-xl sm:text-2xl md:text-2xl font-semibold uppercase text-[#000000] mb-4 tracking-[2px] sm:mb-6">
             Current Opportunities
           </h3>
 
@@ -166,8 +166,8 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
   const gradientSummaryStyles = useMemo(
     () =>
       isOpen
-        ? "bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] shadow-sm text-black border-l-4 border-[#0E54C4]"
-        : "!bg-[#F5F5F5] !text-black hover:bg-[#E6F2FF]",
+        ? "!bg-[#edeff3] shadow-sm text-black border-l-4 border-[#0E54C4]"
+        : "!bg-gray-50 !text-black hover:bg-gray-100",
     [isOpen]
   );
 
@@ -245,8 +245,8 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
         }
         className={`${
           isOpen
-            ? "!border-l-4 !border-[#0E54C4]"
-            : "border-b border-gray-200 bg-[#F5F5F5]"
+            ? "!border-l-4 !border-[#2d4a86]"
+            : "border-b border-gray-200 !bg-gray-50"
         } !flex w-full !px-1 sm:!px-4 md:!px-5 !py-3 sm:!py-4 text-left transition-colors ${gradientSummaryStyles} min-h-[80px] sm:min-h-[85px]`}
         sx={{
           "&:hover": {
@@ -275,7 +275,7 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
         {/* Title and Status Container */}
         <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 w-full sm:w-auto">
           {/* Job Title */}
-          <h4 className="text-[17px] md:text-lg lg:text-xl font-semibold text-[#000000] leading-snug sm:leading-tight break-words flex-1">
+          <h4 className="text-[17px] md:text-lg lg:text-xl font-semibold text-[#000000] tracking-[1px] break-words flex-1">
             {job.title}
           </h4>
 
@@ -286,7 +286,7 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
           </div>
         </div>
       </AccordionSummary>
-      <AccordionDetails className="bg-[#F5F5F5] !px-2 sm:!px-4 md:!px-5 !pb-4 sm:!pb-6 !pt-3 sm:!pt-4 text-[#0F172A]">
+      <AccordionDetails className="!bg-gray-50 !px-2 sm:!px-4 md:!px-5 !pb-4 sm:!pb-6 !pt-3 sm:!pt-4 text-[#0F172A]">
         {hasStructuredSections ? (
           <div className="space-y-4 sm:space-y-5 md:space-y-6">
             {structuredSections.map((section) => (

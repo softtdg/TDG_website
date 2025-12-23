@@ -119,8 +119,8 @@ const AccordionItem = ({ item, index, activeIndex, setActiveIndex }) => {
   const gradientSummaryStyles = useMemo(
     () =>
       isActive
-        ? "bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] shadow-sm text-black border-l-4 border-[#0E54C4]"
-        : "bg-[#F5F5F5] text-black hover:bg-[#E6F2FF]",
+        ? "!bg-[#edeff3] shadow-sm text-black border-l-4 border-[#0E54C4]"
+        : "!bg-gray-50 !text-black hover:bg-gray-100",
     [isActive]
   );
 
@@ -137,21 +137,23 @@ const AccordionItem = ({ item, index, activeIndex, setActiveIndex }) => {
         "&::before": { display: "none" },
         overflow: "hidden",
         my: 3,
-        backgroundColor: "#F5F5F5",
+        backgroundColor: "transparent",
         p: 0,
       }}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon className="text-black" />}
         className={`${
-          isActive ? "!border-l-4 !border-[#0E54C4]" : ""
-        } flex w-full items-center justify-between !px-4 !py-3 sm:!px-6 text-left text-[17px] font-semibold uppercase tracking-wide transition-colors ${gradientSummaryStyles}`}
+          isActive
+            ? "!border-l-4 !border-[#2d4a86]"
+            : "border-b border-gray-200 !bg-gray-50"
+        } !flex w-full !px-3 sm:!px-4 md:!px-5 !py-3 sm:!py-4 text-left transition-colors ${gradientSummaryStyles} min-h-[80px] sm:min-h-[85px]`}
       >
-        <h2 className="text-[17px] sm:text-[18px] leading-relaxed font-bold">
+        <h2 className="text-[17px] md:text-lg lg:text-xl font-semibold text-[#000000] tracking-[1.5px] break-words flex-1">
           {item.title}
         </h2>
       </AccordionSummary>
-      <AccordionDetails className="bg-[#F5F5F5] !px-2 sm:!px-6 !pb-6 !pt-4 sm:!pt-6 text-black transition-[padding] duration-500 ease-in-out">
+      <AccordionDetails className="!bg-gray-50 !px-2 sm:!px-4 md:!px-5 !pb-4 sm:!pb-6 !pt-3 sm:!pt-4 text-[#0F172A]">
         {item.video ? (
           <div className="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-stretch">
             <div className="flex w-full md:w-[300px] md:min-w-[220px] md:max-w-[350px] justify-center items-center flex-shrink-0 mb-4 md:mb-0">
@@ -161,8 +163,7 @@ const AccordionItem = ({ item, index, activeIndex, setActiveIndex }) => {
                 loop
                 muted
                 playsInline
-                className="w-full h-[180px] sm:h-[240px] md:h-[260px] lg:h-[317px] object-cover"
-                style={{ minWidth: "180px", maxWidth: "100%" }}
+                className="w-full max-w-[300px] object-cover"
               />
             </div>
             <div className="flex-1 flex items-center">
@@ -173,12 +174,11 @@ const AccordionItem = ({ item, index, activeIndex, setActiveIndex }) => {
           </div>
         ) : item.image ? (
           <div className="flex flex-col gap-4 sm:gap-6 md:flex-row md:items-stretch">
-            <div className="flex w-full md:w-[300px] md:min-w-[220px] md:max-w-[350px] justify-center items-center flex-shrink-0 mb-4 md:mb-0">
+            <div className="flex w-full md:max-w-[400px] md:max-h-[300px] justify-center items-center flex-shrink-0 mb-4 md:mb-0">
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-full h-[180px] sm:h-[240px] md:h-[260px] lg:h-[317px] object-cover"
-                style={{ minWidth: "180px", maxWidth: "100%" }}
+                className="w-full h-full object-cover"
               />
             </div>
             <div className="flex-1 flex items-center">

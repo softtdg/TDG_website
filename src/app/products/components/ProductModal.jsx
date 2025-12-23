@@ -136,8 +136,8 @@ export const ProductModal = ({
               </button>
 
               {/* Modal Header */}
-              <div className="bg-gradient-to-r from-[#0356C2] via-[#0E54C4] to-[#0356C2] px-4 py-4 sm:px-8 sm:py-6">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white uppercase tracking-wide">
+              <div className="bg-gray-900 border-b border-gray-800 px-4 py-4 sm:px-8 sm:py-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white uppercase tracking-[3px]">
                   {cardTitle}
                 </h2>
               </div>

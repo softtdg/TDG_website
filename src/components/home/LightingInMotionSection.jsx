@@ -157,7 +157,7 @@ export const LightingInMotionSection = () => {
                     <motion.h3
                       className={`text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold uppercase transition-colors duration-300 ${
                         isDesktop && expandedSection === key
-                          ? "text-[#0356C2]"
+                          ? "text-[#2d4a86]"
                           : "text-gray-900"
                       }`}
                       transition={{ duration: 0.2 }}
@@ -231,7 +231,7 @@ export const LightingInMotionSection = () => {
                             onClick={() => {
                               router.push("/media");
                             }}
-                            className="group inline-flex items-center justify-between text-sm py-2.5 px-4 font-medium text-[#0356C2] transition-all duration-300 bg-gradient-to-r from-[#E6F2FF] to-[#D0E7FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm hover:shadow-md"
+                            className="group inline-flex items-center justify-between text-sm py-2.5 px-4 font-medium text-[#2d4a86] transition-all duration-300 bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm hover:shadow-md"
                           >
                             <span>View Railway Projects</span>
                             <motion.svg
@@ -255,7 +255,7 @@ export const LightingInMotionSection = () => {
                             onClick={() => {
                               router.push("/products");
                             }}
-                            className="group inline-flex items-center justify-between text-sm py-2.5 px-4 font-medium text-[#0356C2] transition-all duration-300 bg-gradient-to-r from-[#E6F2FF] to-[#D0E7FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm hover:shadow-md"
+                            className="group inline-flex items-center justify-between text-sm py-2.5 px-4 font-medium text-[#2d4a86] transition-all duration-300 bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm hover:shadow-md"
                           >
                             <span>View Products</span>
                             <motion.svg
@@ -300,14 +300,14 @@ export const LightingInMotionSection = () => {
                             Call{" "}
                             <a
                               href="tel:+19056089539"
-                              className="font-semibold text-[#0356C2] hover:underline"
+                              className="font-semibold text-[#2d4a86] hover:underline"
                             >
                               +1 905-608-9539
                             </a>
                           </motion.p>
 
                           <motion.button
-                            className="group inline-flex items-center justify-between text-sm py-2.5 px-4 font-medium text-[#0356C2] transition-all duration-300 bg-gradient-to-r from-[#E6F2FF] to-[#D0E7FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm hover:shadow-md"
+                            className="group inline-flex items-center justify-between text-sm py-2.5 px-4 font-medium text-[#2d4a86] transition-all duration-300 bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm hover:shadow-md"
                             initial={{ opacity: 0, y: 20 }}
                             animate={{
                               opacity: isExpanded ? 1 : 0,

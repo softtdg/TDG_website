@@ -59,12 +59,13 @@ const standardsData = [
 ];
 
 const AccordionItem = ({ title, items, isOpen, onToggle }) => {
+  const isActive = isOpen;
   const gradientSummaryStyles = useMemo(
     () =>
-      isOpen
-        ? "bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] shadow-sm text-black border-l-4 border-[#0E54C4]"
-        : "bg-[#F5F5F5] text-black hover:bg-[#E6F2FF]",
-    [isOpen]
+      isActive
+        ? "!bg-[#edeff3] shadow-sm text-black border-l-4 border-[#0E54C4]"
+        : "!bg-gray-50 !text-black hover:bg-gray-100",
+    [isActive]
   );
 
   return (
@@ -80,19 +81,23 @@ const AccordionItem = ({ title, items, isOpen, onToggle }) => {
         "&::before": { display: "none" },
         overflow: "hidden",
         my: 3,
-        backgroundColor: "#F5F5F5",
+        backgroundColor: "transparent",
       }}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon className="text-black" />}
         className={`${
-          isOpen ? "!border-l-4 !border-[#0E54C4]" : ""
-        } flex w-full items-center justify-between px-6 py-4 text-left text-base font-semibold uppercase tracking-wide transition-colors ${gradientSummaryStyles}`}
+          isActive
+            ? "!border-l-4 !border-[#2d4a86]"
+            : "border-b border-gray-200 !bg-gray-50"
+        } flex w-full items-center justify-between !px-3 sm:!px-4 md:!px-5 !py-3 sm:!py-3 text-left text-base font-semibold uppercase tracking-wide transition-colors ${gradientSummaryStyles}  min-h-[80px] sm:min-h-[85px]`}
       >
-        <h3 className="text-[18px] font-bold leading-relaxed">{title}</h3>
+        <h3 className="text-[17px] md:text-lg lg:text-xl font-semibold uppercase text-[#000000] sm:tracking-[1px] break-words flex-1">
+          {title}
+        </h3>
       </AccordionSummary>
-      <AccordionDetails className="bg-[#F5F5F5] !px-2 sm:!px-6 !pb-6 !pt-4 sm:!pt-6 text-black">
-        <ul className="list-disc pl-6 text-[17px]  leading-relaxed text-[#000000]">
+      <AccordionDetails className="!bg-gray-50 !px-2 sm:!px-4 md:!px-5 !pb-4 sm:!pb-6 !pt-3 sm:!pt-4 text-[#0F172A]">
+        <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-[#000000] ">
           {items.map((item) => (
             <li key={item} className="mb-2">
               {item}

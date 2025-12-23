@@ -134,8 +134,8 @@ const MediaAccordionItem = ({
   const gradientSummaryStyles = useMemo(
     () =>
       isActive
-        ? "bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] shadow-sm text-black border-l-4 border-[#0E54C4]"
-        : "bg-[#F5F5F5] text-black hover:bg-[#E6F2FF]",
+        ? "!bg-[#edeff3] shadow-sm text-black border-l-4 border-[#0E54C4]"
+        : "!bg-gray-50 !text-black hover:bg-gray-100",
     [isActive]
   );
 
@@ -167,14 +167,16 @@ const MediaAccordionItem = ({
       <AccordionSummary
         expandIcon={<ExpandMoreIcon className="text-black" />}
         className={`${
-          isActive ? "!border-l-4 !border-[#0E54C4]" : ""
-        } flex w-full items-center justify-between !px-4 !py-3 sm:!px-6 text-left text-[17px] font-semibold uppercase tracking-wide transition-colors ${gradientSummaryStyles}`}
+          isActive
+            ? "!border-l-4 !border-[#2d4a86]"
+            : "border-b border-gray-200 !bg-gray-50"
+        } !flex w-full !px-1 sm:!px-4 md:!px-5 !py-3 sm:!py-4 text-left transition-colors ${gradientSummaryStyles} min-h-[80px] sm:min-h-[85px]`}
       >
-        <h2 className="text-[18px] leading-relaxed font-bold">
+        <h2 className="text-[17px] md:text-lg lg:text-xl font-semibold text-[#000000] tracking-[1.5px] break-words flex-1">
           {section.title}
         </h2>
       </AccordionSummary>
-      <AccordionDetails className="bg-[#F5F5F5] !px-2 sm:!px-6 !pb-6 !pt-4 sm:!pt-6 text-black transition-[padding] duration-500 ease-in-out">
+      <AccordionDetails className="!bg-gray-50 !px-2 sm:!px-4 md:!px-5 !pb-4 sm:!pb-6 !pt-3 sm:!pt-4 text-[#0F172A]">
         <div className="flex flex-col gap-6 mt-4">
           {section.items.map((item, itemIndex) => (
             <div

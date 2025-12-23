@@ -29,10 +29,11 @@ export const SustainabilityContent = () => {
 
       {/* Energy Efficiency Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           ENERGY EFFICIENCY
         </h3>
+
         <p className="mb-4 text-[17px] leading-[33px]">
           TDG's LED lighting systems are designed to operate with exceptional
           energy efficiency, consuming as low as 2W per foot of main lighting.
@@ -50,7 +51,7 @@ export const SustainabilityContent = () => {
 
       {/* Environmental Compliance Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           ENVIRONMENTAL COMPLIANCE
         </h3>
@@ -72,7 +73,7 @@ export const SustainabilityContent = () => {
 
       {/* Sustainable Manufacturing Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           SUSTAINABLE MANUFACTURING
         </h3>
@@ -92,7 +93,7 @@ export const SustainabilityContent = () => {
 
       {/* Carbon Footprint Reduction Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           CARBON FOOTPRINT REDUCTION
         </h3>
@@ -113,7 +114,7 @@ export const SustainabilityContent = () => {
 
       {/* Environmental Impact Metrics Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           ENVIRONMENTAL IMPACT METRICS
         </h3>
@@ -157,7 +158,7 @@ export const SustainabilityContent = () => {
 
       {/* Future Commitments Section */}
       <div className="mb-10 md:mb-12">
-        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[25px] font-bold text-[#000000] bg-gradient-to-r from-[#E6F2FF] via-[#D0E7FF] to-[#E6F2FF] border-l-4 border-[#0E54C4] rounded-r-lg shadow-sm">
+        <h3 className="mb-4 py-3 px-4 sm:px-5 flex items-center text-xl sm:text-2xl md:text-[22px] tracking-[1.5px] font-semibold text-[#000000] bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm">
           <span className="w-2 h-2 bg-[#000000] rounded-full mr-3 flex-shrink-0"></span>
           FUTURE COMMITMENTS
         </h3>

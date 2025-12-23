@@ -152,10 +152,10 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-[1px] text-gray-900 mb-3">
             Global Sites
           </h2>
-          <div className="h-1 w-20 bg-[#f48c06] mx-auto rounded-full"></div>
+          <div className="h-1 w-20 bg-[#f4c806] mx-auto rounded-full"></div>
           <p className="mt-6 text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
             Connect with our offices worldwide for sales inquiries and support
           </p>
