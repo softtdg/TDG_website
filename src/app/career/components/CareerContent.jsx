@@ -265,13 +265,6 @@ const JobAccordionItem = ({ job, index, activeIndex, setActiveIndex }) => {
           },
         }}
       >
-        {/* Logo */}
-        <img
-          src="/icons/logo.svg"
-          alt="TDG logo"
-          className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 max-sm:hidden flex-shrink-0 object-contain"
-        />
-
         {/* Title and Status Container */}
         <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 w-full sm:w-auto">
           {/* Job Title */}

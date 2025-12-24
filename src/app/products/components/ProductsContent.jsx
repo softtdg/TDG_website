@@ -121,7 +121,7 @@ const ProductsContentInner = ({ Model3D }) => {
   if (loading) {
     return (
       <section className="bg-white">
-        <div className="mx-auto w-full max-w-[1400px] px-3 py-16 max-sm:py-8">
+        <div className="mx-auto w-full max-w-[1300px] px-3 py-16 max-sm:py-8">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
@@ -135,7 +135,7 @@ const ProductsContentInner = ({ Model3D }) => {
 
   return (
     <section className="bg-[#f6f7f9]">
-      <div className="mx-auto w-full max-w-[1400px] px-3 py-16 max-sm:py-8">
+      <div className="mx-auto w-full max-w-[1300px] px-3 py-16 max-sm:py-8">
         {/* Introduction Paragraph */}
         <motion.div
           className="mb-12 md:mb-16 mx-auto"
@@ -176,7 +176,7 @@ const ProductsContentInner = ({ Model3D }) => {
                 <motion.div
                   key={itemIndex}
                   onClick={() => handleCardClick(item.title)}
-                  className="bg-white overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer flex flex-col h-full"
+                  className="bg-white overflow-hidden shadow-md transition-all duration-300 group cursor-pointer flex flex-col h-full"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
@@ -186,7 +186,7 @@ const ProductsContentInner = ({ Model3D }) => {
                   whileHover={{ y: -5 }}
                 >
                   {/* Image */}
-                  <div className="relative w-full overflow-hidden border-2 border-[#192a4d33]">
+                  <div className="relative w-full overflow-hidden">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -197,10 +197,10 @@ const ProductsContentInner = ({ Model3D }) => {
 
                   {/* Content */}
                   <div className="p-6 flex flex-col flex-grow">
-                    <h4 className="text-xl md:text-[21px] font-semibold text-[#111827] mb-3 uppercase tracking-wide">
+                    <h4 className="text-xl md:text-[20px] font-semibold text-[#111827] mb-3 uppercase tracking-wide">
                       {item.title}
                     </h4>
-                    <p className="text-base md:text-[17px] leading-relaxed text-[#4B5563] mb-4 flex-grow">
+                    <p className="text-[16px] leading-relaxed text-[#4B5563] mb-4 flex-grow">
                       {item.description}
                     </p>
                     <button

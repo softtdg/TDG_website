@@ -105,20 +105,14 @@ export const HistorySection = () => {
       className="w-full bg-white py-10 sm:py-20 px-4 sm:px-6 lg:px-[50px]"
       ref={ref}
     >
-      <div className="text-center pt-[20px] lg:pt-[50px] pb-[30px] lg:pb-[150px]">
+      <div className="text-center pt-[20px] lg:pt-[50px] pb-[0px]">
         {/* Our Product Label */}
-        <div className="flex items-center justify-center mb-6">
-          <div className="w-16 h-0.5 bg-[#000000]"></div>
-          <span className="text-[#000000] text-[13px] font-bold uppercase tracking-widest mx-4">
-            LED history
-          </span>
-          <div className="w-16 h-0.5 bg-[#000000]"></div>
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-[1px] text-[#2d4a86] mb-3">
+            TDG TRANSIT DESIGN GROUP HISTORY
+          </h2>
+          <div className="h-1 w-20 bg-[#f4c806] mx-auto rounded-full"></div>
         </div>
-
-        {/* Main Title */}
-        <h1 className="text-2xl lg:text-6xl font-bold text-black uppercase leading-[50px] lg:leading-[80px]">
-          TDG TRANSIT DESIGN <br /> GROUP HISTORY
-        </h1>
       </div>
       <div className="max-w-[100%] mx-auto">
         {/* NEW UI - COLLAPSIBLE SECTIONS */}
