@@ -174,28 +174,28 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
                 {/* Office Name */}
                 <div className="flex items-start gap-4 mb-6">
                   <div className="mt-1 flex-shrink-0">
-                    <div className="w-12 h-12 rounded-lg bg-[#0356C2]/10 flex items-center justify-center group-hover:bg-[#0356C2] transition-colors duration-300">
-                      <BusinessIcon className="text-[#0356C2] group-hover:text-white text-2xl transition-colors duration-300" />
+                    <div className="w-12 h-12 rounded-lg bg-[#2d4a86]/10 flex items-center justify-center group-hover:bg-[#2d4a86] transition-colors duration-300">
+                      <BusinessIcon className="text-[#2d4a86] group-hover:text-white text-2xl transition-colors duration-300" />
                     </div>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#0356C2] transition-colors duration-300">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 group-hover:text-[#2d4a86] transition-colors duration-300">
                       {location.name}
                     </h3>
-                    <div className="h-0.5 w-12 bg-[#0356C2] group-hover:bg-[#f48c06] rounded-full"></div>
+                    <div className="h-0.5 w-12 bg-[#2d4a86] group-hover:bg-[#f4c806] rounded-full"></div>
                   </div>
                 </div>
 
                 {/* Email */}
                 <div className="flex items-start gap-4 mb-4">
                   <div className="mt-1 flex-shrink-0">
-                    <EmailIcon className="text-[#0356C2] text-lg" />
+                    <EmailIcon className="text-[#2d4a86] text-lg" />
                   </div>
                   <div className="flex-1">
                     <a
                       href={`mailto:${location.email}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="text-[#0356C2] font-semibold text-sm sm:text-base hover:text-[#0248A0] transition-colors break-all inline-flex items-center gap-2"
+                      className="text-[#2d4a86] font-semibold text-sm sm:text-base hover:text-[#0248A0] transition-colors break-all inline-flex items-center gap-2"
                     >
                       {location.email}
                     </a>
@@ -205,7 +205,7 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
                 {/* Address */}
                 <div className="flex items-start gap-4 mb-6">
                   <div className="mt-1 flex-shrink-0">
-                    <LocationOnIcon className="text-[#0356C2] text-lg" />
+                    <LocationOnIcon className="text-[#2d4a86] text-lg" />
                   </div>
                   <div className="flex-1">
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
@@ -216,7 +216,7 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
 
                 {/* Contact Button */}
                 <div className="mt-auto pt-4 border-t border-gray-200">
-                  <div className="flex items-center justify-between text-[#0356C2] font-semibold text-sm sm:text-base group-hover:text-[#0248A0] transition-colors">
+                  <div className="flex items-center justify-between text-[#2d4a86] font-semibold text-sm sm:text-base group-hover:text-[#0248A0] transition-colors">
                     <span>Contact Now</span>
                     <ArrowForwardIcon className="text-lg transform transition-transform group-hover:translate-x-1" />
                   </div>

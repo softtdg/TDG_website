@@ -186,13 +186,13 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                 {/* Office Name */}
                 <div className="flex items-start gap-3">
                   <div className="mt-1">
-                    <BusinessIcon className="text-[#0356C2] text-2xl" />
+                    <BusinessIcon className="text-[#2d4a86] text-2xl" />
                   </div>
                   <div className="flex-1">
                     <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
                       {location.name}
                     </h2>
-                    <div className="h-1 w-16 bg-[#0356C2] rounded-full"></div>
+                    <div className="h-1 w-16 bg-[#2d4a86] rounded-full"></div>
                   </div>
                 </div>
 
@@ -206,12 +206,12 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                 {/* Email */}
                 <div className="flex items-start gap-4">
                   <div className="mt-1 flex-shrink-0">
-                    <EmailIcon className="text-[#0356C2] text-xl" />
+                    <EmailIcon className="text-[#2d4a86] text-xl" />
                   </div>
                   <div className="flex-1">
                     <a
                       href={`mailto:${location.email}`}
-                      className="text-[#0356C2] font-semibold text-base sm:text-lg hover:text-[#0248A0] transition-colors break-all inline-flex items-center gap-2 group"
+                      className="text-[#2d4a86] font-semibold text-base sm:text-lg hover:text-[#0248A0] transition-colors break-all inline-flex items-center gap-2 group"
                     >
                       {location.email}
                       <span className="text-xs opacity-0 group-hover:opacity-100 transition-opacity">
@@ -224,7 +224,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                 {/* Address */}
                 <div className="flex items-start gap-4 pt-2">
                   <div className="mt-1 flex-shrink-0">
-                    <LocationOnIcon className="text-[#0356C2] text-xl" />
+                    <LocationOnIcon className="text-[#2d4a86] text-xl" />
                   </div>
                   <div className="flex-1">
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
@@ -249,7 +249,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                     placeholder="Name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0356C2] focus:border-[#0356C2] outline-none transition-all bg-white text-base placeholder-gray-400 hover:border-gray-400"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2d4a86] focus:border-[#2d4a86] outline-none transition-all bg-white text-base placeholder-gray-400 hover:border-gray-400"
                     required
                   />
                 </div>
@@ -262,7 +262,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                     placeholder="Email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0356C2] focus:border-[#0356C2] outline-none transition-all bg-white text-base placeholder-gray-400 hover:border-gray-400"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2d4a86] focus:border-[#2d4a86] outline-none transition-all bg-white text-base placeholder-gray-400 hover:border-gray-400"
                     required
                   />
                 </div>
@@ -275,7 +275,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                     placeholder="Website"
                     value={formData.website}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0356C2] focus:border-[#0356C2] outline-none transition-all bg-white text-base placeholder-gray-400 hover:border-gray-400"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2d4a86] focus:border-[#2d4a86] outline-none transition-all bg-white text-base placeholder-gray-400 hover:border-gray-400"
                   />
                 </div>
 
@@ -287,14 +287,14 @@ const ContactDetailsSection = ({ selectedLocation }) => {
                     value={formData.message}
                     onChange={handleInputChange}
                     rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0356C2] focus:border-[#0356C2] outline-none transition-all resize-none bg-white text-base placeholder-gray-400 hover:border-gray-400"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2d4a86] focus:border-[#2d4a86] outline-none transition-all resize-none bg-white text-base placeholder-gray-400 hover:border-gray-400"
                     required
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full bg-[#003f92] hover:bg-[#0248A0] active:bg-[#023a7d] text-white font-semibold py-3.5 px-6 rounded-lg transition-all duration-200 text-base shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0356C2] focus:ring-offset-2 flex items-center justify-center gap-2"
+                  className="w-full bg-[#192a4d] hover:bg-[#0248A0] active:bg-[#023a7d] text-white font-semibold py-3.5 px-6 rounded-lg transition-all duration-200 text-base shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#2d4a86] focus:ring-offset-2 flex items-center justify-center gap-2"
                 >
                   <span>Send Message</span>
                   <SendIcon className="text-lg" />
