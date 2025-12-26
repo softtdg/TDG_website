@@ -7,7 +7,9 @@ import { useRouter, usePathname } from "next/navigation";
 const MenuBar = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const [currentImage, setCurrentImage] = useState("/images/home/u1.jpg");
+  const [currentImage, setCurrentImage] = useState(
+    "/images/home/light-rail.jpg"
+  );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
 
@@ -44,6 +46,22 @@ const MenuBar = () => {
     const iconClass = `${iconSize} text-current transition-transform duration-300 group-hover:scale-110`;
 
     switch (name) {
+      case "Home":
+        return (
+          <svg
+            className={iconClass}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+            />
+          </svg>
+        );
       case "Products":
         return (
           <svg
@@ -161,6 +179,11 @@ const MenuBar = () => {
 
   const navigationItems = [
     {
+      name: "Home",
+      image: "/images/home/light-rail.jpg",
+      href: "/",
+    },
+    {
       name: "Products",
       image: "/images/home/u1.jpg",
       href: "/products",
@@ -202,7 +225,7 @@ const MenuBar = () => {
       }
       return item.href === pathname;
     });
-    return currentItem || navigationItems[0]; // Default to SMT if no match
+    return currentItem || navigationItems[0]; // Default to Home if no match
   };
 
   // Update current image when pathname changes
@@ -332,11 +355,11 @@ const MenuBar = () => {
               {/* Close Button */}
               <button
                 onClick={toggleMenu}
-                className="flex items-center justify-center w-[38px] h-[38px] sm:w-[42px] sm:h-[42px] rounded-lg bg-white hover:bg-[#f4f8ff] border border-gray-200 hover:border-[#0356C2]/20 transition-all duration-200 shadow-sm hover:shadow-md group"
+                className="flex items-center justify-center w-[38px] h-[38px] sm:w-[42px] sm:h-[42px] rounded-lg bg-white hover:bg-[#f4f8ff] border border-gray-200 hover:border-[#2d4a86]/20 transition-all duration-200 shadow-sm hover:shadow-md group"
                 aria-label="Close menu"
               >
                 <svg
-                  className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] text-gray-600 group-hover:text-[#0356C2] transition-colors duration-200"
+                  className="w-[18px] h-[18px] sm:w-[20px] sm:h-[20px] text-gray-600 group-hover:text-[#2d4a86] transition-colors duration-200"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -368,8 +391,8 @@ const MenuBar = () => {
                     key={index}
                     className={`group relative flex items-center gap-3 sm:gap-4 lg:gap-4 px-4 py-3.5 sm:py-4 lg:py-4.5 rounded-[5px] transition-all duration-200 text-left w-full ${
                       isActive
-                        ? "text-[#0356C2] font-semibold bg-gradient-to-r from-[#f4f8ff] to-[#f0f5ff] shadow-sm border-l-4 border-[#0356C2]"
-                        : "text-gray-700 font-medium hover:text-[#0356C2] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#f4f8ff]/50 hover:shadow-sm border-l-4 border-transparent"
+                        ? "text-[#2d4a86] font-semibold bg-gradient-to-r from-[#f4f8ff] to-[#f0f5ff] border-l-4 border-[#2d4a86]"
+                        : "text-gray-700 font-medium hover:text-[#2d4a86] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#f4f8ff]/50 border-l-4 border-transparent"
                     }`}
                     onClick={() => handleNavigation(item.href)}
                     onMouseEnter={() => handleImageChange(item.image)}
@@ -382,8 +405,8 @@ const MenuBar = () => {
                     <div
                       className={`flex-shrink-0 transition-colors duration-300 ${
                         isActive
-                          ? "text-[#0356C2]"
-                          : "text-gray-500 group-hover:text-[#0356C2]"
+                          ? "text-[#2d4a86]"
+                          : "text-gray-500 group-hover:text-[#2d4a86]"
                       }`}
                     >
                       <MenuIcon name={item.name} />
@@ -394,7 +417,7 @@ const MenuBar = () => {
                       {item.name}
                       {/* Underline animation matching footer */}
                       <span
-                        className={`absolute bottom-[-2px] left-0 h-[2px] bg-[#0356C2] transition-all duration-200 rounded-full ${
+                        className={`absolute bottom-[-2px] left-0 h-[2px] bg-[#2d4a86] transition-all duration-200 rounded-full ${
                           isActive ? "w-0" : "w-0 group-hover:w-full"
                         }`}
                       />
@@ -404,7 +427,7 @@ const MenuBar = () => {
                     {isActive && (
                       <div className="flex-shrink-0 opacity-80">
                         <svg
-                          className="w-5 h-5 sm:w-5 sm:h-5 text-[#0356C2]"
+                          className="w-5 h-5 sm:w-5 sm:h-5 text-[#2d4a86]"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
