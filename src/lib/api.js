@@ -4,6 +4,8 @@
  */
 
 // Get API base URL from environment variable
+// const API_BASE_URL =
+//   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   "https://www.admin.web.tdgoverview.cloud/api";
@@ -206,4 +208,40 @@ export function groupProductsByCategory(products) {
   });
 
   return grouped;
+}
+
+/**
+ * Fetch all certificates
+ * @returns {Promise<Array>} Array of certificates
+ */
+export async function fetchCertificates() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/certificates`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch certificates: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    // Handle structured response format
+    if (data.success && data.data) {
+      return Array.isArray(data.data) ? data.data : [];
+    } else if (Array.isArray(data)) {
+      return data;
+    } else if (data.data && Array.isArray(data.data)) {
+      return data.data;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching certificates:", error);
+    // Return empty array on error to prevent breaking the UI
+    return [];
+  }
 }
