@@ -334,7 +334,7 @@ const MenuBar = () => {
         >
           <div className="h-full flex flex-col bg-white">
             {/* Header with TDG logo and close button */}
-            <div className="h-[70px] sm:h-[85px] flex items-center justify-between px-5 sm:px-6 lg:px-7 border-b border-gray-100 bg-gradient-to-br from-white via-[#fafbfd] to-[#f4f8ff] shadow-sm">
+            <div className="h-[70px] sm:h-[85px] flex items-center justify-between px-5 border-b border-gray-200 bg-gradient-to-br bg-gray-100">
               {/* TDG Logo and Text */}
               <button
                 onClick={() => {
@@ -347,7 +347,7 @@ const MenuBar = () => {
                   <img
                     src="/icons/logo.svg"
                     alt="TDG Logo"
-                    className="w-[100px] sm:w-[110px] transition-transform duration-200 group-hover:scale-105"
+                    className="w-[100px] transition-transform duration-200 group-hover:scale-105"
                   />
                 </div>
               </button>
@@ -355,7 +355,7 @@ const MenuBar = () => {
               {/* Close Button */}
               <button
                 onClick={toggleMenu}
-                className="flex items-center justify-center w-[38px] h-[38px] sm:w-[42px] sm:h-[42px] rounded-lg bg-white hover:bg-[#f4f8ff] border border-gray-200 hover:border-[#2d4a86]/20 transition-all duration-200 shadow-sm hover:shadow-md group"
+                className="flex items-center justify-center w-[38px] h-[38px] sm:w-[45px] sm:h-[45px] rounded-[4px] bg-white hover:bg-[#f4f8ff] border border-gray-300 hover:border-[#2d4a86]/20 transition-all duration-200  hover:shadow-md group"
                 aria-label="Close menu"
               >
                 <svg
