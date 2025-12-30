@@ -30,7 +30,27 @@ const groupCertificatesByCountry = (certificates) => {
       title,
       items: items.sort((a, b) => (a.order || 0) - (b.order || 0)),
     }))
-    .sort((a, b) => a.title.localeCompare(b.title));
+    .sort((a, b) => {
+      // Priority countries that should appear first
+      const priorityCountries = ["Canada", "United States", "USA"];
+
+      const aIsPriority = priorityCountries.includes(a.title);
+      const bIsPriority = priorityCountries.includes(b.title);
+
+      // If both are priority countries, sort by priority order
+      if (aIsPriority && bIsPriority) {
+        const aIndex = priorityCountries.indexOf(a.title);
+        const bIndex = priorityCountries.indexOf(b.title);
+        return aIndex - bIndex;
+      }
+
+      // Priority countries come first
+      if (aIsPriority) return -1;
+      if (bIsPriority) return 1;
+
+      // For non-priority countries, sort alphabetically
+      return a.title.localeCompare(b.title);
+    });
 };
 
 const buildRows = (items) => {

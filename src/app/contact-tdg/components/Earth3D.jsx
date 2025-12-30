@@ -139,6 +139,55 @@ function latLngToVector3(lat, lng, radius = 2.2) {
   );
 }
 
+// Marker Position Calculator Component
+function MarkerPositionCalculator({
+  location,
+  earthRef,
+  onPositionCalculated,
+  isCalculating,
+}) {
+  const { camera, size } = useThree();
+  const calculatedRef = useRef(false);
+
+  useFrame(() => {
+    if (
+      isCalculating &&
+      location &&
+      earthRef.current &&
+      !calculatedRef.current
+    ) {
+      // Calculate marker's 3D position relative to Earth center
+      const markerPosition = latLngToVector3(location.lat, location.lng, 2.15);
+
+      // Apply Earth's world transformation to get world position
+      const worldPosition = markerPosition.clone();
+      worldPosition.applyMatrix4(earthRef.current.matrixWorld);
+
+      // Project 3D world position to screen coordinates
+      const vector = worldPosition.project(camera);
+      const canvas = document.querySelector("canvas");
+      const canvasRect = canvas
+        ? canvas.getBoundingClientRect()
+        : { left: 0, top: 0 };
+      const x = (vector.x * 0.5 + 0.5) * size.width + canvasRect.left;
+      const y = (vector.y * -0.5 + 0.5) * size.height + canvasRect.top;
+
+      // Only calculate once
+      calculatedRef.current = true;
+
+      // Callback with calculated position
+      onPositionCalculated({ x, y });
+    }
+
+    // Reset when not calculating
+    if (!isCalculating) {
+      calculatedRef.current = false;
+    }
+  });
+
+  return null;
+}
+
 // Camera Reset Controller Component
 function CameraResetController({
   isResettingToDefault,
@@ -952,6 +1001,103 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
   const earthRef = useRef();
   const controlsRef = useRef();
   const isMarkerClickRef = useRef(false);
+  const hasAutoSelectedRef = useRef(false);
+  const [isCalculatingMarkerPosition, setIsCalculatingMarkerPosition] =
+    useState(false);
+  const [pendingAutoSelectLocation, setPendingAutoSelectLocation] =
+    useState(null);
+
+  // Handler for when marker position is calculated
+  const handleMarkerPositionCalculated = (position) => {
+    if (pendingAutoSelectLocation) {
+      // Determine marker side based on position
+      const viewportWidth = window.innerWidth;
+      const isLeftSide = position.x < viewportWidth / 2;
+      setMarkerSide(isLeftSide ? "left" : "right");
+
+      // Set popup data and position with actual marker position
+      setPopupOffice(pendingAutoSelectLocation);
+      setClickPosition(position);
+      setPopupVisible(true);
+      setHoveredLocation(pendingAutoSelectLocation);
+      setIsPopupActive(true);
+
+      // Stop calculating
+      setIsCalculatingMarkerPosition(false);
+      setPendingAutoSelectLocation(null);
+    }
+  };
+
+  // Auto-select location based on visitor's country on mount
+  useEffect(() => {
+    if (!visitorCountry || hasAutoSelectedRef.current) return;
+
+    // Find matching location(s) based on visitor country
+    const findMatchingLocation = () => {
+      // Handle country name variations
+      const countryMap = {
+        "United States": "United States",
+        USA: "United States",
+        US: "United States",
+        France: "France",
+        "United Kingdom": "United Kingdom",
+        UK: "United Kingdom",
+        Canada: "Canada",
+        India: "India",
+        Poland: "Poland",
+      };
+
+      const normalizedCountry = countryMap[visitorCountry] || visitorCountry;
+
+      // Find first matching location
+      const matchingLocation = officeLocations.find(
+        (loc) => loc.country === normalizedCountry
+      );
+
+      return matchingLocation;
+    };
+
+    const matchingLocation = findMatchingLocation();
+
+    if (matchingLocation) {
+      // Wait for Earth to be ready, then auto-select
+      const timer = setTimeout(() => {
+        // Rotate Earth to location first
+        setClickedLocation(matchingLocation);
+        setIsRotatingToLocation(true);
+
+        // Disable controls temporarily
+        if (controlsRef.current) {
+          controlsRef.current.enabled = false;
+        }
+
+        // Notify parent component
+        if (onLocationSelect) {
+          onLocationSelect(matchingLocation);
+        }
+
+        // After rotation completes, calculate marker position
+        setTimeout(() => {
+          setIsRotatingToLocation(false);
+          // Wait a bit more for Earth position to stabilize, then calculate marker position
+          setTimeout(() => {
+            setPendingAutoSelectLocation(matchingLocation);
+            setIsCalculatingMarkerPosition(true);
+          }, 100);
+          // Re-enable controls after a short delay
+          setTimeout(() => {
+            if (controlsRef.current) {
+              controlsRef.current.enabled = true;
+            }
+          }, 200);
+        }, 500);
+
+        hasAutoSelectedRef.current = true;
+      }, 100); // Wait 500ms for Earth to initialize
+
+      return () => clearTimeout(timer);
+    }
+  }, [visitorCountry, onLocationSelect]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -1429,6 +1575,14 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                   isResettingToDefault={isResettingToDefault}
                   onResetComplete={() => handleManualRotation(false)}
                   controlsRef={controlsRef}
+                />
+
+                {/* Marker Position Calculator for auto-selection */}
+                <MarkerPositionCalculator
+                  location={pendingAutoSelectLocation}
+                  earthRef={earthRef}
+                  onPositionCalculated={handleMarkerPositionCalculated}
+                  isCalculating={isCalculatingMarkerPosition}
                 />
 
                 {/* Earth with rotating markers */}

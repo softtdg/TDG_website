@@ -12,7 +12,7 @@ export const AccessibilityPlanContent = () => {
         aria-label="Download Multi Year Accessibility Plan"
       >
         <img src="/icons/download.svg" alt="" className="w-10 sm:w-[46px]" />
-        <h2 className="text-2xl sm:text-[30px] font-bold text-[#000000] sm:ms-4 mt-4 sm:mt-0 group-hover:underline">
+        <h2 className="text-2xl tracking-[2px] sm:text-[30px] font-bold text-[#000000] sm:ms-4 mt-4 sm:mt-0 group-hover:underline">
           DOWNLOAD OUR MULTI YEAR ACCESSIBILITY PLAN
         </h2>
       </a>

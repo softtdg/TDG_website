@@ -155,7 +155,7 @@ export const LightingInMotionSection = () => {
                     whileTap={isDesktop ? { scale: 0.99 } : {}}
                   >
                     <motion.h3
-                      className={`text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold uppercase transition-colors duration-300 ${
+                      className={`text-xl sm:text-2xl lg:text-4xl xl:text-5xl font-bold uppercase tracking-[2px] transition-colors duration-300 ${
                         isDesktop && expandedSection === key
                           ? "text-[#2d4a86]"
                           : "text-gray-900"

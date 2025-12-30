@@ -152,7 +152,7 @@ const OtherOfficesCards = ({ locations, selectedLocationId, onSelect }) => {
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-[1px] text-[#2d4a86] mb-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-[2px] text-[#2d4a86] mb-3">
             Global Sites
           </h2>
           <div className="h-1 w-20 bg-[#f4c806] mx-auto rounded-full"></div>
