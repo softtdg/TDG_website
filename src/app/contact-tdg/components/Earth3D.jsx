@@ -1089,11 +1089,11 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
             if (controlsRef.current) {
               controlsRef.current.enabled = true;
             }
-          }, 200);
-        }, 500);
+          }, 100);
+        }, 100);
 
         hasAutoSelectedRef.current = true;
-      }, 100); // Wait 500ms for Earth to initialize
+      }, 110); // Wait 200ms for Earth to initialize
 
       return () => clearTimeout(timer);
     }
@@ -1375,7 +1375,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
 
   return (
     <div
-      className="pb-8 main_container md:min-h-[100vh] max-md:py-[200px]"
+      className="pb-8 main_container md:min-h-[100vh] max-md:py-[100px]"
       style={{
         background:
           // "radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 25%, #0f1419 50%, #0a0e1a 75%, #000000 100%)",

@@ -294,7 +294,7 @@ const ContactDetailsSection = ({ selectedLocation }) => {
 
                 <button
                   type="submit"
-                  className="w-full bg-[#192a4d] hover:bg-[#2d4a86] text-white font-semibold py-3.5 px-6 rounded-lg transition-all duration-200 text-base shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#2d4a86] focus:ring-offset-2 flex items-center justify-center gap-2"
+                  className="w-full bg-[#142445de] hover:bg-[#142445] text-white font-semibold py-3.5 px-6 rounded-lg transition-all duration-200 text-base shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#2d4a86] focus:ring-offset-2 flex items-center justify-center gap-2"
                 >
                   <span>Send Message</span>
                   <SendIcon className="text-lg" />

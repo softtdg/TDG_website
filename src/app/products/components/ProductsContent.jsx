@@ -208,7 +208,7 @@ const ProductsContentInner = ({ Model3D }) => {
                         e.stopPropagation();
                         handleCardClick(item.title);
                       }}
-                      className="w-full mt-auto bg-[#192a4d] text-white font-semibold py-2.5 px-5 rounded-[4px] transition-all duration-200 text-sm shadow-sm hover:shadow-md border border-slate-600/50"
+                      className="w-full mt-auto bg-[#142445de] text-white font-semibold py-2.5 px-5 rounded-[4px] transition-all duration-200 text-sm shadow-sm hover:shadow-md border border-slate-600/50"
                     >
                       View Details
                     </button>

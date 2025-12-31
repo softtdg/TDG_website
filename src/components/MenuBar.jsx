@@ -328,7 +328,7 @@ const MenuBar = () => {
       {/* Side menu */}
       {(isMenuOpen || isClosing) && (
         <div
-          className={`fixed z-[120] top-0 left-0 bottom-0 sm:top-[10px] sm:left-[10px] sm:bottom-[10px] rounded-[5px] w-full sm:w-[380px] lg:w-[420px] bg-white shadow-2xl border border-gray-100 overflow-hidden ${
+          className={`fixed z-[120] top-0 left-0 bottom-0 sm:top-[10px] sm:left-[10px] sm:bottom-[10px] rounded-[5px] w-full sm:w-[380px] lg:w-[420px] bg-white shadow-[0_4px_32px_0_rgba(255,255,255,0.20)] border border-gray-100 overflow-hidden ${
             isClosing ? "animate-slideOutLeft" : "animate-slideInLeft"
           }`}
         >
