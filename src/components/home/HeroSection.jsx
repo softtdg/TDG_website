@@ -82,7 +82,7 @@ export const HeroSection = () => {
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.3, delay: 0.1 }}
-                    className="text-white text-[22px] sm:text-[32px] lg:text-[38px] font-medium tracking-wide hidden lg:block"
+                    className="text-white text-[16px] sm:text-[32px] lg:text-[38px] font-medium tracking-wide hidden lg:block"
                   >
                     {/* TDG - Transit Design Group */}
                   </motion.h1>
@@ -91,7 +91,7 @@ export const HeroSection = () => {
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 0.3, delay: 0.1 }}
-                    className="text-white text-[22px] sm:text-[32px] lg:text-[38px] font-medium tracking-wide lg:hidden"
+                    className="text-white text-[16px] sm:text-[32px] lg:text-[38px] font-medium tracking-wide lg:hidden"
                   >
                     {/* TDG */}
                   </motion.h1>

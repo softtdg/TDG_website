@@ -81,7 +81,7 @@ export const HeroSection = () => {
                   initial={{ scale: 0.9, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.1 }}
-                  className="text-white text-[18px] sm:text-[26px] lg:text-[32px] font-medium tracking-wide text-center"
+                  className="text-white text-[16px] sm:text-[26px] lg:text-[32px] font-medium sm:tracking-wide text-center"
                 >
                   STANDARDS & CERTIFICATIONS
                 </motion.h1>

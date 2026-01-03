@@ -2,11 +2,12 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // nice icons
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const OurWorldSection = () => {
   const router = useRouter();
@@ -102,10 +103,13 @@ export const OurWorldSection = () => {
                   className="group block w-full cursor-pointer focus:outline-none"
                 >
                   <div className="relative group h-[300px] lg:h-[533px] overflow-hidden">
-                    <img
+                    <Image
                       src={panel.image}
                       alt={panel.alt}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 25vw"
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      quality={85}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 group-hover:from-black/10 via-black/30 group-hover:via-black/10 to-transparent group-hover:bg-white/80 transition-all duration-700 flex flex-col justify-end group-hover:justify-end group-hover:pb-15 group-hover:items-center p-6">
                       <div className="transition-all duration-700 group-hover:text-center transform translate-y-0 group-hover:-translate-y-0">

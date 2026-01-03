@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export const LightingInMotionSection = () => {
@@ -96,17 +97,9 @@ export const LightingInMotionSection = () => {
             variants={itemVariants}
           >
             <AnimatePresence mode="wait">
-              <motion.img
+              <motion.div
                 key={expandedSection || "railways"}
-                src={getCurrentImage()}
-                alt={
-                  expandedSection === "defense"
-                    ? "Defense lighting solutions"
-                    : expandedSection === "support"
-                    ? "Support services"
-                    : "Modern train interior with LED lighting"
-                }
-                className="rounded-lg w-full h-[650px] object-cover shadow-lg"
+                className="relative rounded-lg w-full h-[650px] overflow-hidden shadow-lg"
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 30 }}
@@ -115,7 +108,22 @@ export const LightingInMotionSection = () => {
                   scale: 1.02,
                   transition: { duration: 0.3 },
                 }}
-              />
+              >
+                <Image
+                  src={getCurrentImage()}
+                  alt={
+                    expandedSection === "defense"
+                      ? "Defense lighting solutions"
+                      : expandedSection === "support"
+                      ? "Support services"
+                      : "Modern train interior with LED lighting"
+                  }
+                  fill
+                  sizes="45vw"
+                  className="object-cover"
+                  quality={85}
+                />
+              </motion.div>
             </AnimatePresence>
           </motion.div>
 
