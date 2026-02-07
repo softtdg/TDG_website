@@ -35,8 +35,11 @@ const MenuBar = () => {
     }
   }, [isMenuOpen, isClosing]);
 
-  // Hide menu bar on product detail pages
+  // Hide menu bar on product detail pages and DDG page (has custom header)
   if (pathname?.startsWith("/products/") && pathname !== "/products") {
+    return null;
+  }
+  if (pathname === "/ddg") {
     return null;
   }
 
@@ -158,6 +161,22 @@ const MenuBar = () => {
             />
           </svg>
         );
+      case "DDG":
+        return (
+          <svg
+            className={iconClass}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+            />
+          </svg>
+        );
       default:
         return (
           <svg
@@ -207,6 +226,11 @@ const MenuBar = () => {
       name: "About Us",
       image: "/images/about-us/i1.jpg",
       href: "/about-us",
+    },
+    {
+      name: "DDG",
+      image: "/images/ddg/USCGC_Polar_Sea_WAGB_11-small.jpg",
+      href: "/ddg",
     },
     {
       name: "Contacts",
@@ -318,9 +342,8 @@ const MenuBar = () => {
       {/* Blurred backdrop overlay */}
       {(isMenuOpen || isClosing) && (
         <div
-          className={`fixed z-[110] top-0 left-0 bottom-0 right-0 bg-black/50 backdrop-blur-sm ${
-            isClosing ? "animate-fadeOut" : "animate-fadeIn"
-          }`}
+          className={`fixed z-[110] top-0 left-0 bottom-0 right-0 bg-black/50 backdrop-blur-sm ${isClosing ? "animate-fadeOut" : "animate-fadeIn"
+            }`}
           onClick={toggleMenu}
         />
       )}
@@ -328,9 +351,8 @@ const MenuBar = () => {
       {/* Side menu */}
       {(isMenuOpen || isClosing) && (
         <div
-          className={`fixed z-[120] top-0 left-0 bottom-0 sm:top-[10px] sm:left-[10px] sm:bottom-[10px] rounded-[5px] w-full sm:w-[380px] lg:w-[420px] bg-white shadow-[0_4px_32px_0_rgba(255,255,255,0.20)] border border-gray-100 overflow-hidden ${
-            isClosing ? "animate-slideOutLeft" : "animate-slideInLeft"
-          }`}
+          className={`fixed z-[120] top-0 left-0 bottom-0 sm:top-[10px] sm:left-[10px] sm:bottom-[10px] rounded-[5px] w-full sm:w-[380px] lg:w-[420px] bg-white shadow-[0_4px_32px_0_rgba(255,255,255,0.20)] border border-gray-100 overflow-hidden ${isClosing ? "animate-slideOutLeft" : "animate-slideInLeft"
+            }`}
         >
           <div className="h-full flex flex-col bg-white">
             {/* Header with TDG logo and close button */}
@@ -389,11 +411,10 @@ const MenuBar = () => {
                 return (
                   <button
                     key={index}
-                    className={`group relative flex items-center gap-3 sm:gap-4 lg:gap-4 px-4 py-3.5 sm:py-4 lg:py-4.5 rounded-[5px] transition-all duration-200 text-left w-full ${
-                      isActive
-                        ? "text-[#2d4a86] font-semibold bg-gradient-to-r from-[#f4f8ff] to-[#f0f5ff] border-l-4 border-[#2d4a86]"
-                        : "text-gray-700 font-medium hover:text-[#2d4a86] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#f4f8ff]/50 border-l-4 border-transparent"
-                    }`}
+                    className={`group relative flex items-center gap-3 sm:gap-4 lg:gap-4 px-4 py-3.5 sm:py-4 lg:py-4.5 rounded-[5px] transition-all duration-200 text-left w-full ${isActive
+                      ? "text-[#2d4a86] font-semibold bg-gradient-to-r from-[#f4f8ff] to-[#f0f5ff] border-l-4 border-[#2d4a86]"
+                      : "text-gray-700 font-medium hover:text-[#2d4a86] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#f4f8ff]/50 border-l-4 border-transparent"
+                      }`}
                     onClick={() => handleNavigation(item.href)}
                     onMouseEnter={() => handleImageChange(item.image)}
                     onMouseLeave={() => {
@@ -403,11 +424,10 @@ const MenuBar = () => {
                   >
                     {/* Icon */}
                     <div
-                      className={`flex-shrink-0 transition-colors duration-300 ${
-                        isActive
-                          ? "text-[#2d4a86]"
-                          : "text-gray-500 group-hover:text-[#2d4a86]"
-                      }`}
+                      className={`flex-shrink-0 transition-colors duration-300 ${isActive
+                        ? "text-[#2d4a86]"
+                        : "text-gray-500 group-hover:text-[#2d4a86]"
+                        }`}
                     >
                       <MenuIcon name={item.name} />
                     </div>
@@ -417,9 +437,8 @@ const MenuBar = () => {
                       {item.name}
                       {/* Underline animation matching footer */}
                       <span
-                        className={`absolute bottom-[-2px] left-0 h-[2px] bg-[#2d4a86] transition-all duration-200 rounded-full ${
-                          isActive ? "w-0" : "w-0 group-hover:w-full"
-                        }`}
+                        className={`absolute bottom-[-2px] left-0 h-[2px] bg-[#2d4a86] transition-all duration-200 rounded-full ${isActive ? "w-0" : "w-0 group-hover:w-full"
+                          }`}
                       />
                     </span>
 
