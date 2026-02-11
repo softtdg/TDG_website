@@ -2,6 +2,7 @@ import React from "react";
 import { HeroSection } from "./components/HeroSection";
 import { OverviewSection } from "./components/OverviewSection";
 import { CapabilitiesSection } from "./components/CapabilitiesSection";
+import { DDGFooter } from "./components/DDGFooter";
 import { ImageGallery } from "./components/ImageGallery";
 import { TechnologySection } from "./components/TechnologySection";
 
@@ -11,8 +12,9 @@ const DDGPage = () => {
       <HeroSection />
       <OverviewSection />
       <CapabilitiesSection />
-      <TechnologySection />
-      <ImageGallery />
+      {/* <TechnologySection /> */}
+      {/* <ImageGallery /> */}
+      <DDGFooter />
     </div>
   );
 };

@@ -5,11 +5,11 @@ import { motion } from "framer-motion";
 
 export const HeroSection = () => {
     return (
-        <div className="relative w-full h-[80vh] min-h-[500px] max-h-[800px]">
+        <div id="home" className="relative w-full h-[80vh] min-h-[500px] max-h-[800px]">
             {/* Background Image with TDG Style Overlay */}
             <div className="absolute inset-0">
                 <Image
-                    src="/images/ddg/USCGC_Polar_Sea_WAGB_11-small.jpg"
+                    src="/images/ddg/herobg.png"
                     alt="DDG Defence Systems"
                     fill
                     className="bg-bottom bg-no-repeat"
@@ -28,7 +28,7 @@ export const HeroSection = () => {
                         transition={{ duration: 0.8 }}
                         className="text-4xl sm:text-5xl lg:text-7xl font-medium text-white mb-6 tracking-[3px] uppercase"
                     >
-                        DDG DEFENCE SYSTEMS
+                        DDG Design Group
                     </motion.h1>
 
                     <motion.p

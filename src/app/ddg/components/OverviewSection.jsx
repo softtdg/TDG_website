@@ -14,8 +14,8 @@ export const OverviewSection = () => {
     ];
 
     return (
-        <section className="py-20 sm:py-24 bg-gradient-to-b from-white to-[#F5F7FA]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="defence-systems-excellence" className="pt-20 sm:pt-24">
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -24,14 +24,15 @@ export const OverviewSection = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-[3px] text-[#2d4a86] mb-4">
-                        DEFENCE SYSTEMS EXCELLENCE
+                    <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-[#153f79] tracking-[3px]">
+                        <span className="text-[#101828]">DEFENCE SYSTEMS</span>{" "}
+                        <span className="text-[#153f79]">EXCELLENCE</span>
                     </h2>
-                    <div className="h-1 w-24 bg-[#f4c806] mx-auto rounded-full mb-6"></div>
-                    <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                    <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed mb-4">
                         DDG Defence Systems represents the pinnacle of military technology and engineering excellence.
                         Our comprehensive solutions meet the most demanding operational requirements of modern armed forces worldwide.
                     </p>
+                    <div className="h-1 w-24 bg-[#e76423] mx-auto rounded-full"></div>
                 </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-5">
@@ -69,16 +70,16 @@ export const OverviewSection = () => {
                         transition={{ duration: 0.6 }}
                         className="space-y-6"
                     >
-                        <div className="bg-white p-6 shadow-lg border-l-4 border-[#2d4a86]">
-                            <div className="text-5xl font-bold text-[#2d4a86] mb-2">25+</div>
+                        <div className="bg-white p-6 shadow-lg border-l-4 border-[#153f79]">
+                            <div className="text-5xl font-bold text-[#153f79] mb-2">25+</div>
                             <div className="text-sm text-gray-600 font-semibold uppercase tracking-wider">Years Experience</div>
                         </div>
-                        <div className="bg-white p-6 shadow-lg border-l-4 border-[#f4c806]">
-                            <div className="text-5xl font-bold text-[#2d4a86] mb-2">50+</div>
+                        <div className="bg-white p-6 shadow-lg border-l-4 border-[#e76423]">
+                            <div className="text-5xl font-bold text-[#153f79] mb-2">50+</div>
                             <div className="text-sm text-gray-600 font-semibold uppercase tracking-wider">Active Projects</div>
                         </div>
-                        <div className="bg-white p-6 shadow-lg border-l-4 border-[#2d4a86]">
-                            <div className="text-5xl font-bold text-[#2d4a86] mb-2">100+</div>
+                        <div className="bg-white p-6 shadow-lg border-l-4 border-[#153f79]">
+                            <div className="text-5xl font-bold text-[#153f79] mb-2">100+</div>
                             <div className="text-sm text-gray-600 font-semibold uppercase tracking-wider">Countries Served</div>
                         </div>
                     </motion.div>
@@ -91,7 +92,7 @@ export const OverviewSection = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                 >
-                    <h3 className="text-2xl font-bold text-[#2d4a86] mb-6 text-center">Core Capabilities</h3>
+                    <h3 className="text-2xl font-bold text-[#153f79] mb-6 text-center">Core Capabilities</h3>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         {capabilities.map((capability, index) => (
                             <motion.div
@@ -100,7 +101,7 @@ export const OverviewSection = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                                className="bg-white p-4 border border-[#DBE2E7] hover:border-[#2d4a86] hover:shadow-md transition-all"
+                                className="bg-white p-4 border border-[#DBE2E7] hover:border-[#153f79] hover:shadow-md transition-all"
                             >
                                 <div className="flex items-center gap-3">
                                     <div className="w-2 h-2 bg-[#f4c806] rounded-full"></div>

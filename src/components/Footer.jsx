@@ -1,9 +1,15 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const Footer = () => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Hide footer on DDG page
+  if (pathname?.startsWith("/ddg")) {
+    return null;
+  }
 
   const handleAboutUsClick = () => {
     router.push("/about-us");

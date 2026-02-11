@@ -112,8 +112,8 @@ export const CapabilitiesSection = () => {
     ];
 
     return (
-        <section className="pt-20 sm:pt-24 pb-14 bg-gradient-to-b from-white via-[#F5F7FA] to-white">
-            <div className="max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="comprehensive-defence-solutions" className="pt-20 sm:pt-24 pb-14 bg-gradient-to-b from-white via-[#F5F7FA] to-white">
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -122,13 +122,14 @@ export const CapabilitiesSection = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-[3px] text-[#2d4a86] mb-4">
-                        COMPREHENSIVE DEFENCE SOLUTIONS
+                    <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-[#153f79] tracking-[3px]">
+                        <span className="text-[#101828]">COMPREHENSIVE DEFENCE</span>{" "}
+                        <span className="text-[#153f79]">SOLUTIONS</span>
                     </h2>
-                    <div className="h-1 w-24 bg-[#f4c806] mx-auto rounded-full mb-6"></div>
-                    <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                    <p className="text-base sm:text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed mb-4">
                         Delivering mission-critical defence systems across multiple domains with proven reliability and advanced technology.
                     </p>
+                    <div className="h-1 w-24 bg-[#e76423] mx-auto rounded-full"></div>
                 </motion.div>
 
                 {/* Capabilities Grid */}
@@ -140,11 +141,11 @@ export const CapabilitiesSection = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: index * 0.1 }}
-                            className="group relative bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 border border-[#DBE2E7] cursor-pointer"
+                            className="group relative bg-white rounded-md overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 border border-gray-200 cursor-pointer"
                             onClick={() => setSelectedCapability(capability)}
                         >
                             {/* Image */}
-                            <div className="relative h-[300px] lg:h-[350px] overflow-hidden">
+                            <div className="relative h-[250px] lg:h-[280px] overflow-hidden">
                                 <Image
                                     src={capability.image}
                                     alt={capability.alt}
@@ -155,18 +156,18 @@ export const CapabilitiesSection = () => {
                                 <div className="absolute inset-0 bg-gradient-to-t from-[#101828]/90 via-[#101828]/50 to-transparent"></div>
 
                                 {/* Stats Badge */}
-                                <div className="absolute top-4 right-4 bg-[#f4c806]/90 backdrop-blur-sm px-3 py-1.5 rounded">
+                                {/* <div className="absolute top-4 right-4 bg-[#f4c806]/90 backdrop-blur-sm px-3 py-1.5 rounded">
                                     <div className="text-white text-xs font-bold uppercase">
                                         {Object.values(capability.stats)[0]}
                                     </div>
-                                </div>
+                                </div> */}
 
                                 {/* Title Overlay */}
                                 <div className="absolute bottom-0 left-0 right-0 p-6">
                                     <h3 className="text-white font-bold text-xl lg:text-2xl uppercase tracking-wide mb-2">
                                         {capability.title}
                                     </h3>
-                                    <div className="h-1 w-12 bg-[#f4c806] rounded-full"></div>
+                                    <div className="h-1 w-12 bg-[#ffffff] rounded-full"></div>
                                 </div>
                             </div>
 
@@ -180,7 +181,7 @@ export const CapabilitiesSection = () => {
                                 <div className="space-y-2 mb-4">
                                     {capability.features.slice(0, 3).map((feature, idx) => (
                                         <div key={idx} className="flex items-center gap-2">
-                                            <div className="w-1.5 h-1.5 bg-[#f4c806] rounded-full flex-shrink-0"></div>
+                                            <div className="w-1.5 h-1.5 bg-[#e76423] rounded-full flex-shrink-0"></div>
                                             <span className="text-xs lg:text-sm text-gray-600">{feature}</span>
                                         </div>
                                     ))}
@@ -190,7 +191,7 @@ export const CapabilitiesSection = () => {
                                 <div className="flex items-center justify-between pt-4 border-t border-[#DBE2E7]">
                                     {Object.entries(capability.stats).map(([key, value], idx) => (
                                         <div key={idx} className="text-center">
-                                            <div className="text-lg font-bold text-[#2d4a86]">{value}</div>
+                                            <div className="text-lg font-bold text-[#153f79]">{value}</div>
                                             <div className="text-xs text-gray-500 uppercase tracking-wider">{key}</div>
                                         </div>
                                     ))}
@@ -198,7 +199,7 @@ export const CapabilitiesSection = () => {
                             </div>
 
                             {/* Hover Accent */}
-                            <div className="absolute inset-0 border-2 border-[#f4c806] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                            {/* <div className="absolute inset-0 border-2 border-[#f4c806] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div> */}
                         </motion.div>
                     ))}
                 </div>
@@ -211,7 +212,7 @@ export const CapabilitiesSection = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/95 backdrop-blur-sm"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
                         onClick={() => setSelectedCapability(null)}
                     >
                         <motion.div
@@ -235,7 +236,7 @@ export const CapabilitiesSection = () => {
                                     <h3 className="text-white font-bold text-3xl lg:text-4xl uppercase tracking-wide mb-2">
                                         {selectedCapability.title}
                                     </h3>
-                                    <div className="h-1 w-16 bg-[#f4c806] rounded-full"></div>
+                                    <div className="h-1 w-16 bg-[#ffffff] rounded-full"></div>
                                 </div>
                             </div>
 
@@ -249,7 +250,7 @@ export const CapabilitiesSection = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                                     {selectedCapability.features.map((feature, idx) => (
                                         <div key={idx} className="flex items-start gap-3 p-4 bg-[#F5F7FA] rounded-lg">
-                                            <div className="w-2 h-2 bg-[#f4c806] rounded-full mt-1.5 flex-shrink-0"></div>
+                                            <div className="w-2 h-2 bg-[#e76423] rounded-full mt-1.5 flex-shrink-0"></div>
                                             <span className="text-gray-700 font-medium">{feature}</span>
                                         </div>
                                     ))}
@@ -258,8 +259,8 @@ export const CapabilitiesSection = () => {
                                 {/* Stats */}
                                 <div className="grid grid-cols-2 gap-4 pt-6 border-t border-[#DBE2E7]">
                                     {Object.entries(selectedCapability.stats).map(([key, value], idx) => (
-                                        <div key={idx} className="text-center p-4 bg-gradient-to-br from-[#2d4a86]/10 to-white rounded-lg">
-                                            <div className="text-3xl font-bold text-[#2d4a86] mb-1">{value}</div>
+                                        <div key={idx} className="text-center p-4 bg-gradient-to-br from-[#153f79]/10 to-white rounded-lg">
+                                            <div className="text-3xl font-bold text-[#153f79] mb-1">{value}</div>
                                             <div className="text-sm text-gray-600 uppercase tracking-wider">{key}</div>
                                         </div>
                                     ))}
