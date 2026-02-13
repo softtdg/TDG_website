@@ -169,11 +169,82 @@ const MenuBar = () => {
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
+            {/* Hull */}
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
-              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+              d="M2 18h20M2 18l1-4h18l1 4"
+            />
+            {/* Bow */}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M2 18L4 14"
+            />
+            {/* Stern */}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M22 18L20 14"
+            />
+            {/* Superstructure base */}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18V12h12v6"
+            />
+            {/* Top deck */}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M8 12V8h8v4"
+            />
+            {/* Smokestack 1 */}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 8V4h2v4"
+            />
+            {/* Smokestack 2 */}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 8V4h2v4"
+            />
+            {/* Porthole 1 */}
+            <circle
+              cx="7"
+              cy="16"
+              r="1.5"
+              strokeWidth={2}
+            />
+            {/* Porthole 2 */}
+            <circle
+              cx="10"
+              cy="16"
+              r="1.5"
+              strokeWidth={2}
+            />
+            {/* Porthole 3 */}
+            <circle
+              cx="14"
+              cy="16"
+              r="1.5"
+              strokeWidth={2}
+            />
+            {/* Porthole 4 */}
+            <circle
+              cx="17"
+              cy="16"
+              r="1.5"
+              strokeWidth={2}
             />
           </svg>
         );

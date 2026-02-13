@@ -22,7 +22,7 @@ export default function DDGLayout({ children }) {
     return (
         <div className="ddg-layout">
             {/* Custom DDG Header - TDG Style */}
-            <header className="fixed top-0 left-0 right-0 z-50 bg-[white] border-b border-[#DBE2E7] shadow-lg">
+            <header className="fixed top-0 left-0 right-0 z-50 bg-[#101828]/95 backdrop-blur-lg shadow-lg">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16 sm:h-17">
                         {/* Left: Back Button + DDG Logo */}
@@ -32,15 +32,15 @@ export default function DDGLayout({ children }) {
                                 className="flex items-center gap-2"
                             >
                                 <img
-                                    src="/images/ddg/DDG Logo Final (Building Sign).png"
+                                    src="/images/ddg/DDG Logo Final (Building Sign) W.png"
                                     alt="DDG Logo"
-                                    className="h-10 sm:h-14 w-auto hover:opacity-90 transition-opacity cursor-pointer"
+                                    className="h-10 sm:h-12 w-auto hover:opacity-90 transition-opacity cursor-pointer"
                                 />
                             </button>
                         </div>
 
                         {/* Right: Navigation Links */}
-                        <nav className="flex items-center gap-4 sm:gap-8">
+                        {/* <nav className="flex items-center gap-4 sm:gap-8">
                             <button
                                 onClick={() => scrollToSection("home")}
                                 className="text-sm text-[#627084] hover:text-[#153f79] transition-colors"
@@ -65,7 +65,7 @@ export default function DDGLayout({ children }) {
                             >
                                 Get in Touch
                             </button>
-                        </nav>
+                        </nav> */}
                     </div>
                 </div>
             </header>
