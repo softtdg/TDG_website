@@ -301,7 +301,9 @@ const MenuBar = () => {
     {
       name: "DDG",
       image: "/images/ddg/USCGC_Polar_Sea_WAGB_11-small.jpg",
-      href: "/ddg",
+      href: "https://ddg-website-eight.vercel.app/",
+      target: "_blank",
+      rel: "noopener noreferrer",
     },
     {
       name: "Contacts",
@@ -333,9 +335,13 @@ const MenuBar = () => {
     setCurrentImage(imagePath);
   };
 
-  const handleNavigation = (href) => {
+  const handleNavigation = (href, target, rel) => {
     if (href !== "#") {
-      router.push(href);
+      if (target && rel) {
+        window.open(href, target, rel);
+      } else {
+        router.push(href);
+      }
       // Close menu after navigation
       setIsClosing(true);
       setTimeout(() => {
@@ -486,7 +492,7 @@ const MenuBar = () => {
                       ? "text-[#2d4a86] font-semibold bg-gradient-to-r from-[#f4f8ff] to-[#f0f5ff] border-l-4 border-[#2d4a86]"
                       : "text-gray-700 font-medium hover:text-[#2d4a86] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#f4f8ff]/50 border-l-4 border-transparent"
                       }`}
-                    onClick={() => handleNavigation(item.href)}
+                    onClick={() => handleNavigation(item.href, item.target, item.rel)}
                     onMouseEnter={() => handleImageChange(item.image)}
                     onMouseLeave={() => {
                       const currentItem = getCurrentNavigationItem();
