@@ -1,98 +1,98 @@
-"use client";
+"use client"
 
-import { Suspense, useEffect, useState, useRef, memo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
-import * as THREE from "three";
+import { Suspense, useEffect, useState, useRef, memo } from "react"
+import { Canvas, useFrame } from "@react-three/fiber"
+import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
+import * as THREE from "three"
 
 // 3D Model Component - Optimized with memoization
 const Model3D = memo(({ url }) => {
-  const { scene } = useGLTF(url);
-  const isInitialized = useRef(false);
+  const { scene } = useGLTF(url)
+  const isInitialized = useRef(false)
 
   // Calculate bounding box to center and scale the model - only once
   useEffect(() => {
-    if (!scene || isInitialized.current) return;
+    if (!scene || isInitialized.current) return
 
     // Calculate bounding box
-    const box = new THREE.Box3().setFromObject(scene);
-    const center = box.getCenter(new THREE.Vector3());
-    const size = box.getSize(new THREE.Vector3());
+    const box = new THREE.Box3().setFromObject(scene)
+    const center = box.getCenter(new THREE.Vector3())
+    const size = box.getSize(new THREE.Vector3())
 
     // Center the model
-    scene.position.sub(center);
+    scene.position.sub(center)
 
     // Scale to fit (adjust scale factor as needed)
-    const maxDim = Math.max(size.x, size.y, size.z);
+    const maxDim = Math.max(size.x, size.y, size.z)
     if (maxDim > 0) {
-      const scale = 2 / maxDim; // Adjust this value to control model size
-      scene.scale.multiplyScalar(scale);
+      const scale = 2 / maxDim // Adjust this value to control model size
+      scene.scale.multiplyScalar(scale)
     }
 
-    isInitialized.current = true;
-  }, [scene]);
+    isInitialized.current = true
+  }, [scene])
 
-  return <primitive object={scene} />;
-});
+  return <primitive object={scene} />
+})
 
-Model3D.displayName = "Model3D";
+Model3D.displayName = "Model3D"
 
 // OrbitControls wrapper that stops rotation immediately on mouse release
 const InstantStopOrbitControls = (props) => {
-  const controlsRef = useRef();
-  const isDraggingRef = useRef(false);
+  const controlsRef = useRef()
+  const isDraggingRef = useRef(false)
 
   useEffect(() => {
-    const controls = controlsRef.current;
-    if (!controls) return;
+    const controls = controlsRef.current
+    if (!controls) return
 
     const handleStart = () => {
-      isDraggingRef.current = true;
-    };
+      isDraggingRef.current = true
+    }
 
     const handleEnd = () => {
-      isDraggingRef.current = false;
+      isDraggingRef.current = false
       // Immediately stop rotation by zeroing spherical delta
       if (controls && controls.sphericalDelta) {
-        controls.sphericalDelta.set(0, 0, 0);
+        controls.sphericalDelta.set(0, 0, 0)
       }
-    };
+    }
 
     // Add event listeners to the controls DOM element
-    const domElement = controls.domElement;
+    const domElement = controls.domElement
     if (domElement) {
-      domElement.addEventListener("mousedown", handleStart);
-      domElement.addEventListener("mouseup", handleEnd);
-      domElement.addEventListener("touchstart", handleStart, { passive: true });
-      domElement.addEventListener("touchend", handleEnd, { passive: true });
+      domElement.addEventListener("mousedown", handleStart)
+      domElement.addEventListener("mouseup", handleEnd)
+      domElement.addEventListener("touchstart", handleStart, { passive: true })
+      domElement.addEventListener("touchend", handleEnd, { passive: true })
       // Also handle pointer events for better compatibility
-      domElement.addEventListener("pointerdown", handleStart);
-      domElement.addEventListener("pointerup", handleEnd);
+      domElement.addEventListener("pointerdown", handleStart)
+      domElement.addEventListener("pointerup", handleEnd)
 
       return () => {
-        domElement.removeEventListener("mousedown", handleStart);
-        domElement.removeEventListener("mouseup", handleEnd);
-        domElement.removeEventListener("touchstart", handleStart);
-        domElement.removeEventListener("touchend", handleEnd);
-        domElement.removeEventListener("pointerdown", handleStart);
-        domElement.removeEventListener("pointerup", handleEnd);
-      };
+        domElement.removeEventListener("mousedown", handleStart)
+        domElement.removeEventListener("mouseup", handleEnd)
+        domElement.removeEventListener("touchstart", handleStart)
+        domElement.removeEventListener("touchend", handleEnd)
+        domElement.removeEventListener("pointerdown", handleStart)
+        domElement.removeEventListener("pointerup", handleEnd)
+      }
     }
-  }, []);
+  }, [])
 
   // Use useFrame to ensure rotation stops when not dragging
   useFrame(() => {
-    if (!controlsRef.current || isDraggingRef.current) return;
+    if (!controlsRef.current || isDraggingRef.current) return
 
-    const controls = controlsRef.current;
+    const controls = controlsRef.current
     // Zero out spherical delta to prevent any residual rotation
     if (controls && controls.sphericalDelta) {
-      controls.sphericalDelta.set(0, 0, 0);
+      controls.sphericalDelta.set(0, 0, 0)
     }
-  });
+  })
 
-  return <OrbitControls ref={controlsRef} enableDamping={false} {...props} />;
-};
+  return <OrbitControls ref={controlsRef} enableDamping={false} {...props} />
+}
 
 /**
  * Product3DModelView Component
@@ -113,18 +113,18 @@ export const Product3DModelView = ({
   className = "",
   height = "h-[350px] sm:h-[450px] md:h-[550px]",
 }) => {
-  const [showVisibleModel, setShowVisibleModel] = useState(delayMs === 0);
+  const [showVisibleModel, setShowVisibleModel] = useState(delayMs === 0)
 
   // Show visible model after delay
   useEffect(() => {
-    if (delayMs === 0) return;
+    if (delayMs === 0) return
 
     const timer = setTimeout(() => {
-      setShowVisibleModel(true);
-    }, delayMs);
+      setShowVisibleModel(true)
+    }, delayMs)
 
-    return () => clearTimeout(timer);
-  }, [delayMs]);
+    return () => clearTimeout(timer)
+  }, [delayMs])
 
   return (
     <div
@@ -173,7 +173,9 @@ export const Product3DModelView = ({
                 depth: true,
               }}
             >
-              {modelUrl && <Model3D url={modelUrl} />}
+              {/* {modelUrl && <Model3D url={modelUrl} />} */}
+              {/* {modelUrl && <Model3D url={"/3dModels/headlight.glb"} />} */}
+              {modelUrl && <Model3D url={"/3dModels/demo_2.glb"} />}
 
               <InstantStopOrbitControls
                 enableZoom={true}
@@ -209,8 +211,8 @@ export const Product3DModelView = ({
         * Interactive 3D model - Click and drag to rotate, scroll to zoom
       </p>
     </div>
-  );
-};
+  )
+}
 
-// Export Model3D for use in other components if needed
-export { Model3D };
+// Export Model3D and InstantStopOrbitControls for use in other components if needed
+export { Model3D, InstantStopOrbitControls }

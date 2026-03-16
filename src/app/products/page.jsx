@@ -1,88 +1,46 @@
 "use client"
 import React from "react"
 import { HeroSection } from "./components/HeroSection"
-// import { ProductsContent } from "./components/ProductsContent"
+import { ProductsContent } from "./components/ProductsContent"
 import { Canvas } from "@react-three/fiber"
-import { Environment } from "@react-three/drei"
+import { OrbitControls, Environment } from "@react-three/drei"
 import * as THREE from "three"
-import { useEffect, memo, useRef } from "react"
+import { useEffect } from "react"
 import { useGLTF } from "@react-three/drei"
-// import { productData } from "./consant/productsConstants"
-import { InstantStopOrbitControls } from "./components/Product3DModelView"
+import { productData } from "./consant/productsConstants"
 
-// 3D Model Component - Optimized with memoization
-const Model3D = memo(({ url }) => {
-  const { scene } = useGLTF(url)
-  const isInitialized = useRef(false)
+// 3D Model Component
+// export const Model3D = ({ url }) => {
+//   const { scene } = useGLTF(url);
 
-  // Calculate bounding box to center and scale the model - only once
-  useEffect(() => {
-    if (!scene || isInitialized.current) return
+//   // Calculate bounding box to center and scale the model
+//   useEffect(() => {
+//     if (!scene) return;
 
-    // Calculate bounding box
-    const box = new THREE.Box3().setFromObject(scene)
-    const center = box.getCenter(new THREE.Vector3())
-    const size = box.getSize(new THREE.Vector3())
+//     // Calculate bounding box
+//     const box = new THREE.Box3().setFromObject(scene);
+//     const center = box.getCenter(new THREE.Vector3());
+//     const size = box.getSize(new THREE.Vector3());
 
-    // Center the model
-    scene.position.sub(center)
+//     // Center the model
+//     scene.position.sub(center);
 
-    // Scale to fit (adjust scale factor as needed)
-    const maxDim = Math.max(size.x, size.y, size.z)
-    if (maxDim > 0) {
-      const scale = 2 / maxDim // Adjust this value to control model size
-      scene.scale.multiplyScalar(scale)
-    }
+//     // Scale to fit (adjust scale factor as needed)
+//     const maxDim = Math.max(size.x, size.y, size.z);
+//     if (maxDim > 0) {
+//       const scale = 2 / maxDim; // Adjust this value to control model size
+//       scene.scale.multiplyScalar(scale);
+//     }
+//   }, [scene]);
 
-    isInitialized.current = true
-  }, [scene])
-
-  return <primitive object={scene} />
-})
-
-Model3D.displayName = "Model3D"
+//   return <primitive object={scene} />;
+// };
 
 const page = () => {
   return (
     <div className="min-h-screen bg-white">
       <HeroSection />
-      <div className="h-[700px]">
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 30 }}
-          style={{ background: "transparent" }}
-          dpr={[1, 2]}
-          performance={{ min: 0.5 }}
-          gl={{
-            antialias: true,
-            alpha: true,
-            powerPreference: "high-performance",
-            stencil: false,
-            depth: true,
-          }}
-        >
-          {/* {modelUrl && <Model3D url={modelUrl} />} */}
-          {/* {modelUrl && <Model3D url={"/3dModels/headlight.glb"} />} */}
-          <Model3D url={"/3dModels/demo_2.glb"} />
-
-          <InstantStopOrbitControls
-            enableZoom={true}
-            enablePan={false}
-            enableRotate={true}
-            minDistance={2}
-            maxDistance={10}
-            autoRotate={false}
-            rotateSpeed={0.5}
-            // enableDamping={true}
-            // dampingFactor={0.05}
-            // rotateSpeed={1}
-            // zoomSpeed={0.8}
-            // maxPolarAngle={Math.PI}
-            // minPolarAngle={0}
-          />
-          <Environment preset="studio" />
-        </Canvas>
-      </div>
-      {/* <ProductsContent /> */}
+      <ProductsContent />
       <div className="h-[2px] opacity-0">
         {/* {productData.Headlight?.map((product) => {
           return (

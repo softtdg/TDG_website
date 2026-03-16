@@ -1,17 +1,17 @@
-"use client";
+"use client"
 
-import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
-import { ProductDetailModal } from "./ProductDetailModal";
+import React, { useEffect, useState } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { useRouter, useSearchParams } from "next/navigation"
+import { ProductDetailModal } from "./ProductDetailModal"
 
 // Helper function to create slug from product name
 const createSlug = (name) => {
   return name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-};
+    .replace(/(^-|-$)/g, "")
+}
 
 export const ProductModal = ({
   cardTitle,
@@ -19,80 +19,76 @@ export const ProductModal = ({
   onClose,
   initialProduct,
 }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [selectedProduct, setSelectedProduct] = useState(
-    initialProduct || null
-  );
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const [selectedProduct, setSelectedProduct] = useState(initialProduct || null)
 
   // Open product detail modal if initialProduct is provided
   useEffect(() => {
     if (initialProduct) {
-      setSelectedProduct(initialProduct);
+      setSelectedProduct(initialProduct)
     }
-  }, [initialProduct]);
+  }, [initialProduct])
 
   // Handle browser back/forward navigation
   useEffect(() => {
     const handlePopState = () => {
       // Read URL directly from window.location to get current state
-      const urlParams = new URLSearchParams(window.location.search);
-      const category = urlParams.get("category");
-      const productSlug = urlParams.get("product");
+      const urlParams = new URLSearchParams(window.location.search)
+      const category = urlParams.get("category")
+      const productSlug = urlParams.get("product")
 
       if (!productSlug) {
         // Product param removed, close detail modal
-        setSelectedProduct(null);
+        setSelectedProduct(null)
       } else if (category && productSlug) {
         // Product param added, find and open product
-        const product = products.find(
-          (p) => createSlug(p.name) === productSlug
-        );
+        const product = products.find((p) => createSlug(p.name) === productSlug)
         if (product) {
-          setSelectedProduct({ product, category });
+          setSelectedProduct({ product, category })
         } else {
-          setSelectedProduct(null);
+          setSelectedProduct(null)
         }
       } else {
-        setSelectedProduct(null);
+        setSelectedProduct(null)
       }
-    };
+    }
 
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, [products]);
+    window.addEventListener("popstate", handlePopState)
+    return () => window.removeEventListener("popstate", handlePopState)
+  }, [products])
 
   const handleProductClick = (product, category) => {
-    setSelectedProduct({ product, category });
+    setSelectedProduct({ product, category })
 
     // Update URL with product slug
-    const slug = createSlug(product.name);
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("category", category);
-    params.set("product", slug);
-    router.push(`/products?${params.toString()}`, { scroll: false });
-  };
+    const slug = createSlug(product.name)
+    const params = new URLSearchParams(searchParams.toString())
+    params.set("category", category)
+    params.set("product", slug)
+    router.push(`/products?${params.toString()}`, { scroll: false })
+  }
 
   const handleCloseDetailModal = () => {
-    setSelectedProduct(null);
+    setSelectedProduct(null)
 
     // Remove product from URL but keep category
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("product");
-    router.push(`/products?${params.toString()}`, { scroll: false });
-  };
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete("product")
+    router.push(`/products?${params.toString()}`, { scroll: false })
+  }
   useEffect(() => {
     // Save current scroll position
-    const scrollY = window.scrollY;
+    const scrollY = window.scrollY
 
     // Get current styles
-    const originalBodyOverflow = document.body.style.overflow;
+    const originalBodyOverflow = document.body.style.overflow
     // const originalBodyPosition = document.body.style.position;
     // const originalBodyTop = document.body.style.top;
     // const originalHtmlOverflow = document.documentElement.style.overflow;
 
     // Disable scrolling on body and html
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden"
     // document.body.style.position = "fixed";
     // document.body.style.top = `-${scrollY}px`;
     // document.body.style.width = "100%";
@@ -100,15 +96,15 @@ export const ProductModal = ({
 
     return () => {
       // Restore original styles
-      document.body.style.overflow = originalBodyOverflow;
+      document.body.style.overflow = originalBodyOverflow
       // document.body.style.position = originalBodyPosition;
       // document.body.style.top = originalBodyTop;
       // document.body.style.width = "";
       // document.documentElement.style.overflow = originalHtmlOverflow;
 
       // Restore scroll position
-    };
-  }, []);
+    }
+  }, [])
   return (
     <>
       <AnimatePresence>
@@ -239,5 +235,5 @@ export const ProductModal = ({
         )}
       </AnimatePresence>
     </>
-  );
-};
+  )
+}

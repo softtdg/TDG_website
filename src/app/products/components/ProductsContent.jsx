@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 /**
  * PRODUCT 3D MODEL FILE FORMAT REQUIREMENTS:
@@ -21,102 +21,103 @@
  * Example: /public/models/headlight-hl3000.glb
  */
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useState, useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion"
+import { useState, useEffect, Suspense } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
 import {
   introductionText,
   productSections,
-} from "../consant/productsConstants";
-import { ProductModal } from "./ProductModal";
-import { fetchProducts, groupProductsByCategory } from "@/lib/api";
+  productData as staticProductData,
+} from "../consant/productsConstants"
+import { ProductModal } from "./ProductModal"
+// import { fetchProducts, groupProductsByCategory } from "@/lib/api";
 
 // Helper function to create slug from product name
 const createSlug = (name) => {
   return name
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-};
+    .replace(/(^-|-$)/g, "")
+}
 
 // Helper function to find product by slug and category
 const findProductBySlug = (slug, category, productData) => {
-  if (!category || !productData[category]) return null;
-  const products = productData[category];
-  return products.find((product) => createSlug(product.name) === slug) || null;
-};
+  if (!category || !productData[category]) return null
+  const products = productData[category]
+  return products.find((product) => createSlug(product.name) === slug) || null
+}
 
 const ProductsContentInner = ({ Model3D }) => {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [initialProduct, setInitialProduct] = useState(null);
-  const [productData, setProductData] = useState({});
-  const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const [selectedCard, setSelectedCard] = useState(null)
+  const [initialProduct, setInitialProduct] = useState(null)
+  const [productData, setProductData] = useState(staticProductData)
+  const [loading, setLoading] = useState(false)
 
-  // Fetch products from API
-  useEffect(() => {
-    const loadProducts = async () => {
-      try {
-        setLoading(true);
-        const products = await fetchProducts();
-        const grouped = groupProductsByCategory(products);
-        setProductData(grouped);
-      } catch (error) {
-        console.error("Error loading products:", error);
-        setProductData({});
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProducts();
-  }, []);
+  // // Fetch products from API
+  // useEffect(() => {
+  //   const loadProducts = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const products = await fetchProducts();
+  //       const grouped = groupProductsByCategory(products);
+  //       setProductData(grouped);
+  //     } catch (error) {
+  //       console.error("Error loading products:", error);
+  //       setProductData({});
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+  //
+  //   loadProducts();
+  // }, []);
 
   // Check URL on mount and when URL changes to open modals if needed
   useEffect(() => {
-    if (loading) return; // Wait for products to load
+    if (loading) return // Wait for products to load
 
-    const category = searchParams.get("category");
-    const productSlug = searchParams.get("product");
+    const category = searchParams.get("category")
+    const productSlug = searchParams.get("product")
 
     if (category && productSlug) {
       // Find the product
-      const product = findProductBySlug(productSlug, category, productData);
+      const product = findProductBySlug(productSlug, category, productData)
       if (product) {
-        setSelectedCard(category);
-        setInitialProduct({ product, category });
+        setSelectedCard(category)
+        setInitialProduct({ product, category })
       } else {
         // Product not found, clear modals
-        setSelectedCard(null);
-        setInitialProduct(null);
+        setSelectedCard(null)
+        setInitialProduct(null)
       }
     } else if (category && productData[category]) {
       // Only category is specified
-      setSelectedCard(category);
-      setInitialProduct(null);
+      setSelectedCard(category)
+      setInitialProduct(null)
     } else {
       // No category or product in URL, close modals
-      setSelectedCard(null);
-      setInitialProduct(null);
+      setSelectedCard(null)
+      setInitialProduct(null)
     }
-  }, [searchParams, productData, loading]);
+  }, [searchParams, productData, loading])
 
   const handleCardClick = (cardTitle) => {
-    setSelectedCard(cardTitle);
+    setSelectedCard(cardTitle)
     // Update URL with category only
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("category", cardTitle);
-    params.delete("product"); // Remove product param when opening category modal
-    router.push(`/products?${params.toString()}`, { scroll: false });
-  };
+    const params = new URLSearchParams(searchParams.toString())
+    params.set("category", cardTitle)
+    params.delete("product") // Remove product param when opening category modal
+    router.push(`/products?${params.toString()}`, { scroll: false })
+  }
 
   const handleCloseModal = () => {
-    setSelectedCard(null);
-    setInitialProduct(null);
+    setSelectedCard(null)
+    setInitialProduct(null)
     // Clear URL params
-    router.push("/products", { scroll: false });
-  };
+    router.push("/products", { scroll: false })
+  }
 
   if (loading) {
     return (
@@ -130,7 +131,7 @@ const ProductsContentInner = ({ Model3D }) => {
           </div>
         </div>
       </section>
-    );
+    )
   }
 
   return (
@@ -205,8 +206,8 @@ const ProductsContentInner = ({ Model3D }) => {
                     </p>
                     <button
                       onClick={(e) => {
-                        e.stopPropagation();
-                        handleCardClick(item.title);
+                        e.stopPropagation()
+                        handleCardClick(item.title)
                       }}
                       className="w-full mt-auto bg-[#142445de] text-white font-semibold py-2.5 px-5 rounded-[4px] transition-all duration-200 text-sm shadow-sm hover:shadow-md border border-slate-600/50"
                     >
@@ -233,8 +234,8 @@ const ProductsContentInner = ({ Model3D }) => {
         </AnimatePresence>
       </div>
     </section>
-  );
-};
+  )
+}
 
 export const ProductsContent = ({ Model3D }) => {
   return (
@@ -250,5 +251,5 @@ export const ProductsContent = ({ Model3D }) => {
     >
       <ProductsContentInner Model3D={Model3D} />
     </Suspense>
-  );
-};
+  )
+}
