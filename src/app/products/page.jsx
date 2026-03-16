@@ -1,13 +1,13 @@
 "use client"
 import React from "react"
 import { HeroSection } from "./components/HeroSection"
-import { ProductsContent } from "./components/ProductsContent"
+// import { ProductsContent } from "./components/ProductsContent"
 import { Canvas } from "@react-three/fiber"
-import { OrbitControls, Environment } from "@react-three/drei"
+import { Environment } from "@react-three/drei"
 import * as THREE from "three"
 import { useEffect, memo, useRef } from "react"
 import { useGLTF } from "@react-three/drei"
-import { productData } from "./consant/productsConstants"
+// import { productData } from "./consant/productsConstants"
 import { InstantStopOrbitControls } from "./components/Product3DModelView"
 
 // 3D Model Component - Optimized with memoization
