@@ -48,7 +48,7 @@ const page = () => {
       <HeroSection />
       <div className="h-[700px]">
         <Canvas
-          camera={{ position: [0, 0, 5], fov: 50 }}
+          camera={{ position: [0, 0, 5], fov: 30 }}
           style={{ background: "transparent" }}
           dpr={[1, 2]}
           performance={{ min: 0.5 }}
@@ -82,7 +82,7 @@ const page = () => {
           <Environment preset="studio" />
         </Canvas>
       </div>
-      <ProductsContent />
+      {/* <ProductsContent /> */}
       <div className="h-[2px] opacity-0">
         {/* {productData.Headlight?.map((product) => {
           return (
