@@ -1,52 +1,52 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect } from "react";
-import { Button } from "@mui/material";
-import { useRouter, usePathname } from "next/navigation";
+import React, { useState, useEffect } from "react"
+import { Button } from "@mui/material"
+import { useRouter, usePathname } from "next/navigation"
 
 const MenuBar = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+  const router = useRouter()
+  const pathname = usePathname()
   const [currentImage, setCurrentImage] = useState(
-    "/images/home/light-rail.jpg"
-  );
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
+    "/images/home/light-rail.jpg",
+  )
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
 
   // Disable body scroll when sidebar is open
   useEffect(() => {
     if (isMenuOpen || isClosing) {
       // Save the current scroll position
-      const scrollY = window.scrollY;
+      const scrollY = window.scrollY
       // Disable scroll
       // document.body.style.position = "fixed";
       // document.body.style.top = `-${scrollY}px`;
       // document.body.style.width = "100%";
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "hidden"
 
       return () => {
         // Re-enable scroll when component unmounts or menu closes
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.width = "";
-        document.body.style.overflow = "";
-        window.scrollTo(0, scrollY);
-      };
+        document.body.style.position = ""
+        document.body.style.top = ""
+        document.body.style.width = ""
+        document.body.style.overflow = ""
+        window.scrollTo(0, scrollY)
+      }
     }
-  }, [isMenuOpen, isClosing]);
+  }, [isMenuOpen, isClosing])
 
   // Hide menu bar on product detail pages and DDG page (has custom header)
   if (pathname?.startsWith("/products/") && pathname !== "/products") {
-    return null;
+    return null
   }
   if (pathname === "/ddg") {
-    return null;
+    return null
   }
 
   // Icon component for menu items
   const MenuIcon = ({ name }) => {
-    const iconSize = "w-5 h-5 sm:w-6 sm:h-6";
-    const iconClass = `${iconSize} text-current transition-transform duration-300 group-hover:scale-110`;
+    const iconSize = "w-5 h-5 sm:w-6 sm:h-6"
+    const iconClass = `${iconSize} text-current transition-transform duration-300 group-hover:scale-110`
 
     switch (name) {
       case "Home":
@@ -64,7 +64,7 @@ const MenuBar = () => {
               d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
             />
           </svg>
-        );
+        )
       case "Products":
         return (
           <svg
@@ -80,7 +80,7 @@ const MenuBar = () => {
               d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
             />
           </svg>
-        );
+        )
       case "Innovation":
         return (
           <svg
@@ -96,7 +96,7 @@ const MenuBar = () => {
               d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
             />
           </svg>
-        );
+        )
       case "Testing":
         return (
           <svg
@@ -112,7 +112,7 @@ const MenuBar = () => {
               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        );
+        )
       case "Standards & Certification":
         return (
           <svg
@@ -128,7 +128,7 @@ const MenuBar = () => {
               d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
             />
           </svg>
-        );
+        )
       case "About Us":
         return (
           <svg
@@ -144,7 +144,7 @@ const MenuBar = () => {
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-        );
+        )
       case "Contacts":
         return (
           <svg
@@ -160,7 +160,7 @@ const MenuBar = () => {
               d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
             />
           </svg>
-        );
+        )
       case "DDG":
         return (
           <svg
@@ -219,35 +219,15 @@ const MenuBar = () => {
               d="M13 8V4h2v4"
             />
             {/* Porthole 1 */}
-            <circle
-              cx="7"
-              cy="16"
-              r="1.5"
-              strokeWidth={2}
-            />
+            <circle cx="7" cy="16" r="1.5" strokeWidth={2} />
             {/* Porthole 2 */}
-            <circle
-              cx="10"
-              cy="16"
-              r="1.5"
-              strokeWidth={2}
-            />
+            <circle cx="10" cy="16" r="1.5" strokeWidth={2} />
             {/* Porthole 3 */}
-            <circle
-              cx="14"
-              cy="16"
-              r="1.5"
-              strokeWidth={2}
-            />
+            <circle cx="14" cy="16" r="1.5" strokeWidth={2} />
             {/* Porthole 4 */}
-            <circle
-              cx="17"
-              cy="16"
-              r="1.5"
-              strokeWidth={2}
-            />
+            <circle cx="17" cy="16" r="1.5" strokeWidth={2} />
           </svg>
-        );
+        )
       default:
         return (
           <svg
@@ -263,9 +243,9 @@ const MenuBar = () => {
               d="M9 5l7 7-7 7"
             />
           </svg>
-        );
+        )
     }
-  };
+  }
 
   const navigationItems = [
     {
@@ -301,7 +281,7 @@ const MenuBar = () => {
     {
       name: "DDG",
       image: "/images/ddg/USCGC_Polar_Sea_WAGB_11-small.jpg",
-      href: "https://ddg-website-eight.vercel.app/",
+      href: "https://ddg-website-clyy.vercel.app/",
       target: "_blank",
       rel: "noopener noreferrer",
     },
@@ -310,20 +290,20 @@ const MenuBar = () => {
       image: "/images/contacts.png",
       href: "/contact-tdg",
     },
-  ];
+  ]
 
   // Get current navigation item based on pathname
   const getCurrentNavigationItem = () => {
     const currentItem = navigationItems.find((item) => {
       // Handle hash routes by checking if pathname matches the base path
       if (item.href.includes("#")) {
-        const basePath = item.href.split("#")[0];
-        return pathname === basePath || pathname === item.href;
+        const basePath = item.href.split("#")[0]
+        return pathname === basePath || pathname === item.href
       }
-      return item.href === pathname;
-    });
-    return currentItem || navigationItems[0]; // Default to Home if no match
-  };
+      return item.href === pathname
+    })
+    return currentItem || navigationItems[0] // Default to Home if no match
+  }
 
   // Update current image when pathname changes
   // useEffect(() => {
@@ -332,38 +312,38 @@ const MenuBar = () => {
   // }, [pathname]);
 
   const handleImageChange = (imagePath) => {
-    setCurrentImage(imagePath);
-  };
+    setCurrentImage(imagePath)
+  }
 
   const handleNavigation = (href, target, rel) => {
     if (href !== "#") {
       if (target && rel) {
-        window.open(href, target, rel);
+        window.open(href, target, rel)
       } else {
-        router.push(href);
+        router.push(href)
       }
       // Close menu after navigation
-      setIsClosing(true);
+      setIsClosing(true)
       setTimeout(() => {
-        setIsMenuOpen(false);
-        setIsClosing(false);
-      }, 200); // Match the animation duration
+        setIsMenuOpen(false)
+        setIsClosing(false)
+      }, 200) // Match the animation duration
     }
-  };
+  }
 
   const toggleMenu = () => {
     if (isMenuOpen) {
       // Start closing animation
-      setIsClosing(true);
+      setIsClosing(true)
       // Wait for animation to complete then hide menu
       setTimeout(() => {
-        setIsMenuOpen(false);
-        setIsClosing(false);
-      }, 200); // Match the animation duration
+        setIsMenuOpen(false)
+        setIsClosing(false)
+      }, 200) // Match the animation duration
     } else {
-      setIsMenuOpen(true);
+      setIsMenuOpen(true)
     }
-  };
+  }
 
   return (
     <div>
@@ -419,8 +399,9 @@ const MenuBar = () => {
       {/* Blurred backdrop overlay */}
       {(isMenuOpen || isClosing) && (
         <div
-          className={`fixed z-[110] top-0 left-0 bottom-0 right-0 bg-black/50 backdrop-blur-sm ${isClosing ? "animate-fadeOut" : "animate-fadeIn"
-            }`}
+          className={`fixed z-[110] top-0 left-0 bottom-0 right-0 bg-black/50 backdrop-blur-sm ${
+            isClosing ? "animate-fadeOut" : "animate-fadeIn"
+          }`}
           onClick={toggleMenu}
         />
       )}
@@ -428,8 +409,9 @@ const MenuBar = () => {
       {/* Side menu */}
       {(isMenuOpen || isClosing) && (
         <div
-          className={`fixed z-[120] top-0 left-0 bottom-0 sm:top-[10px] sm:left-[10px] sm:bottom-[10px] rounded-[5px] w-full sm:w-[380px] lg:w-[420px] bg-white shadow-[0_4px_32px_0_rgba(255,255,255,0.20)] border border-gray-100 overflow-hidden ${isClosing ? "animate-slideOutLeft" : "animate-slideInLeft"
-            }`}
+          className={`fixed z-[120] top-0 left-0 bottom-0 sm:top-[10px] sm:left-[10px] sm:bottom-[10px] rounded-[5px] w-full sm:w-[380px] lg:w-[420px] bg-white shadow-[0_4px_32px_0_rgba(255,255,255,0.20)] border border-gray-100 overflow-hidden ${
+            isClosing ? "animate-slideOutLeft" : "animate-slideInLeft"
+          }`}
         >
           <div className="h-full flex flex-col bg-white">
             {/* Header with TDG logo and close button */}
@@ -437,8 +419,8 @@ const MenuBar = () => {
               {/* TDG Logo and Text */}
               <button
                 onClick={() => {
-                  router.push("/");
-                  toggleMenu();
+                  router.push("/")
+                  toggleMenu()
                 }}
                 className="flex items-center gap-2 sm:gap-3 hover:opacity-90 transition-all duration-200 group"
               >
@@ -479,32 +461,36 @@ const MenuBar = () => {
                 // Check if this item is active (handle hash routes)
                 const isActive = (() => {
                   if (item.href.includes("#")) {
-                    const basePath = item.href.split("#")[0];
-                    return pathname === basePath || pathname === item.href;
+                    const basePath = item.href.split("#")[0]
+                    return pathname === basePath || pathname === item.href
                   }
-                  return pathname === item.href;
-                })();
+                  return pathname === item.href
+                })()
 
                 return (
                   <button
                     key={index}
-                    className={`group relative flex items-center gap-3 sm:gap-4 lg:gap-4 px-4 py-3.5 sm:py-4 lg:py-4.5 rounded-[5px] transition-all duration-200 text-left w-full ${isActive
-                      ? "text-[#2d4a86] font-semibold bg-gradient-to-r from-[#f4f8ff] to-[#f0f5ff] border-l-4 border-[#2d4a86]"
-                      : "text-gray-700 font-medium hover:text-[#2d4a86] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#f4f8ff]/50 border-l-4 border-transparent"
-                      }`}
-                    onClick={() => handleNavigation(item.href, item.target, item.rel)}
+                    className={`group relative flex items-center gap-3 sm:gap-4 lg:gap-4 px-4 py-3.5 sm:py-4 lg:py-4.5 rounded-[5px] transition-all duration-200 text-left w-full ${
+                      isActive
+                        ? "text-[#2d4a86] font-semibold bg-gradient-to-r from-[#f4f8ff] to-[#f0f5ff] border-l-4 border-[#2d4a86]"
+                        : "text-gray-700 font-medium hover:text-[#2d4a86] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#f4f8ff]/50 border-l-4 border-transparent"
+                    }`}
+                    onClick={() =>
+                      handleNavigation(item.href, item.target, item.rel)
+                    }
                     onMouseEnter={() => handleImageChange(item.image)}
                     onMouseLeave={() => {
-                      const currentItem = getCurrentNavigationItem();
-                      setCurrentImage(currentItem.image);
+                      const currentItem = getCurrentNavigationItem()
+                      setCurrentImage(currentItem.image)
                     }}
                   >
                     {/* Icon */}
                     <div
-                      className={`flex-shrink-0 transition-colors duration-300 ${isActive
-                        ? "text-[#2d4a86]"
-                        : "text-gray-500 group-hover:text-[#2d4a86]"
-                        }`}
+                      className={`flex-shrink-0 transition-colors duration-300 ${
+                        isActive
+                          ? "text-[#2d4a86]"
+                          : "text-gray-500 group-hover:text-[#2d4a86]"
+                      }`}
                     >
                       <MenuIcon name={item.name} />
                     </div>
@@ -514,8 +500,9 @@ const MenuBar = () => {
                       {item.name}
                       {/* Underline animation matching footer */}
                       <span
-                        className={`absolute bottom-[-2px] left-0 h-[2px] bg-[#2d4a86] transition-all duration-200 rounded-full ${isActive ? "w-0" : "w-0 group-hover:w-full"
-                          }`}
+                        className={`absolute bottom-[-2px] left-0 h-[2px] bg-[#2d4a86] transition-all duration-200 rounded-full ${
+                          isActive ? "w-0" : "w-0 group-hover:w-full"
+                        }`}
                       />
                     </span>
 
@@ -538,14 +525,14 @@ const MenuBar = () => {
                       </div>
                     )}
                   </button>
-                );
+                )
               })}
             </nav>
           </div>
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default MenuBar;
+export default MenuBar
