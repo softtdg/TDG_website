@@ -1,16 +1,13 @@
-"use client";
+"use client"
 
-import { motion } from "framer-motion";
-import { useMemo } from "react";
-import {
-  defaultProductSpecs,
-  productSpecs,
-} from "../consant/productsConstants";
-import { Product3DModelView } from "./Product3DModelView";
+import { motion } from "framer-motion"
+import { useMemo } from "react"
+import { defaultProductSpecs, productSpecs } from "../consant/productsConstants"
+import { Product3DModelView } from "./Product3DModelView"
 
 export const ProductDetailModal = ({ product, category, onClose }) => {
   if (!product || !category) {
-    return null;
+    return null
   }
 
   // Memoize product specifications to avoid recalculation on every render
@@ -27,8 +24,8 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
           : productSpecs[product.name]?.features ||
             defaultProductSpecs.features,
     }),
-    [product.specifications, product.features, product.name]
-  );
+    [product.specifications, product.features, product.name],
+  )
 
   // Download handlers
   const handleDownloadSpecs = () => {
@@ -38,29 +35,29 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
     }\nCategory: ${category}\n\nDescription:\n${
       product.description
     }\n\nTechnical Specifications:\n${specs.specifications.join(
-      "\n"
-    )}\n\nKey Features:\n${specs.features.join("\n")}`;
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${product.name.replace(/\s+/g, "_")}_Specifications.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
+      "\n",
+    )}\n\nKey Features:\n${specs.features.join("\n")}`
+    const blob = new Blob([content], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = `${product.name.replace(/\s+/g, "_")}_Specifications.txt`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
 
   const handleDownloadModel = () => {
     // Download the 3D model file
-    const modelUrl = product.model || "/3dModels/demo.glb";
-    const link = document.createElement("a");
-    link.href = modelUrl;
-    link.download = `${product.name.replace(/\s+/g, "_")}_3D_Model.glb`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
+    const modelUrl = product.model || "/3dModels/demo.glb"
+    const link = document.createElement("a")
+    link.href = modelUrl
+    link.download = `${product.name.replace(/\s+/g, "_")}_3D_Model.glb`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
 
   return (
     <>
@@ -141,7 +138,12 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                 style={{ willChange: "auto" }}
               >
                 <Product3DModelView
-                  modelUrl={product.model}
+                  // modelUrl={product.model}
+                  modelUrl={
+                    product.name === "LED Headlight System HL-3000"
+                      ? "/3dModels/DemoLIght_GLB.glb"
+                      : "/3dModels/demo_2.glb"
+                  }
                   title="3D Model View"
                   showTitle={true}
                   delayMs={2000}
@@ -316,5 +318,5 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
         </div>
       </motion.div>
     </>
-  );
-};
+  )
+}

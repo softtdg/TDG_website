@@ -10,7 +10,12 @@ const Model3D = memo(({ url }) => {
   const { scene } = useGLTF(url)
   const isInitialized = useRef(false)
 
-  // Calculate bounding box to center and scale the model - only once
+  // New asset URL must re-run fit/center (ref otherwise stays true and transmissive models can stay off-camera)
+  useEffect(() => {
+    isInitialized.current = false
+  }, [url])
+
+  // Calculate bounding box to center and scale the model - only once per loaded scene
   useEffect(() => {
     if (!scene || isInitialized.current) return
 
@@ -30,7 +35,7 @@ const Model3D = memo(({ url }) => {
     }
 
     isInitialized.current = true
-  }, [scene])
+  }, [scene, url])
 
   return <primitive object={scene} />
 })
@@ -173,9 +178,14 @@ export const Product3DModelView = ({
                 depth: true,
               }}
             >
-              {/* {modelUrl && <Model3D url={modelUrl} />} */}
+              {/* Transmissive glass materials need a scene background; transparent canvas alone reads as "invisible" */}
+              {/* <color attach="background" args={["#f3f4f6"]} />
+              {modelUrl && <Model3D key={modelUrl} url={modelUrl} />} */}
+
+              {modelUrl && <Model3D url={modelUrl} />}
               {/* {modelUrl && <Model3D url={"/3dModels/headlight.glb"} />} */}
-              {modelUrl && <Model3D url={"/3dModels/demo_2.glb"} />}
+              {/* {modelUrl && <Model3D url={"/3dModels/demo_2.glb"} />} */}
+              {/* {modelUrl && <Model3D url={"/3dModels/DemoLIght_GLB.glb"} />} */}
 
               <InstantStopOrbitControls
                 enableZoom={true}

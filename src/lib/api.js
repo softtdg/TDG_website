@@ -4,11 +4,11 @@
  */
 
 // Get API base URL from environment variable
-// const API_BASE_URL =
-//   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "https://www.admin.web.tdgoverview.cloud/api";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000/api"
+// const API_BASE_URL =
+//   process.env.NEXT_PUBLIC_API_BASE_URL ||
+//   "https://www.admin.web.tdgoverview.cloud/api";
 
 /**
  * Fetch media items by section
@@ -22,28 +22,28 @@ export async function fetchMediaItems(section) {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch ${section}: ${response.statusText}`);
+      throw new Error(`Failed to fetch ${section}: ${response.statusText}`)
     }
 
-    const data = await response.json();
+    const data = await response.json()
 
     // Handle structured response format
     if (data.success && data.data) {
-      return data.data.items || data.data || [];
+      return data.data.items || data.data || []
     } else if (data.data) {
-      return data.data.items || data.data || [];
+      return data.data.items || data.data || []
     } else if (Array.isArray(data)) {
-      return data;
+      return data
     } else {
-      return [];
+      return []
     }
   } catch (error) {
-    console.error(`Error fetching ${section}:`, error);
+    console.error(`Error fetching ${section}:`, error)
     // Return empty array on error to prevent breaking the UI
-    return [];
+    return []
   }
 }
 
@@ -57,20 +57,20 @@ export async function fetchAllMediaSections() {
       fetchMediaItems("news"),
       fetchMediaItems("references"),
       fetchMediaItems("events"),
-    ]);
+    ])
 
     return {
       news,
       references,
       events,
-    };
+    }
   } catch (error) {
-    console.error("Error fetching all media sections:", error);
+    console.error("Error fetching all media sections:", error)
     return {
       news: [],
       references: [],
       events: [],
-    };
+    }
   }
 }
 
@@ -85,28 +85,28 @@ export async function fetchCareers() {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch careers: ${response.statusText}`);
+      throw new Error(`Failed to fetch careers: ${response.statusText}`)
     }
 
-    const data = await response.json();
+    const data = await response.json()
 
     // Handle structured response format
     if (data.success && data.data) {
-      return Array.isArray(data.data) ? data.data : [];
+      return Array.isArray(data.data) ? data.data : []
     } else if (Array.isArray(data)) {
-      return data;
+      return data
     } else if (data.data && Array.isArray(data.data)) {
-      return data.data;
+      return data.data
     } else {
-      return [];
+      return []
     }
   } catch (error) {
-    console.error("Error fetching careers:", error);
+    console.error("Error fetching careers:", error)
     // Return empty array on error to prevent breaking the UI
-    return [];
+    return []
   }
 }
 
@@ -117,40 +117,40 @@ export async function fetchCareers() {
  */
 export async function fetchProducts(filters = {}) {
   try {
-    const queryParams = new URLSearchParams();
-    if (filters.category) queryParams.append("category", filters.category);
-    if (filters.section) queryParams.append("section", filters.section);
+    const queryParams = new URLSearchParams()
+    if (filters.category) queryParams.append("category", filters.category)
+    if (filters.section) queryParams.append("section", filters.section)
 
     const url = `${API_BASE_URL}/products${
       queryParams.toString() ? `?${queryParams.toString()}` : ""
-    }`;
+    }`
     const response = await fetch(url, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch products: ${response.statusText}`);
+      throw new Error(`Failed to fetch products: ${response.statusText}`)
     }
 
-    const data = await response.json();
+    const data = await response.json()
 
     // Handle structured response format
     if (data.success && data.data) {
-      return Array.isArray(data.data) ? data.data : [];
+      return Array.isArray(data.data) ? data.data : []
     } else if (Array.isArray(data)) {
-      return data;
+      return data
     } else if (data.data && Array.isArray(data.data)) {
-      return data.data;
+      return data.data
     } else {
-      return [];
+      return []
     }
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error("Error fetching products:", error)
     // Return empty array on error to prevent breaking the UI
-    return [];
+    return []
   }
 }
 
@@ -166,28 +166,28 @@ export async function fetchProductById(productId) {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
 
     if (!response.ok) {
       if (response.status === 404) {
-        return null;
+        return null
       }
-      throw new Error(`Failed to fetch product: ${response.statusText}`);
+      throw new Error(`Failed to fetch product: ${response.statusText}`)
     }
 
-    const data = await response.json();
+    const data = await response.json()
 
     // Handle structured response format
     if (data.success && data.data) {
-      return data.data;
+      return data.data
     } else if (data.data) {
-      return data.data;
+      return data.data
     } else {
-      return null;
+      return null
     }
   } catch (error) {
-    console.error("Error fetching product:", error);
-    return null;
+    console.error("Error fetching product:", error)
+    return null
   }
 }
 
@@ -197,17 +197,17 @@ export async function fetchProductById(productId) {
  * @returns {Object} Products grouped by category
  */
 export function groupProductsByCategory(products) {
-  const grouped = {};
+  const grouped = {}
 
   products.forEach((product) => {
-    const category = product.category || "Others";
+    const category = product.category || "Others"
     if (!grouped[category]) {
-      grouped[category] = [];
+      grouped[category] = []
     }
-    grouped[category].push(product);
-  });
+    grouped[category].push(product)
+  })
 
-  return grouped;
+  return grouped
 }
 
 /**
@@ -221,27 +221,27 @@ export async function fetchCertificates() {
       headers: {
         "Content-Type": "application/json",
       },
-    });
+    })
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch certificates: ${response.statusText}`);
+      throw new Error(`Failed to fetch certificates: ${response.statusText}`)
     }
 
-    const data = await response.json();
+    const data = await response.json()
 
     // Handle structured response format
     if (data.success && data.data) {
-      return Array.isArray(data.data) ? data.data : [];
+      return Array.isArray(data.data) ? data.data : []
     } else if (Array.isArray(data)) {
-      return data;
+      return data
     } else if (data.data && Array.isArray(data.data)) {
-      return data.data;
+      return data.data
     } else {
-      return [];
+      return []
     }
   } catch (error) {
-    console.error("Error fetching certificates:", error);
+    console.error("Error fetching certificates:", error)
     // Return empty array on error to prevent breaking the UI
-    return [];
+    return []
   }
 }
