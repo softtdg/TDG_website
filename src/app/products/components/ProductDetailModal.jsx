@@ -142,7 +142,9 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                   modelUrl={
                     product.name === "LED Headlight System HL-3000"
                       ? "/3dModels/DemoLIght_GLB.glb"
-                      : "/3dModels/demo_2.glb"
+                      : product.name === "High-Power Headlight HL-5000"
+                        ? "/3dModels/light_demo.glb"
+                        : "/3dModels/demo.glb"
                   }
                   title="3D Model View"
                   showTitle={true}
