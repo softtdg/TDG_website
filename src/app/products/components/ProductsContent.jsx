@@ -24,13 +24,9 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
-import {
-  introductionText,
-  productSections,
-  productData as staticProductData,
-} from "../consant/productsConstants"
+import { introductionText, productSections } from "../consant/productsConstants"
 import { ProductModal } from "./ProductModal"
-// import { fetchProducts, groupProductsByCategory } from "@/lib/api";
+import { fetchProducts, groupProductsByCategory } from "@/lib/api"
 
 // Helper function to create slug from product name
 const createSlug = (name) => {
@@ -52,27 +48,27 @@ const ProductsContentInner = ({ Model3D }) => {
   const router = useRouter()
   const [selectedCard, setSelectedCard] = useState(null)
   const [initialProduct, setInitialProduct] = useState(null)
-  const [productData, setProductData] = useState(staticProductData)
-  const [loading, setLoading] = useState(false)
+  const [productData, setProductData] = useState({})
+  const [loading, setLoading] = useState(true)
 
-  // // Fetch products from API
-  // useEffect(() => {
-  //   const loadProducts = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const products = await fetchProducts();
-  //       const grouped = groupProductsByCategory(products);
-  //       setProductData(grouped);
-  //     } catch (error) {
-  //       console.error("Error loading products:", error);
-  //       setProductData({});
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //
-  //   loadProducts();
-  // }, []);
+  // Fetch products from API
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setLoading(true)
+        const products = await fetchProducts()
+        const grouped = groupProductsByCategory(products)
+        setProductData(grouped)
+      } catch (error) {
+        console.error("Error loading products:", error)
+        setProductData({})
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProducts()
+  }, [])
 
   // Check URL on mount and when URL changes to open modals if needed
   useEffect(() => {
