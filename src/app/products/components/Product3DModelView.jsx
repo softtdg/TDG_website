@@ -117,8 +117,25 @@ export const Product3DModelView = ({
   delayMs = 0,
   className = "",
   height = "h-[350px] sm:h-[450px] md:h-[550px]",
+  isExpanded = false,
+  onExpandChange,
 }) => {
   const [showVisibleModel, setShowVisibleModel] = useState(delayMs === 0)
+  const [internalExpanded, setInternalExpanded] = useState(false)
+
+  const expanded = onExpandChange ? isExpanded : internalExpanded
+  const canvasHeight = expanded
+    ? "h-[450px] sm:h-[560px] md:h-[680px]"
+    : height
+
+  const toggleExpand = () => {
+    const next = !expanded
+    if (onExpandChange) {
+      onExpandChange(next)
+    } else {
+      setInternalExpanded(next)
+    }
+  }
 
   // Show visible model after delay
   useEffect(() => {
@@ -135,24 +152,102 @@ export const Product3DModelView = ({
     <div
       className={
         className ||
-        "bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+        "bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8 transition-all duration-300"
       }
     >
       {/* Section Header with Accent */}
       {showTitle && (
-        <div className="flex items-center gap-4 mb-6">
-          <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
-            {title}
-          </h2>
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="h-1 w-12 bg-[#0356C2] rounded-full flex-shrink-0"></div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide truncate">
+              {title}
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={toggleExpand}
+            className="flex-shrink-0 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 transition-colors hover:bg-gray-50 hover:text-[#0356C2]"
+            title={expanded ? "Exit fullscreen" : "Fullscreen"}
+            aria-label={expanded ? "Exit fullscreen" : "Fullscreen"}
+          >
+            {expanded ? (
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+                />
+              </svg>
+            )}
+          </button>
         </div>
       )}
 
       {showVisibleModel ? (
         <div
-          className={`relative w-full ${height} bg-gray-100 rounded-lg overflow-hidden border border-gray-200`}
+          className={`relative w-full ${canvasHeight} bg-gray-100 rounded-lg overflow-hidden border border-gray-200 transition-all duration-300`}
           style={{ transform: "translateZ(0)", willChange: "auto" }}
         >
+          {!showTitle && (
+            <button
+              type="button"
+              onClick={toggleExpand}
+              className="absolute top-3 right-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white/90 text-gray-600 shadow-sm transition-colors hover:bg-white hover:text-[#0356C2]"
+              title={expanded ? "Exit fullscreen" : "Fullscreen"}
+              aria-label={expanded ? "Exit fullscreen" : "Fullscreen"}
+            >
+              {expanded ? (
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+                  />
+                </svg>
+              )}
+            </button>
+          )}
           <Suspense
             fallback={
               <div className="w-full h-full flex items-center justify-center bg-gray-50">
@@ -208,7 +303,7 @@ export const Product3DModelView = ({
         </div>
       ) : (
         <div
-          className={`relative w-full ${height} bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center`}
+          className={`relative w-full ${canvasHeight} bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center transition-all duration-300`}
         >
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>

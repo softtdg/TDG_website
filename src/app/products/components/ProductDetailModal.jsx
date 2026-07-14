@@ -1,11 +1,13 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { defaultProductSpecs, productSpecs } from "../consant/productsConstants"
 import { Product3DModelView } from "./Product3DModelView"
 
 export const ProductDetailModal = ({ product, category, onClose }) => {
+  const [isModelExpanded, setIsModelExpanded] = useState(false)
+
   if (!product || !category) {
     return null
   }
@@ -129,8 +131,10 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
         {/* Content */}
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-12 sm:pb-16 lg:pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Left Column - 3D Model */}
-            <div className="space-y-8">
+            {/* Left Column - 3D Model (+ Product Image when collapsed) */}
+            <div
+              className={`space-y-8 ${isModelExpanded ? "lg:col-span-2" : ""}`}
+            >
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -149,33 +153,62 @@ export const ProductDetailModal = ({ product, category, onClose }) => {
                   title="3D Model View"
                   showTitle={true}
                   delayMs={2000}
+                  isExpanded={isModelExpanded}
+                  onExpandChange={setIsModelExpanded}
                 />
               </motion.div>
 
-              {/* Product Image */}
-              <motion.div
-                className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                style={{ willChange: "auto" }}
-              >
-                {/* Section Header with Accent */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
-                  <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
-                    Product Image
-                  </h2>
-                </div>
-                <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-lg border border-gray-200 shadow-sm">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </motion.div>
+              {!isModelExpanded && (
+                <motion.div
+                  className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  style={{ willChange: "auto" }}
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                      Product Image
+                    </h2>
+                  </div>
+                  <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </motion.div>
+              )}
             </div>
+
+            {/* Product Image beside details when 3D is expanded */}
+            {isModelExpanded && (
+              <div className="space-y-8">
+                <motion.div
+                  className="bg-white rounded-xl shadow-md border border-gray-200 p-6 sm:p-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  style={{ willChange: "auto" }}
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="h-1 w-12 bg-[#0356C2] rounded-full"></div>
+                    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 uppercase tracking-wide">
+                      Product Image
+                    </h2>
+                  </div>
+                  <div className="relative w-full h-64 sm:h-80 md:h-96 overflow-hidden rounded-lg border border-gray-200 shadow-sm">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </motion.div>
+              </div>
+            )}
 
             {/* Right Column - Product Details */}
             <div className="space-y-8">
