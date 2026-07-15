@@ -5,6 +5,55 @@ import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import * as THREE from "three"
 
+// Sharper textures + materials for high-clarity product viewing
+const enhanceModelQuality = (object) => {
+  object.traverse((child) => {
+    if (!child.isMesh) return
+
+    child.castShadow = true
+    child.receiveShadow = true
+    child.frustumCulled = true
+
+    const materials = Array.isArray(child.material)
+      ? child.material
+      : [child.material]
+
+    materials.forEach((material) => {
+      if (!material) return
+
+      const textureKeys = [
+        "map",
+        "normalMap",
+        "roughnessMap",
+        "metalnessMap",
+        "aoMap",
+        "emissiveMap",
+        "bumpMap",
+        "displacementMap",
+      ]
+
+      textureKeys.forEach((key) => {
+        const texture = material[key]
+        if (!texture) return
+        texture.anisotropy = 16
+        texture.generateMipmaps = true
+        texture.minFilter = THREE.LinearMipmapLinearFilter
+        texture.magFilter = THREE.LinearFilter
+        texture.colorSpace =
+          key === "map" || key === "emissiveMap"
+            ? THREE.SRGBColorSpace
+            : texture.colorSpace
+        texture.needsUpdate = true
+      })
+
+      if ("envMapIntensity" in material) {
+        material.envMapIntensity = Math.max(material.envMapIntensity || 1, 1.15)
+      }
+      material.needsUpdate = true
+    })
+  })
+}
+
 // 3D Model Component - Optimized with memoization
 const Model3D = memo(({ url }) => {
   const { scene } = useGLTF(url)
@@ -18,6 +67,8 @@ const Model3D = memo(({ url }) => {
   // Calculate bounding box to center and scale the model - only once per loaded scene
   useEffect(() => {
     if (!scene || isInitialized.current) return
+
+    enhanceModelQuality(scene)
 
     // Calculate bounding box
     const box = new THREE.Box3().setFromObject(scene)
@@ -124,9 +175,7 @@ export const Product3DModelView = ({
   const [internalExpanded, setInternalExpanded] = useState(false)
 
   const expanded = onExpandChange ? isExpanded : internalExpanded
-  const canvasHeight = expanded
-    ? "h-[450px] sm:h-[560px] md:h-[680px]"
-    : height
+  const canvasHeight = expanded ? "h-[450px] sm:h-[560px] md:h-[680px]" : height
 
   const toggleExpand = () => {
     const next = !expanded
@@ -261,18 +310,36 @@ export const Product3DModelView = ({
             }
           >
             <Canvas
-              camera={{ position: [0, 0, 5], fov: 30 }}
+              camera={{ position: [0, 0, 5], fov: 28, near: 0.1, far: 200 }}
               style={{ background: "transparent" }}
-              dpr={[1, 2]}
-              performance={{ min: 0.5 }}
+              // Higher pixel density for sharper/4K-like clarity on retina displays
+              dpr={[1.5, 3]}
               gl={{
                 antialias: true,
                 alpha: true,
                 powerPreference: "high-performance",
                 stencil: false,
                 depth: true,
+                preserveDrawingBuffer: true,
+                precision: "highp",
+              }}
+              onCreated={({ gl }) => {
+                gl.toneMapping = THREE.ACESFilmicToneMapping
+                gl.toneMappingExposure = 1.15
+                gl.outputColorSpace = THREE.SRGBColorSpace
+                gl.setClearColor(0x000000, 0)
               }}
             >
+              {/* Soft fill lights for cleaner product definition */}
+              <ambientLight intensity={0.35} />
+              <directionalLight
+                position={[4, 6, 4]}
+                intensity={1.1}
+                castShadow={false}
+              />
+              <directionalLight position={[-4, 2, -3]} intensity={0.45} />
+              <directionalLight position={[0, 3, -5]} intensity={0.3} />
+
               {/* Transmissive glass materials need a scene background; transparent canvas alone reads as "invisible" */}
               {/* <color attach="background" args={["#f3f4f6"]} />
               {modelUrl && <Model3D key={modelUrl} url={modelUrl} />} */}
@@ -297,7 +364,7 @@ export const Product3DModelView = ({
                 // maxPolarAngle={Math.PI}
                 // minPolarAngle={0}
               />
-              <Environment preset="studio" />
+              <Environment preset="studio" environmentIntensity={0.9} />
             </Canvas>
           </Suspense>
         </div>
