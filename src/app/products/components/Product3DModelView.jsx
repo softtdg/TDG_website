@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, memo } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import * as THREE from "three"
+import { Opacity } from "@mui/icons-material"
 
 // Sharper textures + materials for high-clarity product viewing
 const enhanceModelQuality = (object) => {
@@ -371,6 +372,7 @@ export const Product3DModelView = ({
               style={{
                 width: "100%",
                 height: "100%",
+                opacity: 0.9,
                 backgroundColor: "#f3f4f6",
                 "--poster-color": "transparent",
               }}
