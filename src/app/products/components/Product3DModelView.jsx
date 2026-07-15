@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useEffect, useState, useRef, memo } from "react"
+import { useEffect, useState, useRef, memo } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei"
 import * as THREE from "three"
@@ -150,16 +150,18 @@ const InstantStopOrbitControls = (props) => {
   return <OrbitControls ref={controlsRef} enableDamping={false} {...props} />
 }
 
+const ModelViewerLoading = () => (
+  <div className="w-full h-full flex items-center justify-center bg-gray-50">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
+      <p className="text-gray-600 font-medium">Loading 3D Model...</p>
+    </div>
+  </div>
+)
+
 /**
  * Product3DModelView Component
- * A reusable component for displaying 3D product models with optimized performance
- *
- * @param {string} modelUrl - URL path to the 3D model file (.glb format)
- * @param {string} title - Optional title for the section (default: "3D Model View")
- * @param {boolean} showTitle - Whether to show the section title (default: true)
- * @param {number} delayMs - Delay in milliseconds before showing the model (default: 0)
- * @param {object} className - Additional CSS classes for the wrapper
- * @param {string} height - Height classes for the canvas container (default: "h-[350px] sm:h-[450px] md:h-[550px]")
+ * Uses Google <model-viewer> for interactive GLB/GLTF previews
  */
 export const Product3DModelView = ({
   modelUrl,
@@ -173,6 +175,9 @@ export const Product3DModelView = ({
 }) => {
   const [showVisibleModel, setShowVisibleModel] = useState(delayMs === 0)
   const [internalExpanded, setInternalExpanded] = useState(false)
+  const [viewerReady, setViewerReady] = useState(false)
+  const [modelLoaded, setModelLoaded] = useState(false)
+  const viewerRef = useRef(null)
 
   const expanded = onExpandChange ? isExpanded : internalExpanded
   const canvasHeight = expanded ? "h-[450px] sm:h-[560px] md:h-[680px]" : height
@@ -186,6 +191,27 @@ export const Product3DModelView = ({
     }
   }
 
+  // Register <model-viewer> custom element (client-only)
+  useEffect(() => {
+    let cancelled = false
+
+    const loadViewer = async () => {
+      try {
+        if (!customElements.get("model-viewer")) {
+          await import("@google/model-viewer")
+        }
+        if (!cancelled) setViewerReady(true)
+      } catch (error) {
+        console.error("Failed to load model-viewer:", error)
+      }
+    }
+
+    loadViewer()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   // Show visible model after delay
   useEffect(() => {
     if (delayMs === 0) return
@@ -196,6 +222,31 @@ export const Product3DModelView = ({
 
     return () => clearTimeout(timer)
   }, [delayMs])
+
+  // Reset load state when model URL changes
+  useEffect(() => {
+    setModelLoaded(false)
+  }, [modelUrl])
+
+  // model-viewer uses DOM events (not React synthetic onLoad)
+  useEffect(() => {
+    const el = viewerRef.current
+    if (!el) return
+
+    const handleLoad = () => setModelLoaded(true)
+    const handleError = (event) => {
+      console.error("model-viewer failed to load:", modelUrl, event)
+      setModelLoaded(true)
+    }
+
+    el.addEventListener("load", handleLoad)
+    el.addEventListener("error", handleError)
+
+    return () => {
+      el.removeEventListener("load", handleLoad)
+      el.removeEventListener("error", handleError)
+    }
+  }, [modelUrl, viewerReady, showVisibleModel])
 
   return (
     <div
@@ -297,85 +348,40 @@ export const Product3DModelView = ({
               )}
             </button>
           )}
-          <Suspense
-            fallback={
-              <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-                  <p className="text-gray-600 font-medium">
-                    Loading 3D Model...
-                  </p>
-                </div>
-              </div>
-            }
-          >
-            <Canvas
-              camera={{ position: [0, 0, 5], fov: 28, near: 0.1, far: 200 }}
-              style={{ background: "transparent" }}
-              // Higher pixel density for sharper/4K-like clarity on retina displays
-              dpr={[1.5, 3]}
-              gl={{
-                antialias: true,
-                alpha: true,
-                powerPreference: "high-performance",
-                stencil: false,
-                depth: true,
-                preserveDrawingBuffer: true,
-                precision: "highp",
+
+          {!viewerReady || !modelUrl || !modelLoaded ? (
+            <div className="absolute inset-0 z-[1]">
+              <ModelViewerLoading />
+            </div>
+          ) : null}
+
+          {viewerReady && modelUrl ? (
+            <model-viewer
+              ref={viewerRef}
+              key={modelUrl}
+              src={modelUrl}
+              alt={title || "3D Model Preview"}
+              camera-controls
+              touch-action="pan-y"
+              shadow-intensity="1"
+              exposure="1"
+              environment-image="neutral"
+              loading="eager"
+              reveal="auto"
+              style={{
+                width: "100%",
+                height: "100%",
+                backgroundColor: "#f3f4f6",
+                "--poster-color": "transparent",
               }}
-              onCreated={({ gl }) => {
-                gl.toneMapping = THREE.ACESFilmicToneMapping
-                gl.toneMappingExposure = 1.15
-                gl.outputColorSpace = THREE.SRGBColorSpace
-                gl.setClearColor(0x000000, 0)
-              }}
-            >
-              {/* Soft fill lights for cleaner product definition */}
-              <ambientLight intensity={0.35} />
-              <directionalLight
-                position={[4, 6, 4]}
-                intensity={1.1}
-                castShadow={false}
-              />
-              <directionalLight position={[-4, 2, -3]} intensity={0.45} />
-              <directionalLight position={[0, 3, -5]} intensity={0.3} />
-
-              {/* Transmissive glass materials need a scene background; transparent canvas alone reads as "invisible" */}
-              {/* <color attach="background" args={["#f3f4f6"]} />
-              {modelUrl && <Model3D key={modelUrl} url={modelUrl} />} */}
-
-              {modelUrl && <Model3D url={modelUrl} />}
-              {/* {modelUrl && <Model3D url={"/3dModels/headlight.glb"} />} */}
-              {/* {modelUrl && <Model3D url={"/3dModels/demo_2.glb"} />} */}
-              {/* {modelUrl && <Model3D url={"/3dModels/DemoLIght_GLB.glb"} />} */}
-
-              <InstantStopOrbitControls
-                enableZoom={true}
-                enablePan={false}
-                enableRotate={true}
-                minDistance={2}
-                maxDistance={10}
-                autoRotate={false}
-                rotateSpeed={0.5}
-                // enableDamping={true}
-                // dampingFactor={0.05}
-                // rotateSpeed={1}
-                // zoomSpeed={0.8}
-                // maxPolarAngle={Math.PI}
-                // minPolarAngle={0}
-              />
-              <Environment preset="studio" environmentIntensity={0.9} />
-            </Canvas>
-          </Suspense>
+            />
+          ) : null}
         </div>
       ) : (
         <div
           className={`relative w-full ${canvasHeight} bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center transition-all duration-300`}
         >
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0356C2] mx-auto mb-4"></div>
-            <p className="text-gray-600 font-medium">Loading 3D Model...</p>
-          </div>
+          <ModelViewerLoading />
         </div>
       )}
 
