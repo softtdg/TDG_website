@@ -27,19 +27,19 @@ export const LightingInMotionSection = () => {
       title: "RAILWAYS",
       description:
         "TDG offers customized and innovative solutions for both interior and exterior lighting systems for the global rail industry. With LED drivers in service since 1999 and an LED main lighting system in service since 2003, TDG has over 100,000 hours of actual in car performance from its systems. There are nearly one million TDG LED drivers in service globally in the rail industry.",
-      image: "/images/home/l2.jpg",
+      image: "/images/home/projects/1.jpg",
     },
     defense: {
       title: "DEFENSE",
       description:
         "Advanced lighting solutions for defense applications including military vehicles, aircraft, and specialized equipment. Our cutting-edge LED technology ensures reliability and performance in the most demanding environments.",
-      image: "/images/home/projects/1.jpg",
+      image: "/images/home/TDG Defense.jpg",
     },
     support: {
       title: "SUPPORT",
       description:
         "Comprehensive technical support and maintenance services for all our lighting systems. Our expert team provides 24/7 assistance to ensure optimal performance and minimal downtime for your operations.",
-      image: "/images/home/projects/2.jpg",
+      image: "/images/home/support.jpeg",
     },
   };
 
@@ -225,7 +225,7 @@ export const LightingInMotionSection = () => {
                       </motion.p>
 
                       {/* Links for Railways section */}
-                      {key === "railways" && isExpanded && (
+                      {/* {key === "railways" && isExpanded && (
                         <motion.div
                           className="flex flex-col sm:flex-row gap-3 mt-4"
                           initial={{ opacity: 0, y: 20 }}
@@ -283,7 +283,7 @@ export const LightingInMotionSection = () => {
                             </motion.svg>
                           </motion.button>
                         </motion.div>
-                      )}
+                      )} */}
 
                       {/* Content for Support section */}
                       {key === "support" && isExpanded && (
@@ -307,10 +307,10 @@ export const LightingInMotionSection = () => {
                           >
                             Call{" "}
                             <a
-                              href="tel:+19056089539"
+                              href="tel:+18882480666"
                               className="font-semibold text-[#2d4a86] hover:underline"
                             >
-                              +1 905-608-9539
+                              1-888-248-0666
                             </a>
                           </motion.p>
 

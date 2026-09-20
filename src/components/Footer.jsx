@@ -101,6 +101,7 @@ const Footer = () => {
                 <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
                   Company
                 </h4>
+                {/* Hidden for now - uncomment to put About Us back in the footer
                 <button
                   onClick={handleAboutUsClick}
                   className="group relative block text-gray-300 hover:text-white text-sm transition-colors duration-200 text-left w-full"
@@ -110,6 +111,7 @@ const Footer = () => {
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
                   </span>
                 </button>
+                */}
                 <button
                   onClick={handleCareerClick}
                   className="group relative block text-gray-300 hover:text-white text-sm transition-colors duration-200 text-left w-full"

@@ -273,11 +273,12 @@ const MenuBar = () => {
       image: "/images/home/u2.jpg",
       href: "/safety-standards",
     },
-    {
-      name: "About Us",
-      image: "/images/about-us/i1.jpg",
-      href: "/about-us",
-    },
+    // Hidden for now - uncomment to put About Us back in the menu
+    // {
+    //   name: "About Us",
+    //   image: "/images/about-us/i1.jpg",
+    //   href: "/about-us",
+    // },
     {
       name: "DDG",
       image: "/images/ddg/USCGC_Polar_Sea_WAGB_11-small.jpg",

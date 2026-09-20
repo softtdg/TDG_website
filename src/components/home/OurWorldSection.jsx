@@ -45,14 +45,15 @@ export const OurWorldSection = () => {
       alt: "Certification for rail lighting systems",
       href: "/safety-standards#certification",
     },
-    {
-      id: "about",
-      title: "ABOUT",
-      description: "Learn about our company, history, and global presence",
-      image: "/images/about-us/i1.jpg",
-      alt: "About TDG - Company overview and history",
-      href: "/about-us",
-    },
+    // Hidden for now - uncomment to put the ABOUT card back in the carousel
+    // {
+    //   id: "about",
+    //   title: "ABOUT",
+    //   description: "Learn about our company, history, and global presence",
+    //   image: "/images/about-us/i1.jpg",
+    //   alt: "About TDG - Company overview and history",
+    //   href: "/about-us",
+    // },
     {
       id: "innovation",
       title: "INNOVATION",
