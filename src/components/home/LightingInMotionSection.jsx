@@ -27,7 +27,7 @@ export const LightingInMotionSection = () => {
       title: "RAILWAYS",
       description:
         "TDG offers customized and innovative solutions for both interior and exterior lighting systems for the global rail industry. With LED drivers in service since 1999 and an LED main lighting system in service since 2003, TDG has over 100,000 hours of actual in car performance from its systems. There are nearly one million TDG LED drivers in service globally in the rail industry.",
-      image: "/images/home/projects/1.jpg",
+      image: "/images/railways.jpeg",
     },
     defense: {
       title: "DEFENSE",
@@ -39,7 +39,7 @@ export const LightingInMotionSection = () => {
       title: "SUPPORT",
       description:
         "Comprehensive technical support and maintenance services for all our lighting systems. Our expert team provides 24/7 assistance to ensure optimal performance and minimal downtime for your operations.",
-      image: "/images/home/support.jpeg",
+      image: "/images/support.jpeg",
     },
   };
 
