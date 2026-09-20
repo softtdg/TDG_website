@@ -1,7 +1,9 @@
 "use client"
 import React from "react"
 import { HeroSection } from "./components/HeroSection"
-import { ProductsContent } from "./components/ProductsContent"
+import { ComingSoon } from "@/components/ComingSoon"
+// Restore this import and swap it back in below to bring the page live
+// import { ProductsContent } from "./components/ProductsContent"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Environment } from "@react-three/drei"
 import * as THREE from "three"
@@ -40,7 +42,8 @@ const page = () => {
   return (
     <div className="min-h-screen bg-white">
       <HeroSection />
-      <ProductsContent />
+      <ComingSoon />
+      {/* <ProductsContent /> */}
       <div className="h-[2px] opacity-0">
         {/* {productData.Headlight?.map((product) => {
           return (
