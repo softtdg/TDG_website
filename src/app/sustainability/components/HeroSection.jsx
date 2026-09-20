@@ -44,7 +44,7 @@ export const HeroSection = () => {
       {/* Original Hero Section */}
       <div ref={heroRef} className="relative">
         <img
-          src="/images/products/banner.jpg"
+          src="/images/About.jpeg"
           className="w-full h-[400px] lg:h-[650px] object-cover"
           style={{ backgroundPosition: "top" }}
           alt="Sustainability banner"
