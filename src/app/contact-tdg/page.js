@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { HeroSection } from "./components/HeroSection";
-import Earth3D, { officeLocations } from "./components/Earth3D";
+import Earth3D, {
+  officeLocations,
+  defaultLocation,
+} from "./components/Earth3D";
 import ContactDetailsSection from "./components/ContactDetailsSection";
 import OtherOfficesCards from "./components/OtherOfficesCards";
 import MenuBar from "@/components/MenuBar";
@@ -65,7 +68,12 @@ const ContactPage = () => {
 
         // Method 3: geojs.io (free, no API key)
         try {
-          const response = await fetch("https://get.geojs.io/v1/ip/geo.json");
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 8000);
+          const response = await fetch("https://get.geojs.io/v1/ip/geo.json", {
+            signal: controller.signal,
+          });
+          clearTimeout(timeout);
           if (response.ok) {
             const data = await response.json();
             if (data.country) {
@@ -90,17 +98,9 @@ const ContactPage = () => {
     detectCountry();
   }, []);
 
-  // Set TDG Canada as default selected location initially
-  const defaultCanadaLocation =
-    officeLocations.find(
-      (loc) => loc.email?.toLowerCase() === "sales_canada@tdgdesign.com"
-    ) ||
-    officeLocations.find((loc) => loc.id === 4) ||
-    officeLocations[0];
-
-  const [selectedLocation, setSelectedLocation] = useState(
-    defaultCanadaLocation
-  );
+  // Starts on TDG Canada, and stays there if we can't place the visitor.
+  // Earth3D falls back to the same office, so the globe and this panel agree.
+  const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
 
   // Update selected location when country is detected
   useEffect(() => {
@@ -133,6 +133,7 @@ const ContactPage = () => {
       <Earth3D
         onLocationSelect={handleLocationSelect}
         visitorCountry={visitorCountry}
+        countryDetectionLoading={countryDetectionLoading}
       />
       <ContactDetailsSection selectedLocation={selectedLocation} />
       <OtherOfficesCards

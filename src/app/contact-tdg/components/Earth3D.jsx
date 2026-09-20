@@ -110,6 +110,15 @@ export const officeLocations = [
   },
 ];
 
+// Shown whenever we can't work out which office is closest to the visitor -
+// either their country wasn't detected, or they're somewhere we have no office.
+export const defaultLocation =
+  officeLocations.find(
+    (loc) => loc.email?.toLowerCase() === "sales_canada@tdgdesign.com"
+  ) ||
+  officeLocations.find((loc) => loc.id === 4) ||
+  officeLocations[0];
+
 // Radius the office markers sit at (Earth sphere is 2.2)
 const MARKER_RADIUS = 2.15;
 
@@ -1004,7 +1013,11 @@ function OfficePopup({
 }
 
 // Main Earth3D component
-export default function Earth3D({ onLocationSelect, visitorCountry }) {
+export default function Earth3D({
+  onLocationSelect,
+  visitorCountry,
+  countryDetectionLoading,
+}) {
   const [hoveredLocation, setHoveredLocation] = useState(null);
   const [sidebarHoveredLocation, setSidebarHoveredLocation] = useState(null);
   const [clickedLocation, setClickedLocation] = useState(null);
@@ -1055,7 +1068,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
 
   // Auto-select location based on visitor's country on mount
   useEffect(() => {
-    if (!visitorCountry || hasAutoSelectedRef.current) return;
+    if (countryDetectionLoading || hasAutoSelectedRef.current) return;
 
     // Find matching location(s) based on visitor country
     const findMatchingLocation = () => {
@@ -1081,7 +1094,8 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
       return matchingLocation;
     };
 
-    const matchingLocation = findMatchingLocation();
+    // Falls back to Canada when the country is unknown or has no office
+    const matchingLocation = findMatchingLocation() || defaultLocation;
 
     if (matchingLocation) {
       // Wait for Earth to be ready, then auto-select
@@ -1121,7 +1135,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
 
       return () => clearTimeout(timer);
     }
-  }, [visitorCountry, onLocationSelect]);
+  }, [visitorCountry, countryDetectionLoading, onLocationSelect]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
