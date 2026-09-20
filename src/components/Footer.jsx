@@ -27,9 +27,11 @@ const Footer = () => {
     router.push("/career");
   };
 
-  const handleInnovationClick = () => {
-    router.push("/innovation");
-  };
+  // Section is not live yet - restore this handler and its button below to
+  // bring the Innovation link back.
+  // const handleInnovationClick = () => {
+  //   router.push("/innovation");
+  // };
 
   const handleSafetyStandardsClick = () => {
     router.push("/safety-standards");
@@ -47,9 +49,11 @@ const Footer = () => {
     router.push("/media");
   };
 
-  const handleProductsClick = () => {
-    router.push("/products");
-  };
+  // Section is not live yet - restore this handler and its button below to
+  // bring the Products link back.
+  // const handleProductsClick = () => {
+  //   router.push("/products");
+  // };
 
   const handleLinkedInClick = () => {
     window.open(
@@ -137,24 +141,14 @@ const Footer = () => {
                 <h4 className="text-white font-semibold text-sm uppercase tracking-wider mb-4">
                   Offerings
                 </h4>
-                <button
-                  onClick={handleProductsClick}
-                  className="group relative block text-gray-300 hover:text-white text-sm transition-colors duration-200 text-left w-full"
-                >
-                  <span className="relative">
-                    Products
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
-                  </span>
-                </button>
-                <button
-                  onClick={handleInnovationClick}
-                  className="group relative block text-gray-300 hover:text-white text-sm transition-colors duration-200 text-left w-full"
-                >
-                  <span className="relative">
-                    Innovation
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#DBE2E7] transition-all duration-300 group-hover:w-full"></span>
-                  </span>
-                </button>
+                <div className="flex items-baseline gap-2 text-gray-400 text-sm text-left w-full cursor-default">
+                  <span>Products</span>
+                  <span className="text-[11px] text-gray-500">Coming soon</span>
+                </div>
+                <div className="flex items-baseline gap-2 text-gray-400 text-sm text-left w-full cursor-default">
+                  <span>Innovation</span>
+                  <span className="text-[11px] text-gray-500">Coming soon</span>
+                </div>
                 <button
                   onClick={handleTestingClick}
                   className="group relative block text-gray-300 hover:text-white text-sm transition-colors duration-200 text-left w-full"

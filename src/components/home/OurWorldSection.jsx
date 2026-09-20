@@ -61,7 +61,8 @@ export const OurWorldSection = () => {
         "Cutting-edge technology and innovative solutions for rail systems",
       image: "/images/Innovation.jpeg",
       alt: "TDG Innovation - Advanced rail technology solutions",
-      href: "/innovation",
+      // Section is not live yet - restore this href to make the card clickable.
+      // href: "/innovation",
     },
   ];
 
@@ -101,7 +102,9 @@ export const OurWorldSection = () => {
                 <button
                   type="button"
                   onClick={() => panel.href && router.push(panel.href)}
-                  className="group block w-full cursor-pointer focus:outline-none"
+                  className={`group block w-full focus:outline-none ${
+                    panel.href ? "cursor-pointer" : "cursor-default"
+                  }`}
                 >
                   <div className="relative group h-[300px] lg:h-[533px] overflow-hidden">
                     <Image

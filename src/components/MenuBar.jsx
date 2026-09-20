@@ -257,11 +257,15 @@ const MenuBar = () => {
       name: "Products",
       image: "/images/home/u1.jpg",
       href: "/products",
+      // Section is not live yet - shown greyed out with a "Coming Soon" badge
+      // and not clickable. Drop this flag to turn the link back on.
+      comingSoon: true,
     },
     {
       name: "Innovation",
       image: "/images/innovation/img1.jpg",
       href: "/innovation",
+      comingSoon: true,
     },
     {
       name: "Testing",
@@ -468,17 +472,24 @@ const MenuBar = () => {
                   return pathname === item.href
                 })()
 
+                const isComingSoon = Boolean(item.comingSoon)
+
                 return (
                   <button
                     key={index}
+                    type="button"
+                    disabled={isComingSoon}
                     className={`group relative flex items-center gap-3 sm:gap-4 lg:gap-4 px-4 py-3.5 sm:py-4 lg:py-4.5 rounded-[5px] transition-all duration-200 text-left w-full ${
-                      isActive
+                      isComingSoon
+                        ? "text-gray-400 font-medium border-l-4 border-transparent cursor-default"
+                        : isActive
                         ? "text-[#2d4a86] font-semibold bg-gradient-to-r from-[#f4f8ff] to-[#f0f5ff] border-l-4 border-[#2d4a86]"
                         : "text-gray-700 font-medium hover:text-[#2d4a86] hover:bg-gradient-to-r hover:from-gray-50 hover:to-[#f4f8ff]/50 border-l-4 border-transparent"
                     }`}
-                    onClick={() =>
+                    onClick={() => {
+                      if (isComingSoon) return
                       handleNavigation(item.href, item.target, item.rel)
-                    }
+                    }}
                     onMouseEnter={() => handleImageChange(item.image)}
                     onMouseLeave={() => {
                       const currentItem = getCurrentNavigationItem()
@@ -488,7 +499,9 @@ const MenuBar = () => {
                     {/* Icon */}
                     <div
                       className={`flex-shrink-0 transition-colors duration-300 ${
-                        isActive
+                        isComingSoon
+                          ? "text-gray-300"
+                          : isActive
                           ? "text-[#2d4a86]"
                           : "text-gray-500 group-hover:text-[#2d4a86]"
                       }`}
@@ -499,10 +512,17 @@ const MenuBar = () => {
                     {/* Text with underline effect */}
                     <span className="relative flex-1 text-[16px] sm:text-[17px] lg:text-[19px] tracking-wide font-medium">
                       {item.name}
+                      {isComingSoon && (
+                        <span className="ml-2 align-middle text-[12px] font-normal tracking-normal text-gray-400">
+                          Coming soon
+                        </span>
+                      )}
                       {/* Underline animation matching footer */}
                       <span
                         className={`absolute bottom-[-2px] left-0 h-[2px] bg-[#2d4a86] transition-all duration-200 rounded-full ${
-                          isActive ? "w-0" : "w-0 group-hover:w-full"
+                          isActive || isComingSoon
+                            ? "w-0"
+                            : "w-0 group-hover:w-full"
                         }`}
                       />
                     </span>
