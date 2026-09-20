@@ -204,15 +204,18 @@ export const CertificatesSection = () => {
         </h2>
         <div className="h-1 w-20 bg-[#f4c806] mx-auto rounded-full"></div>
 
+        <p className="mx-auto mt-8 sm:mt-10 max-w-4xl text-center text-base sm:text-lg lg:text-xl leading-relaxed text-gray-700">
+          TDG operates facilities globally, each independently certified to ISO
+          9001 and EN 17460, along with additional industry-specific standards
+          and certifications as required by our customers and applicable local
+          authorities.
+        </p>
+
         {loading ? (
           <div className="mt-8 sm:mt-12 lg:mt-16 text-center py-12">
             <p className="text-gray-600">Loading certificates...</p>
           </div>
-        ) : certificateGroups.length === 0 ? (
-          <div className="mt-8 sm:mt-12 lg:mt-16 text-center py-12">
-            <p className="text-gray-600">No certificates available.</p>
-          </div>
-        ) : (
+        ) : certificateGroups.length === 0 ? null : (
           <div className="mt-8 sm:mt-12 lg:mt-16 space-y-8 sm:space-y-12 lg:space-y-16">
             {certificateGroups.map(({ title, items }, groupIdx) => (
               <div key={title} className="space-y-10">
