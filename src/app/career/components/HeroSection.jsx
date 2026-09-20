@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const HeroSection = () => {
@@ -44,13 +45,28 @@ export const HeroSection = () => {
       {/* Original Hero Section */}
       <div
         ref={heroRef}
-        className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] flex items-center justify-center"
+        className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] flex items-center justify-center overflow-hidden"
         style={{
+          // Kept as the backdrop while the banner image loads
           background: "linear-gradient(120deg, #15345C 0%, #235891 100%)", // professional blue gradient
         }}
       >
-        <div className="text-center w-full flex items-center justify-center h-full">
-          <h1 className="text-white text-4xl sm:text-[62px] lg:text-6xl font-medium mb-4 drop-shadow-lg">
+        <Image
+          src="/images/careers/careers.jpeg"
+          alt="TDG engineer designing a circuit layout"
+          fill
+          priority
+          sizes="100vw"
+          quality={85}
+          className="object-cover"
+        />
+
+        {/* Very light, near-neutral scrim - just enough to hold the heading.
+            Tune readability with the /20 alone; raise it for more cover. */}
+        <div className="absolute inset-0 bg-[#101828]/20" />
+
+        <div className="relative text-center w-full flex items-center justify-center h-full">
+          <h1 className="text-white text-4xl sm:text-[62px] lg:text-6xl font-medium mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
             CAREERS
           </h1>
         </div>

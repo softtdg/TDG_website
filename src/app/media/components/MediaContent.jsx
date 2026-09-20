@@ -14,21 +14,7 @@ const HIDDEN_SECTIONS = ["NEWS", "REFERENCES"];
 // Event banners posted directly on the site rather than through the CMS.
 // The order here is the order they appear, top to bottom. Filenames contain
 // spaces, so the paths are percent-encoded.
-const STATIC_EVENTS = [
-  {
-    image: "/images/media/APTA%20EXPO%202026.jpg",
-    title: "Visit us at APTA EXPO 2026",
-    link: "https://www.aptaexpo.com/",
-  },
-  {
-    image: "/images/media/InnoTrans%20Berlin%202026.png",
-    title: "Visit us at InnoTrans Berlin 2026",
-  },
-  {
-    image: "/images/media/MSPO%202026.jpg",
-    title: "Visit us at MSPO 2026",
-  },
-];
+const STATIC_EVENTS = [];
 
 // Default/fallback data structure
 const defaultMediaSections = [
