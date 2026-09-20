@@ -21,7 +21,7 @@ const accordionItems = [
     title: "External Light Lumins Test",
     description:
       "Integrated light tunnels and calibrated sensors capture precise lumen output, allowing us to benchmark fixtures against international standards with real-world accuracy.",
-    image: "/images/home/u2.jpg",
+    // image: "/images/home/u2.jpg",
   },
   {
     title: "HailStone With Seed Test",
@@ -32,7 +32,7 @@ const accordionItems = [
     title: "Hard Coating & Paint Test",
     description:
       "Samples are subjected to abrasion, chemical resistance, UV exposure, adhesion, gloss retention, and corrosion tests to ensure coatings and finishes remain protective and visually consistent in the toughest environments. High-speed footage documents every spray, bake, and curing phase so engineers can connect visual outcomes with lab readings and rapidly optimize formulations.",
-    video: "/videos/TDG Web Home V2.mp4",
+    // video: "/videos/TDG Web Home V2.mp4",
   },
   {
     title: "Power Supply Test",
@@ -48,13 +48,13 @@ const accordionItems = [
     title: "Solid Ingress Test – Up To IP6X",
     description:
       "Pressurised dust chambers challenge product seals to confirm ingress protection ratings for particulate-heavy operating conditions. The recording highlights particulate flow patterns and pressure pulses, letting the team pinpoint exactly where seals need reinforcement.",
-    video: "/videos/TDG Web Home V2.mp4",
+    // video: "/videos/TDG Web Home V2.mp4",
   },
   {
     title: "Water Ingress – Perf. IPX7",
     description:
       "Submersion and water-jet procedures validate waterproofing to IPX7, ensuring reliable performance during flooding or heavy rainfall. Underwater angles capture how bubbles trail across gaskets, providing extra context as we refine drain paths and connector placement.",
-    video: "/videos/TDG Web Home V2.mp4",
+    // video: "/videos/TDG Web Home V2.mp4",
   },
   {
     title: "Strength Test",
