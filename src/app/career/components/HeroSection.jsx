@@ -51,6 +51,7 @@ export const HeroSection = () => {
           background: "linear-gradient(120deg, #15345C 0%, #235891 100%)", // professional blue gradient
         }}
       >
+        {/* Crop is biased below centre so the headlights stay in frame */}
         <Image
           src="/images/careers/careers.jpeg"
           alt="TDG engineer designing a circuit layout"
@@ -58,7 +59,7 @@ export const HeroSection = () => {
           priority
           sizes="100vw"
           quality={85}
-          className="object-cover"
+          className="object-cover object-[50%_65%]"
         />
 
         {/* Very light, near-neutral scrim - just enough to hold the heading.

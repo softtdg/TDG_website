@@ -43,10 +43,10 @@ export const HeroSection = () => {
     <>
       {/* Original Hero Section */}
       <div ref={heroRef} className="relative">
+        {/* Crop is biased below centre so the headlights stay in frame */}
         <img
           src="/images/about-us/hero-bg.png"
-          className="w-full h-[400px] lg:h-[650px] object-cover"
-          style={{ backgroundPosition: "top" }}
+          className="w-full h-[400px] lg:h-[650px] object-cover object-[50%_65%]"
           alt="Media banner"
         />
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">

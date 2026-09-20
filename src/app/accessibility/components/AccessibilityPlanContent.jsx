@@ -201,7 +201,7 @@ export const AccessibilityPlanContent = () => {
         </p>
         <div className="space-y-4 sm:space-y-5">
           <p className="text-base sm:text-lg md:text-[17px] leading-[33px]">
-            <strong>Phone:</strong> 905-608-9539
+            <strong>Phone:</strong> 1-888-248-0666
           </p>
           <p className="text-base sm:text-lg md:text-[17px] leading-[33px]">
             <strong>Fax:</strong> 905-608-9984
