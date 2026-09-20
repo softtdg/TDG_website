@@ -32,8 +32,23 @@ const defaultMediaSections = [
   },
 ];
 
+// Section expanded when the page loads - the rest start collapsed.
+const DEFAULT_OPEN_SECTION = "EVENTS";
+
+// An accordion index is a position within the *visible* sections, so derive it
+// from the same filter the render uses - hiding a section above EVENTS would
+// otherwise leave this pointing at the wrong one.
+const defaultOpenIndices = defaultMediaSections
+  .filter((section) => !HIDDEN_SECTIONS.includes(section.title))
+  .reduce((indices, section, index) => {
+    if (section.title === DEFAULT_OPEN_SECTION) indices.push(index);
+    return indices;
+  }, []);
+
 export const MediaContent = () => {
-  const [openIndices, setOpenIndices] = useState([]);
+  const [openIndices, setOpenIndices] = useState(() => [
+    ...defaultOpenIndices,
+  ]);
   const [mediaSections, setMediaSections] = useState(defaultMediaSections);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
