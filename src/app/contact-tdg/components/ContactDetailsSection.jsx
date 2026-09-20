@@ -308,7 +308,9 @@ const ContactDetailsSection = ({ selectedLocation }) => {
             <div className="bg-white overflow-hidden border border-gray-200 h-full">
               <iframe
                 key={`${location?.map_lat}-${location?.map_lng}`}
-                src={`https://maps.google.com/maps?q=${location.map_lat},${location.map_lng}&hl=en&z=15&output=embed`}
+                // t=h is satellite imagery with street labels - what Google's
+                // own "Satellite" toggle shows. Use t=k for imagery only.
+                src={`https://maps.google.com/maps?q=${location.map_lat},${location.map_lng}&hl=en&z=15&t=h&output=embed`}
                 className="w-full h-full border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

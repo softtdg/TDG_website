@@ -22,30 +22,13 @@ export const officeLocations = [
       "3829 Forest Park Way #500, North Tonawanda, NY 14120, United States",
     phone: "+1 (716) 123-4567",
     email: "sales_USA@tdgdesign.com",
-    lat: 41.0389,
-    lng: -75.8642,
+    lat: 43.0635,
+    lng: -78.8325,
     color: "#DC2626", // Red
     colorLight: "#EF4444",
     map_lat: 43.06346,
     map_lng: -78.83247,
   },
-  {
-    id: 2,
-    name: "TDG France",
-    city: "Sainte-Maure-de-Touraine",
-    country: "France",
-    address:
-      "11 Rue Pierre Et Francoise Allaire, 37800 Sainte-Maure-de-Touraine, France",
-    phone: "+33 2 47 12 34 56",
-    email: "sales_europe@tdgdesign.com",
-    lat: 47.1111,
-    lng: 0.6222,
-    color: "#2563EB", // Blue
-    colorLight: "#3B82F6",
-    map_lat: 47.09788,
-    map_lng: 0.61348,
-  },
-
   {
     id: 3,
     name: "TDG United Kingdom",
@@ -67,7 +50,7 @@ export const officeLocations = [
     name: "TDG Canada",
     city: "Mississauga",
     country: "Canada",
-    address: "1.3770 Laird Rd Building A, Mississauga, ON L5L 0A7, Canada",
+    address: "9-3770 Laird Rd Building A, Mississauga, ON L5L 0A7, Canada",
     phone: "+1 (905) 123-4567",
     email: "sales_canada@tdgdesign.com",
     lat: 43.589,
@@ -127,6 +110,12 @@ export const officeLocations = [
   },
 ];
 
+// Radius the office markers sit at (Earth sphere is 2.2)
+const MARKER_RADIUS = 2.15;
+
+// A drag longer than this many pixels is a rotation, not a click
+const DRAG_THRESHOLD = 5;
+
 // Convert lat/lng to 3D coordinates on sphere
 function latLngToVector3(lat, lng, radius = 2.2) {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -139,6 +128,65 @@ function latLngToVector3(lat, lng, radius = 2.2) {
   );
 }
 
+// Earth group rotation (Euler XYZ) that turns a lat/lng to face the default
+// camera on +Z. Replaces the hand-tuned per-region values: every office lands
+// dead centre, including any office added later.
+function rotationForLatLng(lat, lng) {
+  const latRad = lat * (Math.PI / 180);
+  const lngRad = lng * (Math.PI / 180);
+  let y = Math.atan2(-Math.cos(lngRad), -Math.sin(lngRad));
+  if (y < 0) y += Math.PI * 2;
+  return [latRad, y, 0];
+}
+
+// Shortest signed distance between two angles, so the Earth never takes the
+// long way round (e.g. 6.1 -> 0.2 turns forwards, not almost a full circle)
+function shortestAngleDelta(from, to) {
+  return Math.atan2(Math.sin(to - from), Math.cos(to - from));
+}
+
+// Is a point on the globe's surface turned towards the camera, or has it
+// rotated around to the far side? Small epsilon so points hide just before
+// they reach the silhouette edge, where their screen position gets jittery.
+const FACING_EPSILON = 0.06;
+function isFacingCamera(worldPosition, camera) {
+  const toCamera = camera.position.clone().sub(worldPosition).normalize();
+  return worldPosition.clone().normalize().dot(toCamera) > FACING_EPSILON;
+}
+
+// Viewport coordinates for a world-space point
+function projectToScreen(worldPosition, camera, size, domElement) {
+  const ndc = worldPosition.clone().project(camera);
+  const rect = domElement
+    ? domElement.getBoundingClientRect()
+    : { left: 0, top: 0 };
+  return {
+    x: (ndc.x * 0.5 + 0.5) * size.width + rect.left,
+    y: (ndc.y * -0.5 + 0.5) * size.height + rect.top,
+  };
+}
+
+// Which side of the screen the office card is pinned to. Hysteresis bands so
+// a marker hovering near the centre while dragging doesn't flip back and forth.
+function sideForPosition(x, currentSide) {
+  const width = window.innerWidth;
+  if (x < width * 0.45) return "left";
+  if (x > width * 0.55) return "right";
+  return currentSide || (x < width / 2 ? "left" : "right");
+}
+
+// L-shaped connector running from the marker up to the pinned office card
+const CONNECTOR_ELBOW_Y = 220;
+function buildConnectorPath(point, markerSide) {
+  if (!point) return "";
+  const viewportWidth = window.innerWidth;
+  const inset = viewportWidth < 1800 ? 20 : 220;
+  const endX = markerSide === "left" ? 100 : viewportWidth - 100;
+  const elbowX = point.x + (markerSide === "left" ? -80 : 80);
+  const targetX = markerSide === "left" ? endX + inset : endX - inset;
+  return `M ${point.x} ${point.y} L ${elbowX} ${CONNECTOR_ELBOW_Y} L ${targetX} ${CONNECTOR_ELBOW_Y}`;
+}
+
 // Marker Position Calculator Component
 function MarkerPositionCalculator({
   location,
@@ -146,7 +194,7 @@ function MarkerPositionCalculator({
   onPositionCalculated,
   isCalculating,
 }) {
-  const { camera, size } = useThree();
+  const { camera, size, gl } = useThree();
   const calculatedRef = useRef(false);
 
   useFrame(() => {
@@ -156,32 +204,82 @@ function MarkerPositionCalculator({
       earthRef.current &&
       !calculatedRef.current
     ) {
-      // Calculate marker's 3D position relative to Earth center
-      const markerPosition = latLngToVector3(location.lat, location.lng, 2.15);
-
-      // Apply Earth's world transformation to get world position
-      const worldPosition = markerPosition.clone();
-      worldPosition.applyMatrix4(earthRef.current.matrixWorld);
-
-      // Project 3D world position to screen coordinates
-      const vector = worldPosition.project(camera);
-      const canvas = document.querySelector("canvas");
-      const canvasRect = canvas
-        ? canvas.getBoundingClientRect()
-        : { left: 0, top: 0 };
-      const x = (vector.x * 0.5 + 0.5) * size.width + canvasRect.left;
-      const y = (vector.y * -0.5 + 0.5) * size.height + canvasRect.top;
+      // Marker position on the Earth group, moved into world space
+      const worldPosition = latLngToVector3(
+        location.lat,
+        location.lng,
+        MARKER_RADIUS
+      ).applyMatrix4(earthRef.current.matrixWorld);
 
       // Only calculate once
       calculatedRef.current = true;
 
-      // Callback with calculated position
-      onPositionCalculated({ x, y });
+      onPositionCalculated(
+        projectToScreen(worldPosition, camera, size, gl.domElement)
+      );
     }
 
     // Reset when not calculating
     if (!isCalculating) {
       calculatedRef.current = false;
+    }
+  });
+
+  return null;
+}
+
+// Keeps the open office card's connector line attached to its marker while the
+// globe is being dragged, and closes the card once the marker turns away to the
+// far side. Writes the SVG path straight to the DOM rather than through state,
+// so dragging doesn't re-render the scene every frame.
+function MarkerTracker({
+  location,
+  earthRef,
+  linePathRef,
+  markerSide,
+  onSideChange,
+  onOccluded,
+}) {
+  const { camera, size, gl } = useThree();
+  const lastSideRef = useRef(markerSide);
+  const reportedOccludedRef = useRef(false);
+
+  // Keep the ref in step when the side is changed from outside (new marker)
+  lastSideRef.current = markerSide;
+
+  useFrame(() => {
+    if (!location || !earthRef.current) return;
+
+    const worldPosition = latLngToVector3(
+      location.lat,
+      location.lng,
+      MARKER_RADIUS
+    ).applyMatrix4(earthRef.current.matrixWorld);
+
+    // Marker has rotated behind the globe - close the card once
+    if (!isFacingCamera(worldPosition, camera)) {
+      if (!reportedOccludedRef.current) {
+        reportedOccludedRef.current = true;
+        onOccluded();
+      }
+      return;
+    }
+    reportedOccludedRef.current = false;
+
+    const point = projectToScreen(worldPosition, camera, size, gl.domElement);
+
+    // Re-pin the card if the marker has crossed to the other half of the screen
+    const nextSide = sideForPosition(point.x, lastSideRef.current);
+    if (nextSide !== lastSideRef.current) {
+      lastSideRef.current = nextSide;
+      onSideChange(nextSide);
+    }
+
+    if (linePathRef.current) {
+      linePathRef.current.setAttribute(
+        "d",
+        buildConnectorPath(point, lastSideRef.current)
+      );
     }
   });
 
@@ -243,113 +341,61 @@ function Earth({
   onEarthClick,
   visitorCountry,
 }) {
-  // Earth textures
-  const [earthTexture, normalMap, specularMap] = useTexture([
+  // Earth textures. The specular map used to be fetched here and never used -
+  // a third 2048px download for nothing.
+  const [earthTexture, normalMap] = useTexture([
     "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg",
     "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_normal_2048.jpg",
-    "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_specular_2048.jpg",
   ]);
 
-  useFrame((state) => {
-    if (earthRef.current) {
-      if (isRotatingToLocation && clickedLocation) {
-        // Get target rotation based on location group
-        let targetRotation;
+  // Eases the Earth towards the rotation that centres `location`, taking the
+  // shortest way round. `speed` is the fraction covered per 60fps frame, scaled
+  // by delta so the animation runs at the same pace on a 144Hz screen.
+  const easeTowardsLocation = (location, delta, maxSpeed, minSpeed, snap) => {
+    const targetRotation = rotationForLatLng(location.lat, location.lng);
+    const current = earthRef.current.rotation;
 
-        if (
-          clickedLocation.name === "TDG Canada" ||
-          clickedLocation.name === "TDG United States"
-        ) {
-          targetRotation = [0.7, 6.1, 0];
-        } else if (
-          clickedLocation.name === "TDG France" ||
-          clickedLocation.name === "TDG United Kingdom"
-        ) {
-          targetRotation = [0.9, 4.8, 0];
-        } else if (clickedLocation.name === "TDG India") {
-          targetRotation = [0.4, 3.4, 0];
-        } else {
-          // Default rotation for any other locations
-          targetRotation = [0.6, 4.5, 0.5];
-        }
+    const diffX = shortestAngleDelta(current.x, targetRotation[0]);
+    const diffY = shortestAngleDelta(current.y, targetRotation[1]);
+    const diffZ = shortestAngleDelta(current.z, targetRotation[2]);
 
-        // Smoothly rotate to target with improved speed and threshold
-        const currentRotation = earthRef.current.rotation;
-        const rotationDiffX = targetRotation[0] - currentRotation.x;
-        const rotationDiffY = targetRotation[1] - currentRotation.y;
-        const rotationDiffZ = targetRotation[2] - currentRotation.z;
+    const totalDistance = Math.sqrt(
+      diffX * diffX + diffY * diffY + diffZ * diffZ
+    );
 
-        // Calculate total distance to target
-        const totalDistance = Math.sqrt(
-          rotationDiffX * rotationDiffX +
-            rotationDiffY * rotationDiffY +
-            rotationDiffZ * rotationDiffZ
-        );
-
-        // Use adaptive speed based on distance (faster when far, slower when close)
-        const speed = Math.min(0.15, Math.max(0.05, totalDistance * 0.1));
-        const threshold = 0.01; // Stop when very close to target
-
-        if (totalDistance > threshold) {
-          earthRef.current.rotation.x += rotationDiffX * speed;
-          earthRef.current.rotation.y += rotationDiffY * speed;
-          earthRef.current.rotation.z += rotationDiffZ * speed;
-        } else {
-          // Snap to exact target when very close
-          earthRef.current.rotation.x = targetRotation[0];
-          earthRef.current.rotation.y = targetRotation[1];
-          earthRef.current.rotation.z = targetRotation[2];
-        }
-      } else if (
-        sidebarHoveredLocation &&
-        !isRotatingToLocation &&
-        !hoveredLocation
-      ) {
-        // Get target rotation based on location group for hover
-        let targetRotation;
-
-        if (
-          sidebarHoveredLocation.name === "TDG Canada" ||
-          sidebarHoveredLocation.name === "TDG United States"
-        ) {
-          targetRotation = [0.7, 6.1, 0];
-        } else if (
-          sidebarHoveredLocation.name === "TDG France" ||
-          sidebarHoveredLocation.name === "TDG United Kingdom"
-        ) {
-          targetRotation = [0.9, 4.8, 0];
-        } else if (sidebarHoveredLocation.name === "TDG India") {
-          targetRotation = [0.4, 3.4, 0];
-        } else {
-          // Default rotation for any other locations
-          targetRotation = [0.6, 4.5, 0.5];
-        }
-
-        // Smoothly rotate to target with improved speed for hover
-        const currentRotation = earthRef.current.rotation;
-        const rotationDiffX = targetRotation[0] - currentRotation.x;
-        const rotationDiffY = targetRotation[1] - currentRotation.y;
-        const rotationDiffZ = targetRotation[2] - currentRotation.z;
-
-        // Calculate total distance to target
-        const totalDistance = Math.sqrt(
-          rotationDiffX * rotationDiffX +
-            rotationDiffY * rotationDiffY +
-            rotationDiffZ * rotationDiffZ
-        );
-
-        // Use adaptive speed for hover (slower than click but still responsive)
-        const speed = Math.min(0.08, Math.max(0.03, totalDistance * 0.08));
-        const threshold = 0.02; // Slightly higher threshold for hover
-
-        if (totalDistance > threshold) {
-          earthRef.current.rotation.x += rotationDiffX * speed;
-          earthRef.current.rotation.y += rotationDiffY * speed;
-          earthRef.current.rotation.z += rotationDiffZ * speed;
-        }
+    if (totalDistance <= 0.01) {
+      if (snap) {
+        current.x = targetRotation[0];
+        current.y = targetRotation[1];
+        current.z = targetRotation[2];
       }
-      // Completely removed auto-rotation - Earth will stay stationary
+      return;
     }
+
+    // Adaptive speed (faster when far, slower when close), made frame-rate
+    // independent so it can't overshoot on a fast display
+    const perFrame = Math.min(maxSpeed, Math.max(minSpeed, totalDistance * 0.1));
+    const step = 1 - Math.pow(1 - perFrame, Math.min(delta, 0.1) * 60);
+
+    current.x += diffX * step;
+    current.y += diffY * step;
+    current.z += diffZ * step;
+  };
+
+  useFrame((state, delta) => {
+    if (!earthRef.current) return;
+
+    if (isRotatingToLocation && clickedLocation) {
+      easeTowardsLocation(clickedLocation, delta, 0.15, 0.05, true);
+    } else if (
+      sidebarHoveredLocation &&
+      !isRotatingToLocation &&
+      !hoveredLocation
+    ) {
+      // Slower than a click, but still responsive
+      easeTowardsLocation(sidebarHoveredLocation, delta, 0.08, 0.03, false);
+    }
+    // Completely removed auto-rotation - Earth will stay stationary
   });
 
   const initialRotation = useMemo(() => {
@@ -357,8 +403,7 @@ function Earth({
       return [0.7, 6.1, 0.3];
     } else if (
       visitorCountry === "United Kingdom" ||
-      visitorCountry === "Poland" ||
-      visitorCountry === "France"
+      visitorCountry === "Poland"
     ) {
       return [1.2, 3.7, 0.6];
     } else if (visitorCountry === "India") {
@@ -382,16 +427,15 @@ function Earth({
           }
         }}
       >
+        {/* Opaque: `transparent` with opacity 1 only cost an alpha-blend pass,
+            and color="transparent" is not a colour - three fell back to white */}
         <meshStandardMaterial
           map={earthTexture}
           normalMap={normalMap}
           roughness={1}
           metalness={0.5}
-          transparent={1}
-          color="transparent"
           emissive="black"
           emissiveIntensity={0.005}
-          opacity={1}
         />
 
         {/* <meshStandardMaterial
@@ -426,11 +470,20 @@ function LocationMarker({ location, onClick, isHovered }) {
   const pulseRing1Ref = useRef();
   const pulseRing2Ref = useRef();
   const pulseRing3Ref = useRef();
-  const { camera, size } = useThree();
+  const { camera, size, gl } = useThree();
   const position = useMemo(
-    () => latLngToVector3(location.lat, location.lng, 2.15),
+    () => latLngToVector3(location.lat, location.lng, MARKER_RADIUS),
     [location.lat, location.lng]
   );
+
+  // Raycasting ignores the globe, so markers on the far side still register
+  // hovers and clicks through the Earth. Ignore them unless they face us.
+  const isMarkerVisible = () => {
+    if (!markerRef.current) return true;
+    const worldPosition = new THREE.Vector3();
+    markerRef.current.getWorldPosition(worldPosition);
+    return isFacingCamera(worldPosition, camera);
+  };
 
   // Use location-specific colors
   // Standard and attractive yellow and blue colors
@@ -466,14 +519,7 @@ function LocationMarker({ location, onClick, isHovered }) {
     } else {
       worldPosition.copy(position);
     }
-    const vector = worldPosition.project(camera);
-    const canvas = document.querySelector("canvas");
-    const canvasRect = canvas
-      ? canvas.getBoundingClientRect()
-      : { left: 0, top: 0 };
-    const x = (vector.x * 0.5 + 0.5) * size.width + canvasRect.left;
-    const y = (vector.y * -0.5 + 0.5) * size.height + canvasRect.top;
-    return { x, y };
+    return projectToScreen(worldPosition, camera, size, gl.domElement);
   };
 
   useFrame((state) => {
@@ -614,6 +660,7 @@ function LocationMarker({ location, onClick, isHovered }) {
   });
   // Handler that calculates marker center and passes it to onClick
   const handleMarkerClick = (e) => {
+    if (!isMarkerVisible()) return;
     e.stopPropagation();
     if (onClick) {
       const markerCenter = getMarkerScreenPosition();
@@ -713,6 +760,7 @@ function LocationMarker({ location, onClick, isHovered }) {
         args={[0.07, 16, 16]}
         onClick={handleMarkerClick}
         onPointerEnter={(e) => {
+          if (!isMarkerVisible()) return;
           e.stopPropagation();
           document.body.style.cursor = "pointer";
         }}
@@ -846,47 +894,22 @@ function OfficePopup({
   clickPosition,
   onClose,
   markerSide,
+  linePathRef,
 }) {
   if (!isVisible || !office) return null;
 
-  // Calculate the end point for the L-shaped line
-  const getLineEndPoint = () => {
-    if (!clickPosition) return { x: 0, y: 0 };
-
-    // Get the viewport dimensions
-    const viewportWidth = window.innerWidth;
-
-    // End point: 100px from the right edge, 100px from the top
-    return {
-      x: markerSide === "left" ? 100 : viewportWidth - 100,
-      y: 100,
-    };
-  };
-
-  const endPoint = getLineEndPoint();
-
   return (
     <div className="">
-      {/* Connecting Line */}
+      {/* Connecting Line - MarkerTracker rewrites `d` each frame while the
+          globe is dragged, so this value is only the starting shape */}
       {clickPosition && (
         <svg
           className="fixed inset-0 pointer-events-none z-10"
           style={{ width: "100vw", height: "100vh" }}
         >
           <path
-            d={
-              window.innerWidth < 1800
-                ? `M ${clickPosition.x} ${clickPosition.y} L ${
-                    clickPosition.x + (markerSide === "left" ? -80 : 80)
-                  } 220 L ${
-                    endPoint.x - (markerSide === "left" ? -20 : 20)
-                  } 220`
-                : `M ${clickPosition.x} ${clickPosition.y} L ${
-                    clickPosition.x + (markerSide === "left" ? -80 : 80)
-                  } 220 L ${
-                    endPoint.x - (markerSide === "left" ? -220 : 220)
-                  } 220`
-            }
+            ref={linePathRef}
+            d={buildConnectorPath(clickPosition, markerSide)}
             stroke="white"
             strokeWidth="2"
             fill="none"
@@ -1002,6 +1025,10 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
   const controlsRef = useRef();
   const isMarkerClickRef = useRef(false);
   const hasAutoSelectedRef = useRef(false);
+  const linePathRef = useRef(null);
+  const earthContainerRef = useRef(null);
+  const pointerDownRef = useRef({ x: 0, y: 0 });
+  const wasDragRef = useRef(false);
   const [isCalculatingMarkerPosition, setIsCalculatingMarkerPosition] =
     useState(false);
   const [pendingAutoSelectLocation, setPendingAutoSelectLocation] =
@@ -1011,9 +1038,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
   const handleMarkerPositionCalculated = (position) => {
     if (pendingAutoSelectLocation) {
       // Determine marker side based on position
-      const viewportWidth = window.innerWidth;
-      const isLeftSide = position.x < viewportWidth / 2;
-      setMarkerSide(isLeftSide ? "left" : "right");
+      setMarkerSide(sideForPosition(position.x, null));
 
       // Set popup data and position with actual marker position
       setPopupOffice(pendingAutoSelectLocation);
@@ -1039,7 +1064,6 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
         "United States": "United States",
         USA: "United States",
         US: "United States",
-        France: "France",
         "United Kingdom": "United Kingdom",
         UK: "United Kingdom",
         Canada: "Canada",
@@ -1108,11 +1132,36 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
     };
   }, []);
 
+  // A drag to rotate the globe still ends in a `click` event. Measure how far
+  // the pointer travelled so the close-popup handlers can tell a real click
+  // from the end of a rotation, and let the user drag with the card open.
+  useEffect(() => {
+    const handlePointerDown = (e) => {
+      pointerDownRef.current = { x: e.clientX, y: e.clientY };
+      wasDragRef.current = false;
+    };
+    const handlePointerUp = (e) => {
+      const dx = e.clientX - pointerDownRef.current.x;
+      const dy = e.clientY - pointerDownRef.current.y;
+      wasDragRef.current = Math.hypot(dx, dy) > DRAG_THRESHOLD;
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown, true);
+    document.addEventListener("pointerup", handlePointerUp, true);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+      document.removeEventListener("pointerup", handlePointerUp, true);
+    };
+  }, []);
+
   // Global click handler to close popup when clicking outside
   useEffect(() => {
     const handleGlobalClick = (e) => {
+      // A rotation that finished outside the canvas is not a click
+      if (wasDragRef.current) return;
+
       // Check if click is outside the Earth container and popup
-      const earthContainer = document.querySelector(".lg\\:col-span-2");
+      const earthContainer = earthContainerRef.current;
       const popupElement = document.querySelector(
         '[data-popup="office-popup"]'
       );
@@ -1210,19 +1259,18 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
 
   // Function to handle clicking on location markers (shows popup with connecting line)
   const handleMarkerClick = (location, event) => {
+    // Finishing a rotation over a marker should not open its card
+    if (wasDragRef.current) return;
+
     // Set flag to prevent Canvas click handler from firing
     isMarkerClickRef.current = true;
 
-    // Stop Earth rotation immediately and set popup as active
+    // Card is open. The globe stays draggable - MarkerTracker keeps the
+    // connector line attached to the marker while it turns.
     setIsPopupActive(true);
-    if (controlsRef.current) {
-      controlsRef.current.enabled = false;
-    }
 
     // Determine marker side based on screen click position
-    const viewportWidth = window.innerWidth;
-    const isLeftSide = event.clientX < viewportWidth / 2; // Click position relative to screen center
-    setMarkerSide(isLeftSide ? "left" : "right");
+    setMarkerSide(sideForPosition(event.clientX, null));
 
     // Capture click position for connecting line
     // Use absolute coordinates relative to the viewport
@@ -1261,17 +1309,14 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
     }
   };
 
-  // Function to handle Earth rotation to close popup
-  const handleEarthRotation = () => {
+  // The marker has turned round to the far side of the globe - its card no
+  // longer has anything to point at, so close it
+  const handleMarkerOccluded = () => {
     setHoveredLocation(null);
     setPopupVisible(false);
     setPopupOffice(null);
     setClickPosition(null);
     setIsPopupActive(false);
-    // Re-enable controls
-    if (controlsRef.current) {
-      controlsRef.current.enabled = true;
-    }
   };
 
   // Function to handle mouse wheel scroll to close popup
@@ -1302,6 +1347,8 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
 
   // Function to handle clicking on Earth surface to close popup
   const handleEarthClick = () => {
+    // Releasing a rotation over the globe is not a click
+    if (wasDragRef.current) return;
     setHoveredLocation(null);
     setPopupVisible(false);
     setPopupOffice(null);
@@ -1412,9 +1459,13 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
             //   }
             // }}
           >
-            <div className="relative w-full h-[400px] sm:h-[600px] lg:h-[100vh] overflow-hidden">
+            <div
+              ref={earthContainerRef}
+              className="relative w-full h-[400px] sm:h-[600px] lg:h-[100vh] overflow-hidden"
+            >
               <Canvas
                 camera={{ position: [0, 0, 6], fov: 55 }}
+                dpr={[1, 2]}
                 style={{
                   background:
                     // "radial-gradient(ellipse at center, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.86) 20%, rgba(15, 20, 25, 0.4) 60%, rgba(0, 0, 0, 0.9) 100%)",
@@ -1428,6 +1479,10 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                     isMarkerClickRef.current = false; // Reset flag
                     return; // Don't close popup
                   }
+
+                  // Dragging the globe ends in a click event too - ignore it,
+                  // so the card survives a rotation
+                  if (wasDragRef.current) return;
 
                   // Close popup when clicking on Canvas (Earth surface)
                   setPopupVisible(false);
@@ -1585,6 +1640,19 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                   isCalculating={isCalculatingMarkerPosition}
                 />
 
+                {/* Keeps the open card's line glued to its marker while the
+                    globe is dragged */}
+                {popupVisible && popupOffice && (
+                  <MarkerTracker
+                    location={popupOffice}
+                    earthRef={earthRef}
+                    linePathRef={linePathRef}
+                    markerSide={markerSide}
+                    onSideChange={setMarkerSide}
+                    onOccluded={handleMarkerOccluded}
+                  />
+                )}
+
                 {/* Earth with rotating markers */}
                 <Earth
                   sidebarHoveredLocation={sidebarHoveredLocation}
@@ -1607,17 +1675,13 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
                   ref={controlsRef}
                   enableZoom={false}
                   enablePan={false}
-                  enableRotate={!isPopupActive}
-                  minDistance={3}
-                  maxDistance={6}
+                  enableRotate
                   autoRotate={false}
-                  onChange={(e) => {
-                    if (!isPopupActive) {
-                      handleManualRotation();
-                    }
-                    handleEarthRotation();
-                  }}
-                  onWheel={handleWheelScroll}
+                  enableDamping
+                  dampingFactor={0.08}
+                  // onStart only fires for real user input, unlike onChange,
+                  // which also fires while the camera is being reset
+                  onStart={() => handleManualRotation(true)}
                 />
               </Canvas>
 
@@ -1637,6 +1701,7 @@ export default function Earth3D({ onLocationSelect, visitorCountry }) {
             clickPosition={clickPosition}
             onClose={handleClosePopup}
             markerSide={markerSide}
+            linePathRef={linePathRef}
           />
           {/* )} */}
           {/* Office List */}
