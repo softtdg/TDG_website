@@ -282,7 +282,7 @@ const MenuBar = () => {
     {
       name: "DDG",
       image: "/images/ddg/USCGC_Polar_Sea_WAGB_11-small.jpg",
-      href: "https://ddg-hazel.vercel.app/",
+      href: "https://www.ddgdesigngroup.com/",
       target: "_blank",
       rel: "noopener noreferrer",
     },

@@ -285,6 +285,49 @@ export const LightingInMotionSection = () => {
                         </motion.div>
                       )} */}
 
+                      {/* Content for Defense section */}
+                      {key === "defense" && isExpanded && (
+                        <motion.div
+                          className="flex flex-col sm:flex-row sm:items-center gap-3 mt-4"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{
+                            opacity: isExpanded ? 1 : 0,
+                            y: isExpanded ? 0 : 20,
+                          }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
+                          <motion.a
+                            href="https://www.ddgdesigngroup.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group inline-flex items-center justify-between text-sm py-2.5 px-4 font-medium text-[#2d4a86] transition-all duration-300 bg-[#edeff3] border-l-4 border-[#2d4a86] rounded-r-lg shadow-sm hover:shadow-md"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{
+                              opacity: isExpanded ? 1 : 0,
+                              y: isExpanded ? 0 : 20,
+                            }}
+                            transition={{ duration: 0.3, delay: 0.3 }}
+                          >
+                            <span>Visit DDG Design Group</span>
+                            <motion.svg
+                              className="ml-2 w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              whileHover={{ x: 3 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                              />
+                            </motion.svg>
+                          </motion.a>
+                        </motion.div>
+                      )}
+
                       {/* Content for Support section */}
                       {key === "support" && isExpanded && (
                         <motion.div
