@@ -43,10 +43,9 @@ export const HeroSection = () => {
     <>
       {/* Original Hero Section */}
       <div ref={heroRef} className="relative">
-        {/* Crop is biased below centre so the headlights stay in frame */}
         <img
           src="/images/testing.jpg"
-          className="w-full h-[400px] lg:h-[650px] object-cover object-[50%_75%]"
+          className="w-full h-[400px] lg:h-[650px] object-cover object-[50%_25%]"
           alt="Testing banner"
         />
         {/* The banner is mostly bright snow, so white text needs a scrim
