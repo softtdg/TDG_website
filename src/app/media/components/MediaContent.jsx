@@ -7,6 +7,29 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { fetchAllMediaSections } from "@/lib/api";
 
+// Sections hidden for now. Remove a title from this list to show it again -
+// the data is still fetched, it is only kept out of the rendered accordion.
+const HIDDEN_SECTIONS = ["NEWS", "REFERENCES"];
+
+// Event banners posted directly on the site rather than through the CMS.
+// The order here is the order they appear, top to bottom. Filenames contain
+// spaces, so the paths are percent-encoded.
+const STATIC_EVENTS = [
+  {
+    image: "/images/media/APTA%20EXPO%202026.jpg",
+    title: "Visit us at APTA EXPO 2026",
+    link: "https://www.aptaexpo.com/",
+  },
+  {
+    image: "/images/media/InnoTrans%20Berlin%202026.png",
+    title: "Visit us at InnoTrans Berlin 2026",
+  },
+  {
+    image: "/images/media/MSPO%202026.jpg",
+    title: "Visit us at MSPO 2026",
+  },
+];
+
 // Default/fallback data structure
 const defaultMediaSections = [
   {
@@ -19,7 +42,7 @@ const defaultMediaSections = [
   },
   {
     title: "EVENTS",
-    items: [],
+    items: STATIC_EVENTS,
   },
 ];
 
@@ -47,8 +70,9 @@ export const MediaContent = () => {
             items: data.references || [],
           },
           {
+            // Banners first, then anything added through the CMS
             title: "EVENTS",
-            items: data.events || [],
+            items: [...STATIC_EVENTS, ...(data.events || [])],
           },
         ]);
       } catch (err) {
@@ -63,6 +87,11 @@ export const MediaContent = () => {
 
     loadMediaData();
   }, []);
+
+  // Applied after the fetch so both the API data and the fallback are filtered
+  const visibleSections = mediaSections.filter(
+    (section) => !HIDDEN_SECTIONS.includes(section.title)
+  );
 
   return (
     <section className="bg-white">
@@ -96,7 +125,7 @@ export const MediaContent = () => {
         {/* Collapsible Sections */}
         {!loading && !error && (
           <div className="overflow-hidden">
-            {mediaSections.map((section, index) => (
+            {visibleSections.map((section, index) => (
               <MediaAccordionItem
                 key={section.title}
                 section={section}
@@ -111,7 +140,7 @@ export const MediaContent = () => {
         {/* Empty State */}
         {!loading &&
           !error &&
-          mediaSections.every((s) => s.items.length === 0) && (
+          visibleSections.every((s) => s.items.length === 0) && (
             <div className="text-center py-10">
               <p className="text-lg text-gray-600">
                 No media content available at this time.
@@ -183,11 +212,13 @@ const MediaAccordionItem = ({
               key={itemIndex}
               className="bg-white overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row"
             >
-              <div className="relative w-[400px] h-[300px] overflow-hidden flex-shrink-0">
+              {/* object-contain, not cover: the event banners are square and
+                  cover would crop their top and bottom off */}
+              <div className="relative w-full md:w-[400px] h-[300px] md:h-[360px] overflow-hidden flex-shrink-0 bg-white">
                 <img
                   src={item.image || "/images/home/l2.jpg"}
                   alt={item.title || "Media item"}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
                     // Fallback to default image if image fails to load
                     e.target.src = "/images/home/l2.jpg";
@@ -195,12 +226,27 @@ const MediaAccordionItem = ({
                 />
               </div>
               <div className="p-4 sm:p-6 flex-1">
+                {/* An item with a link gets a clickable title that looks
+                    exactly like an unlinked one - no colour, no underline */}
                 <h3 className="text-xl font-bold text-[#111827] mb-3">
-                  {item.title}
+                  {item.link ? (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-inherit no-underline"
+                    >
+                      {item.title}
+                    </a>
+                  ) : (
+                    item.title
+                  )}
                 </h3>
-                <p className="text-[17px] leading-relaxed text-[#4B5563] mb-4">
-                  {item.description}
-                </p>
+                {item.description && (
+                  <p className="text-[17px] leading-relaxed text-[#4B5563] mb-4">
+                    {item.description}
+                  </p>
+                )}
                 <div className="flex items-center justify-between text-sm text-[#6B7280]">
                   {item.date && (
                     <span className="font-medium">{item.date}</span>
