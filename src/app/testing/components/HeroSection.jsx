@@ -43,15 +43,18 @@ export const HeroSection = () => {
     <>
       {/* Original Hero Section */}
       <div ref={heroRef} className="relative">
+        {/* Crop is biased below centre so the headlights stay in frame */}
         <img
-          src="/images/about-us/hero-bg.png"
-          className="w-full h-[400px] lg:h-[650px] object-cover"
-          style={{ backgroundPosition: "top" }}
+          src="/images/testing.jpg"
+          className="w-full h-[400px] lg:h-[650px] object-cover object-[50%_75%]"
           alt="Testing banner"
         />
+        {/* The banner is mostly bright snow, so white text needs a scrim
+            behind it. Tune readability with the /40 alone. */}
+        <div className="absolute inset-0 bg-[#101828]/40 pointer-events-none" />
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center">
           <div className="text-center">
-            <h1 className="text-white text-4xl sm:text-[62px] lg:text-6xl font-medium mb-4">
+            <h1 className="text-white text-4xl sm:text-[62px] lg:text-6xl font-medium mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.6)]">
               TESTING
             </h1>
           </div>

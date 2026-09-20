@@ -33,7 +33,7 @@ export const LightingInMotionSection = () => {
       title: "DEFENSE",
       description:
         "Advanced lighting solutions for defense applications including military vehicles, aircraft, and specialized equipment. Our cutting-edge LED technology ensures reliability and performance in the most demanding environments.",
-      image: "/images/home/TDG Defense.jpg",
+      image: "/images/defense.jpg",
     },
     support: {
       title: "SUPPORT",
